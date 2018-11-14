@@ -1,5 +1,6 @@
 <?php
 header('Content-type: text/html; charset=UTF-8');
+date_default_timezone_set('America/Santiago');
 require_once("bd_config.php");
 $conn = connect();
 
@@ -119,6 +120,7 @@ foreach ($table as $key => $value) {
 	}
 }
 
+echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
 foreach (array_reverse($list) as $item) {
 
 
@@ -142,10 +144,10 @@ foreach (array_reverse($list) as $item) {
 		$stmt->bind_param("ssssddss",$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$agencia,$referencia);
 		$stmt->execute();
 
-		echo "Sismo insertado<br>";
+		echo "Sismo insertado\n";
 	}
 	else if ($stmt->num_rows>0) {
-		echo "No hay sismos nuevos.<br>";
+		echo "No hay sismos nuevos\n";
 		continue;
 	}
 }
