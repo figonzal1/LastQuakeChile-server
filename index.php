@@ -120,7 +120,7 @@ foreach ($table as $key => $value) {
 	}
 }
 
-echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
+echo "========= Actualizacion ".date("Y-m-d H:i:s")."=========\n";
 foreach (array_reverse($list) as $item) {
 
 
