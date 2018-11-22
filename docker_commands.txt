@@ -1,2 +1,0 @@
-docker run -d --name=mysql1 --network=intranet -e MYSQL_ROOT_PASSWORD=rokita6195236 mysql/mysql-server:5.7
-docker run --link mysql1 --network=intranet --name script_container script-image
