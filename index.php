@@ -2,7 +2,7 @@
 header('Content-type: text/html; charset=UTF-8');
 date_default_timezone_set('America/Santiago');
 require_once("bd_config.php");
-$conn = connect();
+$conn = connect_pdo();
 
 /*
 SISMO CLASS
@@ -120,7 +120,7 @@ foreach ($table as $key => $value) {
 	}
 }
 
-echo "========= Actualizacion ".date("Y-m-d H:i:s")."=========\n";
+echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
 foreach (array_reverse($list) as $item) {
 
 
@@ -133,23 +133,25 @@ foreach (array_reverse($list) as $item) {
 	$agencia = $item->getAgencia();
 	$referencia = $item->getRefGeograf();
 
-	$stmt=$conn->prepare("SELECT quakes_id FROM quakes WHERE fecha_local=?");
-	$stmt->bind_param("s",$fecha_local);
-	$stmt->execute();
-	$stmt->store_result();
+	$stmt=$conn->prepare('SELECT quakes_id FROM quakes WHERE fecha_local=?');
+	$stmt->execute([$fecha_local]);
 
-	if ($stmt->num_rows==0) {
+	if ($stmt->rowCount()==0) {
 		
-		$stmt=$conn->prepare('INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,agencia,referencia) VALUES (?,?,?,?,?,?,?,?)');
-		$stmt->bind_param("ssssddss",$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$agencia,$referencia);
-		$stmt->execute();
+		$insert=$conn->prepare(
+			"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,agencia,referencia) VALUES (?,?,?,?,?,?,?,?)"
+		);
+		$insert->execute(array(
+			$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$agencia,$referencia
+		));
 
 		echo "Sismo insertado\n";
 	}
-	else if ($stmt->num_rows>0) {
+	else if ($stmt->rowCount()>0) {
 		echo "No hay sismos nuevos\n";
 		continue;
 	}
 }
-$conn -> close();
+$conn = null;
+//$conn->close();
 ?>
