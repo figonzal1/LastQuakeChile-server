@@ -1,14 +1,19 @@
 <?php
 
 /*
-	BD config conexion
+	Clear DB config connection to Heroku
  */
 
 function connect_pdo(){
-	$servername ="localhost";
-	$username="lastquake";
-	$password="rokita6195236";
-	$bd="lastquake";
+
+	/*
+		VISIT: https://www.cleardb.com/dashboard
+	 */
+
+	$servername ="us-cdbr-iron-east-01.cleardb.net";
+	$username="b3859152bed189";
+	$password="1dc50d18";
+	$bd="heroku_166fce7778cfb80";
 
 	try{
 		$conn = new PDO("mysql:host=$servername;dbname=$bd",$username,$password,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
@@ -20,5 +25,4 @@ function connect_pdo(){
 		echo "Connection failed: ".$e->getMessage();
 	}
 }
-
 ?>
