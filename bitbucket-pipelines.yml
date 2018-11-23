@@ -5,17 +5,13 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 image: php:7.1.1
 
-clone:
-  depth: full
-
 pipelines:
   default:
-  - step:
-      # set HEROKU_API_KEY and HEROKU_APP_NAME environment variables
+    - step:
+    # set HEROKU_API_KEY and HEROKU_APP_NAME environment variables
     # set clone `depth: full' as described here: https://confluence.atlassian.com/x/Y9-5Mw
-      name: Deploy to Heroku
-      deployment: test # set to test, staging or production
+        name: Deploy to Heroku
+        deployment: test   # set to test, staging or production
     # trigger: manual  # uncomment to have a manual step
-      script:
-        - git push https://heroku:24945f19-4e25-41ff-ae81-4bad9c0b36bd@git.heroku.com/lastquake-server.git HEAD
-
+        script:
+          - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD
