@@ -65,8 +65,7 @@
     }
 
     if (isset($_GET['web']) && $_GET['web']==1) {
-    	echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========";
-    	echo "<br>";
+    	echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========<br>";
     }
     else{
     	echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
