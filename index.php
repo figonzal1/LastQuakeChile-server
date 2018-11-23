@@ -87,15 +87,54 @@ require("simplehtmldom/simple_html_dom.php");
 
 $list= array();
 
-$html= file_get_html("http://www.sismologia.cl/links/ultimos_sismos.html");
+	function curl($url){
+		$ch = curl_init($url); // Inicia sesión cURL
+		curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); // Configura cURL para devolver el resultado como cadena
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Configura cURL para que no verifique el peer del certificado dado que nuestra URL utiliza el protocolo HTTPS
+        $info = curl_exec($ch); // Establece una sesión cURL y asigna la información a la variable $info
+        curl_close($ch); // Cierra sesión cURL
+        return $info; // Devuelve la información de la función
+    }
 
-$table=$html->find('table tr');
+    $sitioweb = curl("http://www.sismologia.cl/links/ultimos_sismos.html");
+    echo $sitioweb;
+
+    /*** a new dom object ***/ 
+   $dom = new domDocument; 
+   
+   /*** load the html into the object ***/ 
+   $dom->loadHTML($sitioweb); 
+   
+   /*** discard white space ***/ 
+   $dom->preserveWhiteSpace = false; 
+   
+   /*** the table by its tag name ***/ 
+   $tables = $dom->getElementsByTagName('table'); 
+   
+   /*** get all rows from the table ***/ 
+   $rows = $tables->item(0)->getElementsByTagName('tr');
+
+   foreach ($rows as $key => $value) {
+      
+      if ($key>0) {
+      	$cols = $value->getElementsByTagName('td'); 
+      
+      /*** echo the values ***/ 
+      echo 'Designation: '.$cols->item(0)->nodeValue.'<br />'; 
+      echo 'Manager: '.$cols->item(1)->nodeValue.'<br />'; 
+      echo 'Team: '.$cols->item(2)->nodeValue; 
+      echo '<hr />'; 
+      }
+      
+   }
+
+/*
+$table=$output->find('table tr');
 
 foreach ($table as $key => $value) {
 
-	/*
-	Capturacion de datos
-	*/
+	
 	if($key >0){
 		$fecha_local = $value -> find('td a',0)->plaintext;
 		$fecha_utc = $value -> find('td',1)->plaintext;
@@ -152,6 +191,7 @@ foreach (array_reverse($list) as $item) {
 		continue;
 	}
 }
+*/
 $conn = null;
 //$conn->close();
 ?>
