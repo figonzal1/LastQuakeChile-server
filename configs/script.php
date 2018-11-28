@@ -17,7 +17,6 @@
         return $info; // Devuelve la información de la función
     }
     $sitioweb = curl("http://www.sismologia.cl/links/ultimos_sismos.html");
-    
 
     /*** a new dom object ***/ 
     $dom = new domDocument; 
@@ -37,9 +36,16 @@
     foreach ($rows as $key => $value) {
 
     	if ($key>0) {
-    		$cols = $value->getElementsByTagName('td'); 
 
-    		$fecha_local = $cols->item(0)->nodeValue;
+    		$cols = $value->getElementsByTagName('td');
+
+            $links = $value->getElementsByTagName('a');
+            $href= $links->item(0)->getAttribute('href');
+            $href = str_replace("events","mapas",$href);
+            $href = str_replace("html","jpeg",$href);
+            $imagen = "http://www.sismologia.cl".$href;
+
+    		$fecha_local = $cols->item(0)->nodeValue;          
     		$fecha_utc = $cols->item(1)->nodeValue;
     		$latitud = $cols->item(2)->nodeValue;
     		$longitud = $cols->item(3)->nodeValue;
@@ -57,6 +63,7 @@
     		$obj->setProfundidad($profundidad);
     		$obj->setAgencia($agencia);
     		$obj->setRefGeograf($ref_geografica);
+            $obj->setImage($imagen);
 
     		array_push($list,$obj);
 
@@ -82,6 +89,7 @@
 		$magnitud= $item->getMagnitud();
 		$agencia = $item->getAgencia();
 		$referencia = $item->getRefGeograf();
+        $imagen = $item->getImage();
 
 		$stmt=$conn->prepare('SELECT quakes_id FROM quakes WHERE fecha_local=?');
 		$stmt->execute([$fecha_local]);
@@ -89,10 +97,10 @@
 		if ($stmt->rowCount()==0) {
 
 			$insert=$conn->prepare(
-				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,agencia,referencia) VALUES (?,?,?,?,?,?,?,?)"
+				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,agencia,referencia,imagen) VALUES (?,?,?,?,?,?,?,?,?)"
 			);
 			$insert->execute(array(
-				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$agencia,$referencia
+				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$agencia,$referencia,$imagen
 			));
 
 			if (isset($_GET['web']) && $_GET['web']==1) {
