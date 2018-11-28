@@ -12,6 +12,7 @@ class Sismo {
 	private $magnitud=false;
 	private $agencia=false;
 	private $ref_geografica=false;
+	private $image=false;
 	
 	public function getFechaLocal(){
 		return $this->fecha_local;
@@ -45,6 +46,10 @@ class Sismo {
 		return $this->ref_geografica;
 	}
 
+	public function getImage(){
+		return $this->image;
+	}
+
 	public function setFechaLocal($fecha_local){
 		$this->fecha_local =$fecha_local;
 	}
@@ -75,6 +80,10 @@ class Sismo {
 
 	public function setRefGeograf($ref_geografica){
 		$this->ref_geografica=$ref_geografica;
+	}
+
+	public function setImage($image){
+		$this->image=$image;
 	}
 }
 ?>
