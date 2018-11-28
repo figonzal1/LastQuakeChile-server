@@ -1,5 +1,4 @@
 <?php
-	header('Content-type: text/html; charset=UTF-8');
 	date_default_timezone_set('America/Santiago');
 	require_once("bd_config.php");
 	require_once("sismo_class.php");
@@ -67,9 +66,12 @@
 
     		array_push($list,$obj);
 
+
     	}
 
     }
+
+    
 
     if (isset($_GET['web']) && $_GET['web']==1) {
     	echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========<br>";
@@ -121,6 +123,5 @@
 			continue;
 		}
 	}
-
-    $conn = null;
+    $conn = null;    
 ?>
