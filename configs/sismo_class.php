@@ -10,9 +10,11 @@ class Sismo {
 	private $longitud=false;
 	private $profundidad=false;
 	private $magnitud=false;
+	private $escala =false;
 	private $agencia=false;
 	private $ref_geografica=false;
 	private $image=false;
+	private $sensible=false;
 	
 	public function getFechaLocal(){
 		return $this->fecha_local;
@@ -38,6 +40,10 @@ class Sismo {
 		return $this->magnitud;
 	}
 
+	public function getEscala(){
+		return $this->escala;
+	}
+
 	public function getAgencia(){
 		return $this->agencia;
 	}
@@ -48,6 +54,10 @@ class Sismo {
 
 	public function getImage(){
 		return $this->image;
+	}
+
+	public function getSensible(){
+		return $this->sensible;
 	}
 
 	public function setFechaLocal($fecha_local){
@@ -74,6 +84,10 @@ class Sismo {
 		$this->magnitud=$magnitud;
 	}
 
+	public function setEscala($escala){
+		$this->escala=$escala;
+	}
+
 	public function setAgencia($agencia){
 		$this->agencia=$agencia;
 	}
@@ -84,6 +98,10 @@ class Sismo {
 
 	public function setImage($image){
 		$this->image=$image;
+	}
+
+	public function setSensible($sensible){
+		$this->sensible=$sensible;
 	}
 }
 ?>
