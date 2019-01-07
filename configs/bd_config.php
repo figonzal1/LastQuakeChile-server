@@ -10,15 +10,15 @@ function connect_pdo(){
 		VISIT: https://www.cleardb.com/dashboard
 	 */
 
-	$servername ="us-cdbr-iron-east-01.cleardb.net";
+	/*$servername ="us-cdbr-iron-east-01.cleardb.net";
 	$username="b3859152bed189";
 	$password="1dc50d18";
 	$bd="heroku_166fce7778cfb80";
-
-	/*$servername= "localhost";
+	*/
+	$servername= "localhost";
 	$username ="figonzal";
 	$password = "rokita6195236";
-	$bd="lastquake";*/
+	$bd="lastquake";
 
 	try{
 		$conn = new PDO("mysql:host=$servername;dbname=$bd",$username,$password,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));

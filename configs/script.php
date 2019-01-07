@@ -1,12 +1,13 @@
 <?php
-	date_default_timezone_set('America/Santiago');
-	require_once("bd_config.php");
-	require_once("sismo_class.php");
+date_default_timezone_set('America/Santiago');
+require_once("bd_config.php");
+require_once("sismo_class.php");
+require_once("send_notification.php");
 
-	$conn = connect_pdo();
-	$list= array();
+$conn = connect_pdo();
+$list= array();
 
-	function curl($url){
+function curl($url){
 		$ch = curl_init($url); // Inicia sesión cURL
 		curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); // Configura cURL para devolver el resultado como cadena
@@ -31,7 +32,7 @@
 
     /*** get all rows from the table ***/ 
     $rows = $tables->item(0)->getElementsByTagName('tr');
-
+    
     foreach ($rows as $key => $value) {
 
     	if ($key>0) {
@@ -44,41 +45,55 @@
             $href = str_replace("html","jpeg",$href);
             $imagen = "http://www.sismologia.cl".$href;
 
-    		$fecha_local = $cols->item(0)->nodeValue;          
-    		$fecha_utc = $cols->item(1)->nodeValue;
-    		$latitud = $cols->item(2)->nodeValue;
-    		$longitud = $cols->item(3)->nodeValue;
-    		$profundidad = $cols->item(4)->nodeValue;
-    		$magnitud = $cols->item(5)->nodeValue;
-    		$agencia = $cols->item(6)->nodeValue;
-    		$ref_geografica = $cols->item(7)->nodeValue;
+            $fecha_local = $cols->item(0)->nodeValue;          
+            $fecha_utc = $cols->item(1)->nodeValue;
+            $latitud = $cols->item(2)->nodeValue;
+            $longitud = $cols->item(3)->nodeValue;
+            $profundidad = $cols->item(4)->nodeValue;
 
-    		$obj = new Sismo();
-    		$obj->setFechaLocal($fecha_local);
-    		$obj->setFechaUTC($fecha_utc);
-    		$obj->setLatitud($latitud);
-    		$obj->setLongitud($longitud);
-    		$obj->setMagnitud($magnitud);
-    		$obj->setProfundidad($profundidad);
-    		$obj->setAgencia($agencia);
-    		$obj->setRefGeograf($ref_geografica);
+
+            $magnitud_escala=explode(" ",$cols->item(5)->nodeValue);
+            $magnitud= $magnitud_escala[0];
+            $escala = $magnitud_escala[1];
+            $agencia = $cols->item(6)->nodeValue;
+            $ref_geografica = $cols->item(7)->nodeValue;
+            $ref_geografica = str_replace(".","",$ref_geografica);
+
+            //Checkear si sismo es sensible
+            $clase= explode(" ",$value->getAttribute("class")." ");
+
+            $obj = new Sismo();
+            $obj->setFechaLocal($fecha_local);
+            $obj->setFechaUTC($fecha_utc);
+            $obj->setLatitud($latitud);
+            $obj->setLongitud($longitud);
+            $obj->setMagnitud($magnitud);
+            $obj->setEscala($escala);
+            $obj->setProfundidad($profundidad);
+            $obj->setAgencia($agencia);
+            $obj->setRefGeograf($ref_geografica);
             $obj->setImage($imagen);
 
-    		array_push($list,$obj);
+            if ($clase[1] == "s_sensible") {
+                $obj->setSensible(true);
+            }
+            else{
+                $obj->setSensible(false);
+            }
 
-
-    	}
+            array_push($list,$obj);
+        }
 
     }
 
-    
+
 
     if (isset($_GET['web']) && $_GET['web']==1) {
-    	echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========<br>";
-    }
-    else{
-    	echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
-    }
+       echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========<br>";
+   }
+   else{
+       echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
+   }
 
 	foreach (array_reverse($list) as $item) {
 
@@ -89,9 +104,11 @@
 		$longitud = $item->getLongitud();
 		$profundidad= $item->getProfundidad();
 		$magnitud= $item->getMagnitud();
+        $escala = $item->getEscala();
 		$agencia = $item->getAgencia();
 		$referencia = $item->getRefGeograf();
         $imagen = $item->getImage();
+        $sensible = $item->getSensible();
 
 		$stmt=$conn->prepare('SELECT quakes_id FROM quakes WHERE fecha_local=?');
 		$stmt->execute([$fecha_local]);
@@ -99,11 +116,16 @@
 		if ($stmt->rowCount()==0) {
 
 			$insert=$conn->prepare(
-				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,agencia,referencia,imagen) VALUES (?,?,?,?,?,?,?,?,?)"
+				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
 			);
 			$insert->execute(array(
-				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$agencia,$referencia,$imagen
+				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen
 			));
+
+            //Si el sismo es de 5+ grados se envia notificacion
+            /*if ($magnitud>=5){
+                sendNotification($fecha_local,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
+            }*/
 
 			if (isset($_GET['web']) && $_GET['web']==1) {
 				echo "Sismo insertado<br>";
@@ -123,5 +145,5 @@
 			continue;
 		}
 	}
-    $conn = null;    
-?>
+    $conn = null;   
+    ?>
