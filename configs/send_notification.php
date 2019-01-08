@@ -1,6 +1,6 @@
 <?php
 
-require_once "../vendor/autoload.php";
+require_once ".:/app/.heroku/php/lib/php/../vendor/autoload.php";
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use Kreait\Firebase\Messaging\CloudMessage;
