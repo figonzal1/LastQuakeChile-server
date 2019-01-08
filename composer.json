@@ -2,8 +2,5 @@
     "require": {
         "kreait/firebase-php": "^4.18",
         "php": "^7.0"
-    },
-    "config": {
-    	"vendor-dir": "wp-content/plugins/wp-github-pipeline/vendor"
-	}
+    }
 }
