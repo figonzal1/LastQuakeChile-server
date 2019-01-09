@@ -5,7 +5,7 @@
 
 	$pdo = connect_pdo();
 
-	$sql="SELECT * FROM quakes ORDER BY fecha_local DESC";
+	$sql="SELECT * FROM quakes ORDER BY fecha_local DESC LIMIT 15";
 	$stmt=$pdo ->query($sql);
 	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
