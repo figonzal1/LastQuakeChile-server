@@ -35,7 +35,6 @@ function sendNotification($fecha_local,$profundidad,$magnitud,$escala,$sensible,
         'ttl' => '3600s',   // 1 Hora de expiracion
         'priority' => 'normal'  //Prioridad Normal
     ]);
-
         $data=[
             'titulo' => '¡Alerta sísmica!',
             'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,

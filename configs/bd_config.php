@@ -14,7 +14,7 @@ function connect_pdo(){
 	$username="b3859152bed189";
 	$password="1dc50d18";
 	$bd="heroku_166fce7778cfb80";
-	
+
 	/*$servername= "localhost";
 	$username ="figonzal";
 	$password = "rokita6195236";
