@@ -4,16 +4,22 @@
 	Clear DB config connection to Heroku
  */
 
-function connect_pdo(){
+	function connect_pdo(){
 
 	/*
 		VISIT: https://www.cleardb.com/dashboard
 	 */
 
-	$servername ="us-cdbr-iron-east-01.cleardb.net";
+		//OLD SERVER
+	/*$servername ="us-cdbr-iron-east-01.cleardb.net";
 	$username="b3859152bed189";
 	$password="1dc50d18";
-	$bd="heroku_166fce7778cfb80";
+	$bd="heroku_166fce7778cfb80";*/
+
+	$servername="us-cdbr-iron-east-01.cleardb.net";
+	$username="bd0e87518d1d3c";
+	$password="e0e3de85";
+	$bd="heroku_94ad8af7a05c2f1";
 
 	/*$servername= "localhost";
 	$username ="figonzal";
