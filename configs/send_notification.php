@@ -11,7 +11,7 @@ use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 
 
 
-function sendNotification($fecha_local,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen){
+function sendNotification($fecha_utc,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen){
 
         /*
         Configuracion de Servidor
@@ -38,7 +38,7 @@ function sendNotification($fecha_local,$profundidad,$magnitud,$escala,$sensible,
         $data=[
             'titulo' => '¡Alerta sísmica!',
             'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
-            'fecha_local' => $fecha_local,
+            'fecha_utc' => $fecha_utc,
             'magnitud' => $magnitud,
             'escala' => $escala,
             'profundidad' => $profundidad,
