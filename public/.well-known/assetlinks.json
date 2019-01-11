@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "cl.figonzal.lastquakechile",
+    "sha256_cert_fingerprints":
+    ["96:95:59:F8:87:15:C0:EE:1F:47:62:DB:90:24:17:94:EA:A0:39:BE:CA:4F:3F:38:73:19:B4:89:5C:CF:3A:AA"]
+  }
+}]
