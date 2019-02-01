@@ -123,9 +123,9 @@ function curl($url){
 			));
 
             //Si el sismo es de 5+ grados se envia notificacion
-            /*if ($magnitud>=5){
+            if ($magnitud>=5){
                 sendNotification($fecha_local,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
-            }*/
+            }
 
 			if (isset($_GET['web']) && $_GET['web']==1) {
 				echo "Sismo insertado<br>";
