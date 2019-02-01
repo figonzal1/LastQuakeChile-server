@@ -11,12 +11,12 @@ use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 
 
 
-function sendNotification($fecha_utc,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen){
+function sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen){
 
         /*
         Configuracion de Servidor
      */
-        $api_key ='BB8Ocj5exQP6-5TlIdfTyYpuUY6TuKeKAku8_C4x1PcgUbbYLa6Yr6tInJ2nxvozW7JJWpcu779SfmMGFTMtanM';
+        //$api_key ='BB8Ocj5exQP6-5TlIdfTyYpuUY6TuKeKAku8_C4x1PcgUbbYLa6Yr6tInJ2nxvozW7JJWpcu779SfmMGFTMtanM';
         $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/lastquake_credentials.json');
         
     /*
@@ -33,11 +33,13 @@ function sendNotification($fecha_utc,$profundidad,$magnitud,$escala,$sensible,$r
      */
         $config = AndroidConfig::fromArray([
         'ttl' => '3600s',   // 1 Hora de expiracion
-        'priority' => 'normal'  //Prioridad Normal
+        'priority' => 'high'  //Prioridad Normal
     ]);
         $data=[
             'titulo' => '¡Alerta sísmica!',
             'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
+            'latitud' => $latitud,
+            'longitud' => $longitud,
             'fecha_utc' => $fecha_utc,
             'magnitud' => $magnitud,
             'escala' => $escala,

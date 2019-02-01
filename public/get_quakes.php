@@ -10,6 +10,7 @@ $stmt=$pdo ->query($sql);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $list=array();
+$contador=1;
 foreach ($rows as $key=>$value) {
 
 	array_push($list,
@@ -29,9 +30,10 @@ foreach ($rows as $key=>$value) {
 		//TESTING NOTIFICATION
 	if (isset($_GET['send']) && !empty($_GET['send'])) {
 
-		if ($value['magnitud']>5.0 && $_GET['send']=="1") {
+		if ( $contador==1) {
 			//SEND NOTIFICATION WITH UTC
-			sendNotification($value['fecha_utc'],$value['profundidad'],$value['magnitud'],$value['escala'],$value['sensible'],$value['referencia'],$value['imagen']);
+			sendNotification($value['fecha_utc'],$value['latitud'],$value['longitud'],$value['profundidad'],$value['magnitud'],$value['escala'],$value['sensible'],$value['referencia'],$value['imagen']);
+			$contador+=1;
 		}
 	}
 }
