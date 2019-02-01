@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>LastQuakeChile</title>
+
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+	<!-- Bootstrap core CSS -->
+	<link href="../configs/front_page/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Material Design Bootstrap -->
+	<link href="../configs/front_page/css/mdb.min.css" rel="stylesheet">
+
+	<!-- Your custom styles (optional) -->
+	<link href="../configs/front_page/css/style.css" rel="stylesheet">
+
+	<!--FAvicon -->
+	<link rel="shortcut icon" type="image/png" href="../configs/front_page/img/favicon.ico">
+
+	<!-- LiveReload Script-->
+	<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+</head>
+
+<body data-spy="scroll" data-target="navbar" data-offset="20" style="position: relative;">
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar" id="navbar">
+
+			<div class="container">
+
+				<!-- Link hacia la pagina -->
+				<a class="navbar-brand" href="https://lastquakechile-server.herokuapp.com">LastQuakeChile</a>
+
+				<!-- Boton toggler responsive -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle Navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+
+				<div class="collapse navbar-collapse" id="nav">
+
+					<!-- Menu izquierda -->
+					<ul class="navbar-nav mr-auto">
+
+						<!-- Inicio -->
+						<li class="nav-item active">
+							<a class="nav-link" href="#inicio">Inicio</a>
+						</li>
+
+						<!-- Acerca -->
+						<li class="nav-item">
+							<a class="nav-link" href="#caractaristicas">Características
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="#acerca" class="nav-link">Acerca</a>
+						</li>
+
+						<!-- Contacto -->
+
+					</ul>
+
+					<!-- Menu derecha iconos sociales LASTQUAKECHILE -->
+					<ul class="navbar-nav ml-auto nav-flex-icons invisible">
+						<li class="nav-item">
+							<a class="nav-link waves-effect waves-light disable" href="#"><i class="fab fa-facebook-f pr-2"></i><span>LastQuakeChile</span></a>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+
+		</nav>
+
+
+		<!-- Mascara Imagen-->
+		
+		<div id="portada" class="view">
+			<div class="mask rgba-black-strong" id="inicio">
+
+				<div class="container mt-5" >
+
+					<div class="row p-5">
+
+						<!-- Columna izquierda -->
+						<div class="col-md-6 white-text d-flex flex-column justify-content-center">
+
+							<!-- Titulo -->
+							<div class="text-sm-center text-left wow fadeInDown">
+								<h1 class="h1 font-weight-bold">¡Descárgala ahora!</h1>
+							</div>
+
+							<!-- Separador  -->
+							<div class="text-center wow fadeInDown">
+								<hr class="hr-light">
+							</div>
+
+							<!-- Descripcion -->
+							<div class="text-sm-center text-left mt-2 wow fadeInDown">
+								<p class="text-justify">Revisa los útlimos sismos en Chile y recibe notificaciones de los más importantes.</p>
+							</div>
+
+							<!-- Imagen boton google play -->
+							<div class="my-4 wow fadeInDown delay-1s">
+								<a href="#">
+									<img src="../configs/front_page/img/google-play-badge.png" class="mx-auto img-fluid" style="width: 50%;" alt="Google play link">
+								</a>
+							</div>
+
+						</div>
+
+						<!-- Columna derecha -->
+						<div class="col-md-6 wow fadeInDown">
+							<!-- Imagen celular -->
+							<img src="../configs/front_page/img/lastquakechile_pantalla.png" class="mx-auto img-fluid" style="width: 50%;">
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+	</header>
+
+	<!--Main layout-->
+	<main>
+
+		<!-- Section caracteristicas -->
+		<section id="caractaristicas" class="py-5">
+
+			<div class="container" id="caractaristicas">
+				<h2 class="h2-responsive my-5 font-weight-bold text-center wow fadeInDown">Características</h2>
+
+				<div class="row">
+					<div class="col-md-4 mb-5">
+						<div class="card wow fadeIn z-depth-1-half py-3">
+
+							<!-- Icono caracteristica -->
+							<img class="card-img-top mx-auto" src="../configs/front_page/img/svg/baseline-access_time-24px.svg" style="width: 25%;" alt="Icono tiempo">
+
+							<!-- Descripcion del icono -->
+							<div class="card-body">
+								<h4 class="card-title text-center">Sismos diarios</h4>
+								<p class="card-text text-center">
+									Consulta en tiempo real el listado completo de los sismos ocurridos durante un día
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-4 mb-5">
+
+						<div class="card wow fadeIn z-depth-1-half py-3">
+
+							<!-- Icono caracteristica -->
+							<img class="card-img-top mx-auto" src="../configs/front_page/img/svg/baseline-notification_important-24px.svg" style="width: 25%;" alt="Icono notificaciones">
+
+							<!-- Descripcion del icono -->
+							<div class="card-body">
+								<h4 class="card-title text-center">Notificaciones</h4>
+								<p class="card-text text-center">
+									Obtén notificaciones directamente a tu celular de los sismos mayores a 5.0 grados Righter
+								</p>
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-4">
+
+						<div class="card wow fadeIn z-depth-1-half py-3">
+
+							<!-- Icono caracteristica -->
+							<img class="card-img-top mx-auto" src="../configs/front_page/img/svg/baseline-beenhere-24px.svg" style="width: 25%;" alt="Icono mapa">
+
+							<!-- Descripcion del icono -->
+							<div class="card-body">
+								<h4 class="card-title text-center">Ubicación</h4>
+								<p class="card-text text-center">
+									Revisa la posición del epicentro de cada sismo percibido
+								</p>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<div class="container">
+			<hr>
+		</div>
+
+		<!-- Section desarrollo-->
+		<section id="caracteristica_dev" class="pb-md-5 py-5">
+			<div class="container">
+				<h2 class="h2-responsive font-weight-bold text-center mt-md-5 wow fadeInDown">... en un tiempo más, podrás tener</h2>
+
+				<div class="row d-flex flex-row align-items-center p-5">
+
+					<div class="col-md-6 mb-5">
+
+						<div class="d-flex flex-row justify-content-start py-1 wow fadeInDown" data-wow-delay="0.3s">
+							<div>
+								<img src="../configs/front_page/img/svg/baseline-check_circle-24px.svg" class="img-fluid">
+							</div>
+							<div class="pl-2 text-left">
+								<p class="mb-0 text-muted">Notificaciones basadas en georeferenciación.</p>
+							</div>
+						</div>
+
+						<div class="d-flex flex-row justify-content-start py-1 wow fadeInDown" data-wow-delay="0.5s">
+							<div>
+								<img src="../configs/front_page/img/svg/baseline-check_circle-24px.svg" class="img-fluid">
+							</div>
+							<div class="pl-2 text-left">
+								<p class="mb-0 text-muted">Filtros de búsqueda personalizables.</p>
+							</div>
+						</div>
+
+						<div class="d-flex flex-row justify-content-start py-1 wow fadeInDown" data-wow-delay="0.7s" >
+							<div>
+								<img src="../configs/front_page/img/svg/baseline-check_circle-24px.svg" class="img-fluid">
+							</div>
+							<div class="pl-2 text-left">
+								<p class="mb-0 text-muted">Votaciones de usuarios basadas en sismos sensibles.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6 text-center ">
+						<img src="../configs/front_page/img/ic_lastquakechile_1200.png" class="img-fluid animated heartBeat infinite" style="width: 50%;">
+					</div>
+				</div>
+
+			</div>
+
+		</section>
+
+
+	</main>
+	<footer class="page-footer font-small">
+
+		<div class="container pt-5 pb-5">
+
+
+			<div class="row">
+
+				<div class="col-md-6 text-left wow fadeIn mb-5">
+
+
+
+					<div class="clearfix">
+						<h2 class="h2-responsive font-weight-bold">Contacto</h2>
+						<hr class="hr-light" style="width: 25%;float: left;" >
+					</div>
+					
+
+					<div class="d-flex flex-row align-self-center pt-3">
+						<div class="col-md-2 col-sm-2 col-2 p-0 pr-2">
+							<img src="../configs/front_page/img/profile.jpg" class="img-fluid rounded">
+						</div>
+						<div class="col-md-10 col-sm-10 col-10">
+
+							<div>
+								<h5 class="h5-responsive">Felipe González</h5>
+								<p>Redes sociales personales</p>
+							</div>
+
+							<div>
+								<div class="d-flex flex-row justify-content-start wow fadeInDown" data-wow-delay="0.3s">
+
+									<a class="fb-ic" href="https://www.facebook.com/figonzal1" target="_blank">
+										<i class="fab fa-facebook-f fa-lg white-text fa-2x pr-2"> </i>
+									</a>
+
+									<a class="ins-ic" href="https://www.instagram.com/_figonzal/" target="_blank">
+										<i class="fab fa-instagram fa-lg white-text fa-2x px-2"> </i>
+									</a>
+
+									<a class="li-ic" href="https://www.linkedin.com/in/figonzal/" target="_blank">
+										<i class="fab fa-linkedin-in fa-lg white-text fa-2x px-2"> </i>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-md-6 text-left wow fadeIn">
+
+					<div class="clearfix" id="acerca">
+						<h2 class="h2-responsive font-weight-bold">Acerca</h2>
+						<hr class="hr-light" style="width: 25%;float: left;" >
+					</div>
+					<p class="pt-3 font-weight-normal wow fadeIn">LastQuakeChile es un sistema informativo y de alerta sísmica, construido sin fines de lucro, con el único objetivo de informar a la población, sobre los eventos sucedidos en el país.</p>
+				</div>
+
+				<!--<div class="col-md-4 text-left py-2 wow fadeIn">
+
+					<div class="clearfix">
+						<h2 class="h2-responsive font-weight-bold">Ubicación</h2>
+						<hr class="hr-light" style="width: 25%;float: left;" >
+					</div>
+
+					<p class="pt-3">Valparaíso,Chile</p>
+
+				</div>-->
+			</div>
+		</div>
+
+		<!-- Copyright -->
+		<div class="footer-copyright text-center py-3 animated fadeIn">Develop by Felipe González <br>
+			Under the services of <a href="https://www.heroku.com" target="_blank">Heroku</a> & <a href="https://www.mdbootstrap.com" target="_blank">MDBoostrap</a>
+		</div>
+		<!-- Copyright -->
+
+	</footer>
+
+
+	<!-- SCRIPTS -->
+	<!-- JQuery -->
+	<script type="text/javascript" src="../configs/front_page/js/jquery-3.3.1.min.js"></script>
+
+	<!-- Bootstrap tooltips -->
+	<script type="text/javascript" src="../configs/front_page/js/popper.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript" src="../configs/front_page/js/bootstrap.min.js"></script>
+	<!-- MDB core JavaScript -->
+	<script type="text/javascript" src="../configs/front_page/js/mdb.min.js"></script>
+
+	<script type="text/javascript">new WOW().init();</script>
+
+</body>
+</html>
