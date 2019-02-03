@@ -13,57 +13,57 @@ use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 
 function sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen){
 
-        /*
-        Configuracion de Servidor
-     */
-        //$api_key ='BB8Ocj5exQP6-5TlIdfTyYpuUY6TuKeKAku8_C4x1PcgUbbYLa6Yr6tInJ2nxvozW7JJWpcu779SfmMGFTMtanM';
-        $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/lastquake_credentials.json');
-        
-    /*
-        Config de Firebase
-     */
-        $firebase = (new Factory)
-        ->withServiceAccount($serviceAccount)
-        ->create();
+	/*
+		Configuracion de Servidor
+	 */
+		//$api_key ='BB8Ocj5exQP6-5TlIdfTyYpuUY6TuKeKAku8_C4x1PcgUbbYLa6Yr6tInJ2nxvozW7JJWpcu779SfmMGFTMtanM';
+		$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/lastquake_credentials.json');
+		
+	/*
+		Config de Firebase
+	 */
+		$firebase = (new Factory)
+		->withServiceAccount($serviceAccount)
+		->create();
 
-        $messaging = $firebase->getMessaging();
+		$messaging = $firebase->getMessaging();
 
-    /*
-        Configuracion MSG para ANDROID
-     */
-        $config = AndroidConfig::fromArray([
-        'ttl' => '3600s',   // 1 Hora de expiracion
-        'priority' => 'high'  //Prioridad Normal
-    ]);
-        $data=[
-            'titulo' => '¡Alerta sísmica!',
-            'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
-            'latitud' => $latitud,
-            'longitud' => $longitud,
-            'fecha_utc' => $fecha_utc,
-            'magnitud' => $magnitud,
-            'escala' => $escala,
-            'profundidad' => $profundidad,
-            'sensible' => $sensible,
-            'referencia' => $referencia,
-            'imagen_url' => $imagen
-        ];
+	/*
+		Configuracion MSG para ANDROID
+	 */
+		$config = AndroidConfig::fromArray([
+		'ttl' => '3600s',   // 1 Hora de expiracion
+		'priority' => 'high'  //Prioridad HIGH
+	]);
+		$data=[
+			'titulo' => '¡Alerta sísmica!',
+			'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
+			'latitud' => $latitud,
+			'longitud' => $longitud,
+			'fecha_utc' => $fecha_utc,
+			'magnitud' => $magnitud,
+			'escala' => $escala,
+			'profundidad' => $profundidad,
+			'sensible' => $sensible,
+			'referencia' => $referencia,
+			'imagen_url' => $imagen
+		];
 
-        $topic='Quakes';
+		$topic='Quakes';
 
-        $message = CloudMessage::withTarget('topic',$topic)
-        ->withAndroidConfig($config)
-        ->withData($data);
+		$message = CloudMessage::withTarget('topic',$topic)
+		->withAndroidConfig($config)
+		->withData($data);
 
-        $response =$messaging->send($message);
+		$response =$messaging->send($message);
 
-        echo json_encode($response,JSON_PRETTY_PRINT);
+		echo json_encode($response,JSON_PRETTY_PRINT);
 
-        try {
-            $firebase->getMessaging()->validate($message);
-        } catch (InvalidMessage $e) {
-            print_r($e->errors());
-        }
+		try {
+			$firebase->getMessaging()->validate($message);
+		} catch (InvalidMessage $e) {
+			print_r($e->errors());
+		}
 
-    }
-    ?>
+	}
+	?>
