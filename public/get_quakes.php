@@ -10,7 +10,6 @@ $stmt=$pdo ->query($sql);
 $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $list=array();
-$contador=1;
 foreach ($rows as $key=>$value) {
 
 	array_push($list,
@@ -26,16 +25,6 @@ foreach ($rows as $key=>$value) {
 			'referencia' => $value['referencia'],
 			'imagen_url' => $value['imagen'])
 	);
-
-		//TESTING NOTIFICATION
-	if (isset($_GET['send']) && !empty($_GET['send'])) {
-
-		if ( $contador==1) {
-			//SEND NOTIFICATION WITH UTC
-			sendNotification($value['fecha_utc'],$value['latitud'],$value['longitud'],$value['profundidad'],$value['magnitud'],$value['escala'],$value['sensible'],$value['referencia'],$value['imagen']);
-			$contador+=1;
-		}
-	}
 }
 
 $pdo =null;
