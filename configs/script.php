@@ -36,124 +36,149 @@ function curl($url){
 	/*
 		SCRAPPING DE SISMOS HACIA LISTA
 	 */
-	foreach ($rows as $key => $value) {
+		foreach ($rows as $key => $value) {
 
-		if ($key>0) {
+			if ($key>0) {
 
-			$cols = $value->getElementsByTagName('td');
+				$cols = $value->getElementsByTagName('td');
 
-			$links = $value->getElementsByTagName('a');
-			$href= trim($links->item(0)->getAttribute('href'));
-			$href = str_replace("events","mapas",$href);
-			$href = str_replace("html","jpeg",$href);
-			$imagen = "http://www.sismologia.cl".$href;
+				$links = $value->getElementsByTagName('a');
+				$href= trim($links->item(0)->getAttribute('href'));
+				$href = str_replace("events","mapas",$href);
+				$href = str_replace("html","jpeg",$href);
+				$imagen = "http://www.sismologia.cl".$href;
 
-			$fecha_local = trim($cols->item(0)->nodeValue);          
-			$fecha_utc = trim($cols->item(1)->nodeValue);
-			$latitud = trim($cols->item(2)->nodeValue);
-			$longitud = trim($cols->item(3)->nodeValue);
-			$profundidad = trim($cols->item(4)->nodeValue);
+				/*
+					SECCION IMAGEN PRELIMINAR
+				 */
+
+					//Si la imagen es preliminar
+					if (strpos($imagen,"erb_")===TRUE){
+
+						//Quitar erb_ del link de imagenes
+						echo $imagen=str_replace("erb_","",$imagen)."<br>";
+					}
+
+					$fecha_local = trim($cols->item(0)->nodeValue);          
+					$fecha_utc = trim($cols->item(1)->nodeValue);
+					$latitud = trim($cols->item(2)->nodeValue);
+					$longitud = trim($cols->item(3)->nodeValue);
+					$profundidad = trim($cols->item(4)->nodeValue);
 
 
-			$magnitud_escala=explode(" ",trim($cols->item(5)->nodeValue));
-			$magnitud= $magnitud_escala[0];
-			$escala = $magnitud_escala[1];
-			$agencia = trim($cols->item(6)->nodeValue);
-			$ref_geografica = trim($cols->item(7)->nodeValue);
-			$ref_geografica = str_replace(".","",$ref_geografica);
+					$magnitud_escala=explode(" ",trim($cols->item(5)->nodeValue));
+					$magnitud= $magnitud_escala[0];
+					$escala = $magnitud_escala[1];
+					$agencia = trim($cols->item(6)->nodeValue);
+					$ref_geografica = trim($cols->item(7)->nodeValue);
+					$ref_geografica = str_replace(".","",$ref_geografica);
 
-			//Checkear si sismo es sensible
-			$clase= explode(" ",$value->getAttribute("class")." ");
+					//Checkear si sismo es sensible
+					$clase= explode(" ",$value->getAttribute("class")." ");
 
-			$obj = new Sismo();
-			$obj->setFechaLocal($fecha_local);
-			$obj->setFechaUTC($fecha_utc);
-			$obj->setLatitud($latitud);
-			$obj->setLongitud($longitud);
-			$obj->setMagnitud($magnitud);
-			$obj->setEscala($escala);
-			$obj->setProfundidad($profundidad);
-			$obj->setAgencia($agencia);
-			$obj->setRefGeograf($ref_geografica);
-			$obj->setImage($imagen);
 
-			if ($clase[1] == "s_sensible") {
-				$obj->setSensible('1');
+				/*
+					CREACION OBJECTO SISMO
+				 */
+					$obj = new Sismo();
+					$obj->setFechaLocal($fecha_local);
+					$obj->setFechaUTC($fecha_utc);
+					$obj->setLatitud($latitud);
+					$obj->setLongitud($longitud);
+					$obj->setMagnitud($magnitud);
+					$obj->setEscala($escala);
+					$obj->setProfundidad($profundidad);
+					$obj->setAgencia($agencia);
+					$obj->setRefGeograf($ref_geografica);
+					$obj->setImage($imagen);
+
+					if ($clase[1] == "s_sensible") {
+						$obj->setSensible('1');
+					}
+					else{
+						$obj->setSensible('0');
+					}
+
+					array_push($list,$obj);
+				}
+
+			}
+
+			if (isset($_GET['web']) && $_GET['web']==1) {
+				echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========<br>";
 			}
 			else{
-				$obj->setSensible('0');
+				echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
 			}
-
-			array_push($list,$obj);
-		}
-
-	}
-
-
-
-	if (isset($_GET['web']) && $_GET['web']==1) {
-		echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========<br>";
-	}
-	else{
-		echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
-	}
 
 	/*
 		RECORRER LISTA PARA INSERSIONES EN BD
 	 */
-	foreach (array_reverse($list) as $item) {
+		$contador=1;
+		foreach (array_reverse($list) as $item) {
 
 
-		$fecha_local = $item->getFechaLocal();
-		$fecha_utc = $item->getFechaUTC();
-		$latitud = $item->getLatitud();
-		$longitud = $item->getLongitud();
-		$profundidad= $item->getProfundidad();
-		$magnitud= $item->getMagnitud();
-		$escala = $item->getEscala();
-		$agencia = $item->getAgencia();
-		$referencia = $item->getRefGeograf();
-		$imagen = $item->getImage();
-		$sensible = $item->getSensible();
+			$fecha_local = $item->getFechaLocal();
+			$fecha_utc = $item->getFechaUTC();
+			$latitud = $item->getLatitud();
+			$longitud = $item->getLongitud();
+			$profundidad= $item->getProfundidad();
+			$magnitud= $item->getMagnitud();
+			$escala = $item->getEscala();
+			$agencia = $item->getAgencia();
+			$referencia = $item->getRefGeograf();
+			$imagen = $item->getImage();
+			$sensible = $item->getSensible();
 
-		$stmt=$conn->prepare('SELECT quakes_id FROM quakes WHERE fecha_local=?');
-		$stmt->execute([$fecha_local]);
+			//Buscar si existe el sismo
+			$stmt=$conn->prepare('SELECT quakes_id FROM quakes WHERE fecha_local=?');
+			$stmt->execute([$fecha_local]);
 
-		if ($stmt->rowCount()==0) {
+			//Si no esta registrado en BD, guardarlo.
+			if ($stmt->rowCount()==0) {
 
 			/*
 				PREPARACION DE INSERT
 			 */
-			$insert=$conn->prepare(
-				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
-			);
-			$insert->execute(array(
-				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen
-			));
+				$insert=$conn->prepare(
+					"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+				);
+				$insert->execute(array(
+					$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen
+				));
 
 			//Si el sismo es de 5+ grados se envia notificacion
-			if ($magnitud>=5.0){
-				echo "Notificacion enviada\n";
-				sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
+				if ($magnitud>=5.0){
+					sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
+					echo "Notificacion enviada\n";
+				}
+
+				if (isset($_GET['web']) && $_GET['web']==1) {
+					echo "Sismo insertado<br>";
+				}
+
+				else{
+					echo "Sismo insertado\n";
+				}
+
 			}
 
-			if (isset($_GET['web']) && $_GET['web']==1) {
-				echo "Sismo insertado<br>";
-			}
+			//Si ya existe el sismos en BD
+			else if ($stmt->rowCount()>0) {
 
-			else{
-				echo "Sismo insertado\n";
-			}
+				//USAR SOLO EN LOCALHOST (ENVIA NOTIFICACION TEST DEL UTLIMO SISMO EN LA PAGINA SISMOLOGIA.CL)
+				/*if (!isset($_GET['send']) and $_GET['send']==1 and $contador==1){
+					$contador+=1;
+					echo "Notificacion enviada\n";
+					sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
+				}*/
 
-		}
-		else if ($stmt->rowCount()>0) {
-
-			if (isset($_GET['web']) && $_GET['web']==1) {
-				echo "No hay sismos nuevos<br>";
-			}else{
-				echo "No hay sismos nuevos\n";
-			}
+				if (isset($_GET['web']) && $_GET['web']==1) {
+					echo "No hay sismos nuevos<br>";
+				}else{
+					echo "No hay sismos nuevos\n";
+				}
 		}
 	}
 	$conn = null;   
-	?>
+?>
