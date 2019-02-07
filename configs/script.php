@@ -48,33 +48,29 @@ function curl($url){
 				$href = str_replace("html","jpeg",$href);
 				$imagen = "http://www.sismologia.cl".$href;
 
-				/*
-					SECCION IMAGEN PRELIMINAR
-				 */
-
-					//Si la imagen es preliminar
-					if (strpos($imagen,"erb_")===TRUE){
-
-						//Quitar erb_ del link de imagenes
-						echo $imagen=str_replace("erb_","",$imagen)."<br>";
-					}
-
-					$fecha_local = trim($cols->item(0)->nodeValue);          
-					$fecha_utc = trim($cols->item(1)->nodeValue);
-					$latitud = trim($cols->item(2)->nodeValue);
-					$longitud = trim($cols->item(3)->nodeValue);
-					$profundidad = trim($cols->item(4)->nodeValue);
+				$fecha_local = trim($cols->item(0)->nodeValue);          
+				$fecha_utc = trim($cols->item(1)->nodeValue);
+				$latitud = trim($cols->item(2)->nodeValue);
+				$longitud = trim($cols->item(3)->nodeValue);
+				$profundidad = trim($cols->item(4)->nodeValue);
 
 
-					$magnitud_escala=explode(" ",trim($cols->item(5)->nodeValue));
-					$magnitud= $magnitud_escala[0];
-					$escala = $magnitud_escala[1];
-					$agencia = trim($cols->item(6)->nodeValue);
-					$ref_geografica = trim($cols->item(7)->nodeValue);
-					$ref_geografica = str_replace(".","",$ref_geografica);
+				$magnitud_escala=explode(" ",trim($cols->item(5)->nodeValue));
+				$magnitud= $magnitud_escala[0];
+				$escala = $magnitud_escala[1];
+				$agencia = trim($cols->item(6)->nodeValue);
+				$ref_geografica = trim($cols->item(7)->nodeValue);
+				$ref_geografica = str_replace(".","",$ref_geografica);
 
-					//Checkear si sismo es sensible
-					$clase= explode(" ",$value->getAttribute("class")." ");
+				if(strpos($imagen,"erb_")===FALSE){
+					$preliminar=0;
+				}
+				else{
+					$preliminar=1;
+				}
+
+				//Checkear si sismo es sensible
+				$clase= explode(" ",$value->getAttribute("class")." ");
 
 
 				/*
@@ -91,6 +87,7 @@ function curl($url){
 					$obj->setAgencia($agencia);
 					$obj->setRefGeograf($ref_geografica);
 					$obj->setImage($imagen);
+					$obj->setPreliminar($preliminar);
 
 					if ($clase[1] == "s_sensible") {
 						$obj->setSensible('1');
@@ -129,56 +126,75 @@ function curl($url){
 			$referencia = $item->getRefGeograf();
 			$imagen = $item->getImage();
 			$sensible = $item->getSensible();
+			$preliminar = $item->getPreliminar();
 
-			//Buscar si existe el sismo
-			$stmt=$conn->prepare('SELECT quakes_id FROM quakes WHERE fecha_local=?');
+		//Buscar si existe el sismo
+			$stmt=$conn->prepare('SELECT quakes_id,preliminar FROM quakes WHERE fecha_local=?');
 			$stmt->execute([$fecha_local]);
 
-			//Si no esta registrado en BD, guardarlo.
+			$row=$stmt->fetch(PDO::FETCH_ASSOC);
+
+		//Si no esta registrado en BD, guardarlo.
 			if ($stmt->rowCount()==0) {
 
-			/*
-				PREPARACION DE INSERT
-			 */
-				$insert=$conn->prepare(
-					"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
-				);
-				$insert->execute(array(
-					$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen
-				));
+		/*
+			PREPARACION DE INSERT
+		 */
+			$insert=$conn->prepare(
+				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen,preliminar) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+			);
+			$insert->execute(array(
+				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$preliminar
+			));
 
-			//Si el sismo es de 5+ grados se envia notificacion
-				if ($magnitud>=5.0){
-					sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
-					echo "Notificacion enviada\n";
-				}
-
-				if (isset($_GET['web']) && $_GET['web']==1) {
-					echo "Sismo insertado<br>";
-				}
-
-				else{
-					echo "Sismo insertado\n";
-				}
-
+		//Si el sismo es de 5+ grados se envia notificacion
+			if ($magnitud>=5.0){
+				sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
+				echo "Notificacion enviada\n";
 			}
 
-			//Si ya existe el sismos en BD
-			else if ($stmt->rowCount()>0) {
+			if (isset($_GET['web']) && $_GET['web']==1) {
+				echo "Sismo insertado<br>";
+			}
 
-				//USAR SOLO EN LOCALHOST (ENVIA NOTIFICACION TEST DEL UTLIMO SISMO EN LA PAGINA SISMOLOGIA.CL)
-				/*if (!isset($_GET['send']) and $_GET['send']==1 and $contador==1){
-					$contador+=1;
-					echo "Notificacion enviada\n";
-					sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
-				}*/
+			else{
+				echo "Sismo insertado\n";
+			}
 
-				if (isset($_GET['web']) && $_GET['web']==1) {
-					echo "No hay sismos nuevos<br>";
-				}else{
-					echo "No hay sismos nuevos\n";
-				}
+		}
+
+		//Si ya existe el sismos en BD
+		else if ($stmt->rowCount()>0) {
+
+			//USAR SOLO EN LOCALHOST (ENVIA NOTIFICACION TEST DEL UTLIMO SISMO EN LA PAGINA SISMOLOGIA.CL)
+			/*if (!isset($_GET['send']) and $_GET['send']==1 and $contador==1){
+				$contador+=1;
+				echo "Notificacion enviada\n";
+				sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
+			}*/
+
+			
+			//Si la imagen dejo de ser preliminar y el sismo en bd es preliminar -> Actualizar datos
+			if ($preliminar==0 && $row['preliminar']==1){
+
+
+				//Actualizamos sismo preliminar a oficial
+				$update=$conn->prepare(
+					"UPDATE quakes SET fecha_local=?,fecha_utc=?,latitud=?,longitud=?,profundidad=?,magnitud=?,escala=?,sensible=?,agencia=?,referencia=?,imagen=?,preliminar=? WHERE quakes_id=?"
+				);
+				$update->execute(array(
+					$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$preliminar,$row['quakes_id']
+				));
+				
+				echo "Sismo actualizado ->";				
+			}
+
+			if (isset($_GET['web']) && $_GET['web']==1) {
+				echo "No hay sismos nuevos<br>";
+			}else{
+				echo "No hay sismos nuevos\n";
+			}
 		}
 	}
 	$conn = null;   
-?>
+	?>
