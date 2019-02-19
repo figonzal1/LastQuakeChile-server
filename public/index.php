@@ -31,55 +31,8 @@
 
 <body data-spy="scroll" data-target="navbar" data-offset="20" style="position: relative;">
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar" id="navbar">
-
-			<div class="container">
-
-				<!-- Link hacia la pagina -->
-				<a class="navbar-brand" href="https://lastquakechile-server.herokuapp.com">LastQuakeChile</a>
-
-				<!-- Boton toggler responsive -->
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle Navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-
-
-				<div class="collapse navbar-collapse" id="nav">
-
-					<!-- Menu izquierda -->
-					<ul class="navbar-nav mr-auto">
-
-						<!-- Inicio -->
-						<li class="nav-item active">
-							<a class="nav-link" href="#inicio">Inicio</a>
-						</li>
-
-						<!-- Acerca -->
-						<li class="nav-item">
-							<a class="nav-link" href="#caractaristicas">Características
-							</a>
-						</li>
-
-						<li class="nav-item">
-							<a href="#acerca" class="nav-link">Acerca</a>
-						</li>
-
-						<!-- Contacto -->
-
-					</ul>
-
-					<!-- Menu derecha iconos sociales LASTQUAKECHILE -->
-					<ul class="navbar-nav ml-auto nav-flex-icons invisible">
-						<li class="nav-item">
-							<a class="nav-link waves-effect waves-light disable" href="#"><i class="fab fa-facebook-f pr-2"></i><span>LastQuakeChile</span></a>
-						</li>
-					</ul>
-
-				</div>
-			</div>
-
-		</nav>
-
+		
+		<?php readfile("navbar.html");?>
 
 		<!-- Mascara Imagen-->
 		
@@ -248,82 +201,7 @@
 
 
 	</main>
-	<footer class="page-footer font-small">
-
-		<div class="container pt-5 pb-5">
-
-
-			<div class="row">
-
-				<div class="col-md-6 text-left wow fadeIn mb-5">
-
-					<div class="clearfix">
-						<h2 class="h2-responsive font-weight-bold">Contacto</h2>
-						<hr class="hr-light" style="width: 25%;float: left;" >
-					</div>
-					
-
-					<div class="d-flex flex-row align-self-center pt-3">
-						<div class="col-md-2 col-sm-2 col-2 p-0 pr-2">
-							<img src="img/profile.jpg" class="img-fluid rounded">
-						</div>
-						<div class="col-md-10 col-sm-10 col-10">
-
-							<div>
-								<h5 class="h5-responsive">Felipe González</h5>
-								<p>Redes sociales personales</p>
-							</div>
-
-							<div>
-								<div class="d-flex flex-row justify-content-start wow fadeInDown" data-wow-delay="0.3s">
-
-									<a class="fb-ic" href="https://www.facebook.com/figonzal1" target="_blank">
-										<i class="fab fa-facebook-f fa-lg white-text fa-2x pr-2"> </i>
-									</a>
-
-									<a class="ins-ic" href="https://www.instagram.com/_figonzal/" target="_blank">
-										<i class="fab fa-instagram fa-lg white-text fa-2x px-2"> </i>
-									</a>
-
-									<a class="li-ic" href="https://www.linkedin.com/in/figonzal/" target="_blank">
-										<i class="fab fa-linkedin-in fa-lg white-text fa-2x px-2"> </i>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="col-md-6 text-left wow fadeIn">
-
-					<div class="clearfix" id="acerca">
-						<h2 class="h2-responsive font-weight-bold">Acerca</h2>
-						<hr class="hr-light" style="width: 25%;float: left;" >
-					</div>
-					<p class="pt-3 font-weight-normal wow fadeIn">LastQuakeChile es un sistema informativo y de alerta sísmica, construido sin fines de lucro, con el único objetivo de informar a la población, sobre los eventos sucedidos en el país.</p>
-				</div>
-
-				<!--<div class="col-md-4 text-left py-2 wow fadeIn">
-
-					<div class="clearfix">
-						<h2 class="h2-responsive font-weight-bold">Ubicación</h2>
-						<hr class="hr-light" style="width: 25%;float: left;" >
-					</div>
-
-					<p class="pt-3">Valparaíso,Chile</p>
-
-				</div>-->
-			</div>
-		</div>
-
-		<!-- Copyright -->
-		<div class="footer-copyright text-center py-3 animated fadeIn">Develop by Felipe González <br>
-			Under the services of <a href="https://www.heroku.com" target="_blank">Heroku</a> & <a href="https://www.mdbootstrap.com" target="_blank">MDBootstrap</a> & <a href="https://www.cloudflare.com/" target="_blank">CloudFlare</a>
-		</div>
-		<!-- Copyright -->
-
-	</footer>
+	<?php readfile("footer.html");?>
 
 
 	<!-- SCRIPTS -->
