@@ -1283,16 +1283,16 @@
         },
         {
             "name": "superbalist/flysystem-google-storage",
-            "version": "7.1.0",
+            "version": "7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Superbalist/flysystem-google-cloud-storage.git",
-                "reference": "9b20240775ff511b63e4e1d1c9cda710f49a5fb4"
+                "reference": "c886aa92ea4969148e708cb5a4a094bcacaef3ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Superbalist/flysystem-google-cloud-storage/zipball/9b20240775ff511b63e4e1d1c9cda710f49a5fb4",
-                "reference": "9b20240775ff511b63e4e1d1c9cda710f49a5fb4",
+                "url": "https://api.github.com/repos/Superbalist/flysystem-google-cloud-storage/zipball/c886aa92ea4969148e708cb5a4a094bcacaef3ac",
+                "reference": "c886aa92ea4969148e708cb5a4a094bcacaef3ac",
                 "shasum": ""
             },
             "require": {
@@ -1326,7 +1326,7 @@
                 }
             ],
             "description": "Flysystem adapter for Google Cloud Storage",
-            "time": "2018-09-20T14:55:41+00:00"
+            "time": "2019-02-07T08:51:15+00:00"
         }
     ],
     "packages-dev": [],
