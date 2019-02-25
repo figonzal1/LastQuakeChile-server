@@ -11,7 +11,7 @@ use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 
 
 
-function sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen){
+function sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$preliminar){
 
 	/*
 		Configuracion de Servidor
@@ -35,19 +35,38 @@ function sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$
 		'ttl' => '3600s',   // 1 Hora de expiracion
 		'priority' => 'high'  //Prioridad HIGH
 	]);
-		$data=[
-			'titulo' => '¡Alerta sísmica!',
-			'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
-			'latitud' => $latitud,
-			'longitud' => $longitud,
-			'fecha_utc' => $fecha_utc,
-			'magnitud' => $magnitud,
-			'escala' => $escala,
-			'profundidad' => $profundidad,
-			'sensible' => $sensible,
-			'referencia' => $referencia,
-			'imagen_url' => $imagen
-		];
+
+		if ($preliminar==1) {
+			$data=[
+				'titulo' => '[Preliminar]¡Alerta sísmica!',
+				'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
+				'latitud' => $latitud,
+				'longitud' => $longitud,
+				'fecha_utc' => $fecha_utc,
+				'magnitud' => $magnitud,
+				'escala' => $escala,
+				'profundidad' => $profundidad,
+				'sensible' => $sensible,
+				'referencia' => $referencia,
+				'imagen_url' => $imagen
+			];
+		}
+		else if ($preliminar==0) {
+			$data=[
+				'titulo' => '¡Alerta sísmica!',
+				'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
+				'latitud' => $latitud,
+				'longitud' => $longitud,
+				'fecha_utc' => $fecha_utc,
+				'magnitud' => $magnitud,
+				'escala' => $escala,
+				'profundidad' => $profundidad,
+				'sensible' => $sensible,
+				'referencia' => $referencia,
+				'imagen_url' => $imagen
+			];
+		}
+		
 
 		$topic='Quakes';
 
