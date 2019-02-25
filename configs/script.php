@@ -129,42 +129,42 @@ function curl($url){
 			$preliminar = $item->getPreliminar();
 
 		//Buscar si existe el sismo
-			$stmt=$conn->prepare('SELECT quakes_id,preliminar FROM quakes WHERE fecha_local=?');
+			$stmt=$conn->prepare('SELECT quakes_id FROM quakes WHERE fecha_local=?');
 			$stmt->execute([$fecha_local]);
 
-			$row=$stmt->fetch(PDO::FETCH_ASSOC);
+			//$row=$stmt->fetch(PDO::FETCH_ASSOC);
 
 		//Si no esta registrado en BD, guardarlo.
 			if ($stmt->rowCount()==0) {
 
-		/*
-			PREPARACION DE INSERT
-		 */
-			$insert=$conn->prepare(
-				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen,preliminar) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
-			);
-			$insert->execute(array(
-				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$preliminar
-			));
+			/*
+				PREPARACION DE INSERT
+			 */
+				$insert=$conn->prepare(
+					"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen,preliminar) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+				);
+				$insert->execute(array(
+					$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$preliminar
+				));
 
-		//Si el sismo es de 5+ grados se envia notificacion
-			if ($magnitud>=5.0){
-				sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
-				echo "Notificacion enviada\n";
+			//Si el sismo es de 5+ grados se envia notificacion
+				if ($magnitud>=5.0){
+					sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$preliminar);
+					echo "Notificacion enviada\n";
+				}
+
+				if (isset($_GET['web']) && $_GET['web']==1) {
+					echo "Sismo insertado<br>";
+				}
+
+				else{
+					echo "Sismo insertado\n";
+				}
+
 			}
-
-			if (isset($_GET['web']) && $_GET['web']==1) {
-				echo "Sismo insertado<br>";
-			}
-
-			else{
-				echo "Sismo insertado\n";
-			}
-
-		}
 
 		//Si ya existe el sismos en BD
-		else if ($stmt->rowCount()>0) {
+			else if ($stmt->rowCount()>0) {
 
 			//USAR SOLO EN LOCALHOST (ENVIA NOTIFICACION TEST DEL UTLIMO SISMO EN LA PAGINA SISMOLOGIA.CL)
 			/*if (!isset($_GET['send']) and $_GET['send']==1 and $contador==1){
@@ -173,22 +173,6 @@ function curl($url){
 				sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
 			}*/
 
-			
-			//Si la imagen dejo de ser preliminar y el sismo en bd es preliminar -> Actualizar datos
-			if ($preliminar==0 && $row['preliminar']==1){
-
-
-				//Actualizamos sismo preliminar a oficial
-				$update=$conn->prepare(
-					"UPDATE quakes SET fecha_local=?,fecha_utc=?,latitud=?,longitud=?,profundidad=?,magnitud=?,escala=?,sensible=?,agencia=?,referencia=?,imagen=?,preliminar=? WHERE quakes_id=?"
-				);
-				$update->execute(array(
-					$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$preliminar,$row['quakes_id']
-				));
-				
-				echo "Sismo actualizado ->";				
-			}
-
 			if (isset($_GET['web']) && $_GET['web']==1) {
 				echo "No hay sismos nuevos<br>";
 			}else{
@@ -196,25 +180,5 @@ function curl($url){
 			}
 		}
 	}
-
-	/*
-		SECCION ELIMINACION DE PRELIMINARES
-	 */
-	$select = "SELECT * FROM quakes WHERE preliminar=1";
-	$stmt= $conn->query($select);
-	$stmt->execute();
-
-	if ($stmt->rowCount()>0) {
-		$delete="DELETE FROM quakes WHERE preliminar=1;";
-		$stmt= $conn->query($delete);
-		$stmt->execute();
-
-		if (isset($_GET['web']) && $_GET['web']==1) {
-			echo "Sismos preliminares eliminados<br>";
-		}else{
-			echo "Sismo preliminares eliminados\n";
-		}
-	}
-
 	$conn = null;   
-	?>
+?>
