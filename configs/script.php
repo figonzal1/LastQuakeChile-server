@@ -67,6 +67,7 @@ function curl($url){
 				}
 				else{
 					$preliminar=1;
+					$imagen=str_replace("erb_", "", $imagen);
 				}
 
 				//Checkear si sismo es sensible
