@@ -58,7 +58,7 @@
 
 							<!-- Descripcion -->
 							<div class="text-sm-center text-left mt-2 wow fadeInDown">
-								<p class="text-justify">Revisa los útlimos sismos en Chile y recibe notificaciones de los más importantes.</p>
+								<p class="text-justify">Revisa los últimos sismos en Chile y recibe notificaciones de los más importantes.</p>
 							</div>
 
 							<!-- Imagen boton google play -->
