@@ -121,7 +121,7 @@
 							<div class="card-body">
 								<h4 class="card-title text-center">Notificaciones</h4>
 								<p class="card-text text-center">
-									Obtén notificaciones directamente a tu celular de los sismos mayores a 5.0 grados Righter
+									Obtén notificaciones directamente a tu celular de los sismos mayores a 5.0 grados Richter
 								</p>
 							</div>
 
