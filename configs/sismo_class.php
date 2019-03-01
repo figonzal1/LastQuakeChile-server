@@ -15,8 +15,10 @@ class Sismo {
 	private $ref_geografica=false;
 	private $image=false;
 	private $sensible=false;
-	private $preliminar=false;
+	private $estado=false;
 	
+
+	//GETTERS
 	public function getFechaLocal(){
 		return $this->fecha_local;
 	}
@@ -61,10 +63,11 @@ class Sismo {
 		return $this->sensible;
 	}
 
-	public function getPreliminar(){
-		return $this->preliminar;
+	public function getEstado(){
+		return $this->estado;
 	}
 
+	//SETERS
 	public function setFechaLocal($fecha_local){
 		$this->fecha_local =$fecha_local;
 	}
@@ -109,8 +112,8 @@ class Sismo {
 		$this->sensible=$sensible;
 	}
 
-	public function setPreliminar($preliminar){
-		$this->preliminar=$preliminar;
+	public function setEstado($estado){
+		$this->estado=$estado;
 	}
 }
 ?>
