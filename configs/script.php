@@ -33,146 +33,173 @@ function curl($url){
 	/*** get all rows from the table ***/ 
 	$rows = $tables->item(0)->getElementsByTagName('tr');
 	
-	/*
-		SCRAPPING DE SISMOS HACIA LISTA
-	 */
-		foreach ($rows as $key => $value) {
+	//RECORRER EL LISTADO DE SISMOLOGIA.CL Y SCRAPEAR DATOS DE LOS SISMOS
+	//INSERCION EN LISTA
+	foreach ($rows as $key => $value) {
 
-			if ($key>0) {
+		//EXIGIR KEY MAYOR QUE 0 PARA ELIMINAR ENCABEZADO DE TABLA
+		if ($key>0) {
 
-				$cols = $value->getElementsByTagName('td');
+			$cols = $value->getElementsByTagName('td');
 
-				$links = $value->getElementsByTagName('a');
-				$href= trim($links->item(0)->getAttribute('href'));
-				$href = str_replace("events","mapas",$href);
-				$href = str_replace("html","jpeg",$href);
-				$imagen = "http://www.sismologia.cl".$href;
+			$links = $value->getElementsByTagName('a');
+			$href= trim($links->item(0)->getAttribute('href'));
+			$href = str_replace("events","mapas",$href);
+			$href = str_replace("html","jpeg",$href);
+			$imagen = "http://www.sismologia.cl".$href;
 
-				$fecha_local = trim($cols->item(0)->nodeValue);          
-				$fecha_utc = trim($cols->item(1)->nodeValue);
-				$latitud = trim($cols->item(2)->nodeValue);
-				$longitud = trim($cols->item(3)->nodeValue);
-				$profundidad = trim($cols->item(4)->nodeValue);
-
-
-				$magnitud_escala=explode(" ",trim($cols->item(5)->nodeValue));
-				$magnitud= $magnitud_escala[0];
-				$escala = $magnitud_escala[1];
-				$agencia = trim($cols->item(6)->nodeValue);
-				$ref_geografica = trim($cols->item(7)->nodeValue);
-				$ref_geografica = str_replace(".","",$ref_geografica);
-
-				if(strpos($imagen,"erb_")===FALSE){
-					$preliminar=0;
-				}
-				else{
-					$preliminar=1;
-					$imagen=str_replace("erb_", "", $imagen);
-				}
-
-				//Checkear si sismo es sensible
-				$clase= explode(" ",$value->getAttribute("class")." ");
+			$fecha_local = trim($cols->item(0)->nodeValue);          
+			$fecha_utc = trim($cols->item(1)->nodeValue);
+			$latitud = trim($cols->item(2)->nodeValue);
+			$longitud = trim($cols->item(3)->nodeValue);
+			$profundidad = trim($cols->item(4)->nodeValue);
 
 
-				/*
-					CREACION OBJECTO SISMO
-				 */
-					$obj = new Sismo();
-					$obj->setFechaLocal($fecha_local);
-					$obj->setFechaUTC($fecha_utc);
-					$obj->setLatitud($latitud);
-					$obj->setLongitud($longitud);
-					$obj->setMagnitud($magnitud);
-					$obj->setEscala($escala);
-					$obj->setProfundidad($profundidad);
-					$obj->setAgencia($agencia);
-					$obj->setRefGeograf($ref_geografica);
-					$obj->setImage($imagen);
-					$obj->setPreliminar($preliminar);
+			$magnitud_escala=explode(" ",trim($cols->item(5)->nodeValue));
+			$magnitud= $magnitud_escala[0];
+			$escala = $magnitud_escala[1];
+			$agencia = trim($cols->item(6)->nodeValue);
+			$ref_geografica = trim($cols->item(7)->nodeValue);
+			$ref_geografica = str_replace(".","",$ref_geografica);
 
-					if ($clase[1] == "s_sensible") {
-						$obj->setSensible('1');
-					}
-					else{
-						$obj->setSensible('0');
-					}
+			//SI EL SISMO TIENE EL PREFIJO erb_ EN EL LINK DE LA IMAGEN -> EL SIMOS ES PRELIMINAR
+			if(strpos($imagen,"erb_")===FALSE){
+				$estado="verificado";
+			}
+			else{
+				$estado="preliminar";
+				$imagen=str_replace("erb_", "", $imagen);
+			}
 
-					array_push($list,$obj);
-				}
+			//BUSCAR EL ATRIBUTO EN LA TABLA DE SISMOLOGIA.CL QUE INDICA SENSIBILIDAD DE SISMOS
+			$clase= explode(" ",$value->getAttribute("class")." ");
 
+
+			//CREACION INSTANCIA SISMO
+			$obj = new Sismo();
+			$obj->setFechaLocal($fecha_local);
+			$obj->setFechaUTC($fecha_utc);
+			$obj->setLatitud($latitud);
+			$obj->setLongitud($longitud);
+			$obj->setMagnitud($magnitud);
+			$obj->setEscala($escala);
+			$obj->setProfundidad($profundidad);
+			$obj->setAgencia($agencia);
+			$obj->setRefGeograf($ref_geografica);
+			$obj->setImage($imagen);
+			$obj->setPreliminar($preliminar);
+
+
+			//CHECKEAR SENSIBILIDAD DE SISMOS BUSCANDO EL ATRIBUTO
+			if ($clase[1] == "s_sensible") {
+				$obj->setSensible('1');
+			}
+			else{
+				$obj->setSensible('0');
+			}
+
+			//PUSEAR INSTANCIA DE SISMO A LISTA DE SISMOS
+			array_push($list,$obj);
+		}
+
+	}
+
+	if (isset($_GET['web']) && $_GET['web']==1) {
+		echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========<br>";
+	}
+	else{
+		echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
+	}
+
+	//RECORRER LA LISTA SCRAPEADA PARA REALIZAR LA INSERCION, ELIMINARCION Y NOTIFICACIONES
+	foreach (array_reverse($list) as $item) {
+
+		//OBTENER DATOS DE CADA SISMOS DE LA LISTA SCRAPEADA
+		$fecha_local = $item->getFechaLocal();
+		$fecha_utc = $item->getFechaUTC();
+		$latitud = $item->getLatitud();
+		$longitud = $item->getLongitud();
+		$profundidad= $item->getProfundidad();
+		$magnitud= $item->getMagnitud();
+		$escala = $item->getEscala();
+		$agencia = $item->getAgencia();
+		$referencia = $item->getRefGeograf();
+		$imagen = $item->getImage();
+		$sensible = $item->getSensible();
+		$estado = $item->getEstado();
+
+		//SE USA IMAGEN PARA DISTINUIR PRELIMINAR VS TERMINADO (Debido a que los de sismologia cambian la mayoria de los campos por lo que el sismo se detecta como nuevo)
+		//Buscar si existe el sismo
+		//
+		$stmt=$conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=?');
+		$stmt->execute([$imagen]);
+
+		$sismo_bd=$stmt->fetch(PDO::FETCH_ASSOC);
+
+		//SI EL SISMO DE LA LISTA SCRAPEADA NO ESTA GUARDADO EN LA BASE DE DATOS
+		//SE PROCEDE A INSERCIÓN
+		if ($stmt->rowCount()==0) {
+
+			//PREPARACION DE INSERT
+			$insert=$conn->prepare(
+				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen,estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+			);
+			$insert->execute(array(
+				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$estado
+			));
+
+			//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
+			//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
+			if ($magnitud>=5.0){
+				sendNotification("",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				echo "Notificacion enviada\n";
 			}
 
 			if (isset($_GET['web']) && $_GET['web']==1) {
-				echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========<br>";
+				echo "Sismo insertado<br>";
+			}
+
+			else{
+				echo "Sismo insertado\n";
+			}
+
+		}
+
+		//SI YA EXISTE UN SISMO CON LA MISMA IMAGEN Y SU ESTADO (ESTADO = PRELIMINAR)
+		//Y EL QUE SE PRETENDE INSERTAR ES UN SISMO VERIFICADO (ESTADO = VERIFICADO)
+		//- SE PROCEDE A INSERTAR EL SISMO VERIFICADO A BD
+		//- SE PROCEDE A NOTIFICAR NUEVAMENTE EL SISMO CON ESTADO VERIFICADO
+		//- SE ELIMINA EL SISMO PRELIMINAR
+		else if ($stmt->rowCount()==1 and $sismo_bd['estado']=="preliminar" and $estado=="verificado") {
+
+			//TODO: QUIZAS HACER UN UPDATE SERIA MEJOR IDEA
+			//PREPARACION DE UPDATE
+			$update=$conn->prepare(
+				"UPDATE quakes SET fecha_local=?,fecha_utc=?,latitud=?,$longitud=?,$profundidad=?,$magnitud=?,$escala=?,$sensible=?,$agencia=?,$referencia=?,$imagen=?,estado=? WHERE imagen=?");
+		
+			$update->execute(array(
+				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$estado,$imagen
+			));
+
+			//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
+			//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
+			if ($magnitud>=5.0){
+				sendNotification("[Corrección] ",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				echo "Notificacion enviada\n";
+			}
+
+			if (isset($_GET['web']) and $_GET['web']==1) {
+				echo "Sismo actualizado (preliminar -> verificado)<br>";
 			}
 			else{
-				echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
+				echo "Sismo actualizado (preliminar -> verificado)\n";
 			}
+		}
 
-	/*
-		RECORRER LISTA PARA INSERSIONES EN BD
-	 */
-		$contador=1;
-		foreach (array_reverse($list) as $item) {
-
-
-			$fecha_local = $item->getFechaLocal();
-			$fecha_utc = $item->getFechaUTC();
-			$latitud = $item->getLatitud();
-			$longitud = $item->getLongitud();
-			$profundidad= $item->getProfundidad();
-			$magnitud= $item->getMagnitud();
-			$escala = $item->getEscala();
-			$agencia = $item->getAgencia();
-			$referencia = $item->getRefGeograf();
-			$imagen = $item->getImage();
-			$sensible = $item->getSensible();
-			$preliminar = $item->getPreliminar();
-
-		//Buscar si existe el sismo
-			$stmt=$conn->prepare('SELECT quakes_id FROM quakes WHERE fecha_local=?');
-			$stmt->execute([$fecha_local]);
-
-			//$row=$stmt->fetch(PDO::FETCH_ASSOC);
-
-		//Si no esta registrado en BD, guardarlo.
-			if ($stmt->rowCount()==0) {
-
-			/*
-				PREPARACION DE INSERT
-			 */
-				$insert=$conn->prepare(
-					"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen,preliminar) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
-				);
-				$insert->execute(array(
-					$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$preliminar
-				));
-
-			//Si el sismo es de 5+ grados se envia notificacion
-				if ($magnitud>=5.0){
-					sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$preliminar);
-					echo "Notificacion enviada\n";
-				}
-
-				if (isset($_GET['web']) && $_GET['web']==1) {
-					echo "Sismo insertado<br>";
-				}
-
-				else{
-					echo "Sismo insertado\n";
-				}
-
-			}
-
-		//Si ya existe el sismos en BD
-			else if ($stmt->rowCount()>0) {
-
-			//USAR SOLO EN LOCALHOST (ENVIA NOTIFICACION TEST DEL UTLIMO SISMO EN LA PAGINA SISMOLOGIA.CL)
-			/*if (!isset($_GET['send']) and $_GET['send']==1 and $contador==1){
-				$contador+=1;
-				echo "Notificacion enviada\n";
-				sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen);
-			}*/
+		//SI YA EXISTE UN SISMO CON LA MISMA IMAGEN Y ESTE ES (VERIFICADO O PRELIMINAR)
+		//Y EN BASE DE DATOS TIENE SU ESTADO CORRESPONDIENTE (VERIFICADO O PRELIMINAR) IGUAL
+		//ENTONCES NO SE DEBE HACER NINGUNA OPERACION AL RESPECTO Y ES IGNORADO
+		else if ($stmt->rowCount()==1 and (($estado=="verificado" and $sismo_bd['estado']=="verificado") or ($estado="preliminar" and $sismo_bd['estado']=="preliminar"))) {
 
 			if (isset($_GET['web']) && $_GET['web']==1) {
 				echo "No hay sismos nuevos<br>";
@@ -182,4 +209,4 @@ function curl($url){
 		}
 	}
 	$conn = null;   
-?>
+	?>

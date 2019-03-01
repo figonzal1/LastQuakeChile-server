@@ -11,7 +11,7 @@ use Kreait\Firebase\Exception\Messaging\InvalidMessage;
 
 
 
-function sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$preliminar){
+function sendNotification($prefijo,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado){
 
 	/*
 		Configuracion de Servidor
@@ -36,9 +36,9 @@ function sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$
 		'priority' => 'high'  //Prioridad HIGH
 	]);
 
-		if ($preliminar==1) {
+		if ($estado=="preliminar") {
 			$data=[
-				'titulo' => '[Preliminar]¡Alerta sísmica!',
+				'titulo' => '[Preliminar] ¡Alerta sísmica!',
 				'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
 				'latitud' => $latitud,
 				'longitud' => $longitud,
@@ -51,9 +51,9 @@ function sendNotification($fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$
 				'imagen_url' => $imagen
 			];
 		}
-		else if ($preliminar==0) {
+		else if ($estado=="verificado") {
 			$data=[
-				'titulo' => '¡Alerta sísmica!',
+				'titulo' => $prefijo.'¡Alerta sísmica!',
 				'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
 				'latitud' => $latitud,
 				'longitud' => $longitud,
