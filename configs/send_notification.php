@@ -28,15 +28,15 @@ function sendNotification($prefijo,$fecha_utc,$latitud,$longitud,$profundidad,$m
 
 		$messaging = $firebase->getMessaging();
 
-	/*
-		Configuracion MSG para ANDROID
-	 */
-		$config = AndroidConfig::fromArray([
-		'ttl' => '3600s',   // 1 Hora de expiracion
-		'priority' => 'high'  //Prioridad HIGH
-	]);
+
 
 		if ($estado=="preliminar") {
+
+			//Configuracion mensaje ANDROID
+			$config = AndroidConfig::fromArray([
+				'ttl' => '1200s',   // 20 minutos de expiracion para sismo preliminar
+				'priority' => 'high'  //Prioridad HIGH
+			]);
 			$data=[
 				'titulo' => '[Preliminar] ¡Alerta sísmica!',
 				'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
@@ -51,7 +51,15 @@ function sendNotification($prefijo,$fecha_utc,$latitud,$longitud,$profundidad,$m
 				'imagen_url' => $imagen
 			];
 		}
+		//Sismo verificado o sismo corregido (prefijo)
 		else if ($estado=="verificado") {
+
+			//Configuracion mensaje ANDROID
+			$config = AndroidConfig::fromArray([
+				'ttl' => '3600s',   // 1 Hora de expiracion para sismo verificado
+				'priority' => 'high'  //Prioridad HIGH
+			]);
+
 			$data=[
 				'titulo' => $prefijo.'¡Alerta sísmica!',
 				'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
