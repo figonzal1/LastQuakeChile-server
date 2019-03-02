@@ -172,10 +172,10 @@ function curl($url){
 		//- SE ELIMINA EL SISMO PRELIMINAR
 		else if ($stmt->rowCount()==1 and $sismo_bd['estado']=="preliminar" and $estado=="verificado") {
 
-			//TODO: QUIZAS HACER UN UPDATE SERIA MEJOR IDEA
+			
 			//PREPARACION DE UPDATE
 			$update=$conn->prepare(
-				"UPDATE quakes SET fecha_local=?,fecha_utc=?,latitud=?,$longitud=?,$profundidad=?,$magnitud=?,$escala=?,$sensible=?,$agencia=?,$referencia=?,$imagen=?,estado=? WHERE imagen=?");
+				"UPDATE quakes SET fecha_local=?,fecha_utc=?,latitud=?,longitud=?,profundidad=?,magnitud=?,escala=?,sensible=?,agencia=?,referencia=?,imagen=?,estado=? WHERE imagen=?");
 		
 			$update->execute(array(
 				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$estado,$imagen
