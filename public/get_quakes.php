@@ -23,7 +23,8 @@ foreach ($rows as $key=>$value) {
 			'sensible' => $value['sensible'],
 			'agencia' => $value['agencia'],
 			'referencia' => $value['referencia'],
-			'imagen_url' => $value['imagen'])
+			'imagen_url' => $value['imagen'],
+			'estado' => $value['estado'])
 	);
 }
 
