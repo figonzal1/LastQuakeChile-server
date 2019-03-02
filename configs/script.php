@@ -87,7 +87,7 @@ function curl($url){
 			$obj->setAgencia($agencia);
 			$obj->setRefGeograf($ref_geografica);
 			$obj->setImage($imagen);
-			$obj->setPreliminar($preliminar);
+			$obj->setEstado($estado);
 
 
 			//CHECKEAR SENSIBILIDAD DE SISMOS BUSCANDO EL ATRIBUTO
