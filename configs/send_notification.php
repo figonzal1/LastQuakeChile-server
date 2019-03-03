@@ -48,7 +48,8 @@ function sendNotification($prefijo,$fecha_utc,$latitud,$longitud,$profundidad,$m
 				'profundidad' => $profundidad,
 				'sensible' => $sensible,
 				'referencia' => $referencia,
-				'imagen_url' => $imagen
+				'imagen_url' => $imagen,
+				'estado' => $estado
 			];
 		}
 		//Sismo verificado o sismo corregido (prefijo)
@@ -71,7 +72,8 @@ function sendNotification($prefijo,$fecha_utc,$latitud,$longitud,$profundidad,$m
 				'profundidad' => $profundidad,
 				'sensible' => $sensible,
 				'referencia' => $referencia,
-				'imagen_url' => $imagen
+				'imagen_url' => $imagen,
+				'estado' => $estado
 			];
 		}
 		
