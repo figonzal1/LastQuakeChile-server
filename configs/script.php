@@ -111,6 +111,7 @@ function curl($url){
 		echo "========== Actualizacion ".date("Y-m-d H:i:s")."==========\n";
 	}
 
+	$contador=1;
 	//RECORRER LA LISTA SCRAPEADA PARA REALIZAR LA INSERCION, ELIMINARCION Y NOTIFICACIONES
 	foreach (array_reverse($list) as $item) {
 
@@ -200,6 +201,12 @@ function curl($url){
 		//Y EN BASE DE DATOS TIENE SU ESTADO CORRESPONDIENTE (VERIFICADO O PRELIMINAR) IGUAL
 		//ENTONCES NO SE DEBE HACER NINGUNA OPERACION AL RESPECTO Y ES IGNORADO
 		else if ($stmt->rowCount()==1 and (($estado=="verificado" and $sismo_bd['estado']=="verificado") or ($estado="preliminar" and $sismo_bd['estado']=="preliminar"))) {
+
+			//USAR SOLO PARA DEBUGUEAR
+			/*if ($contador==1) {
+				sendNotificationToDevice("",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				$contador+=1;
+			}*/
 
 			if (isset($_GET['web']) && $_GET['web']==1) {
 				echo "No hay sismos nuevos<br>";
