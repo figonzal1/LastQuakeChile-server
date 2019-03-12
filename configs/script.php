@@ -200,7 +200,7 @@ function curl($url){
 		//SI YA EXISTE UN SISMO CON LA MISMA IMAGEN Y ESTE ES (VERIFICADO O PRELIMINAR)
 		//Y EN BASE DE DATOS TIENE SU ESTADO CORRESPONDIENTE (VERIFICADO O PRELIMINAR) IGUAL
 		//ENTONCES NO SE DEBE HACER NINGUNA OPERACION AL RESPECTO Y ES IGNORADO
-		else if ($stmt->rowCount()==1 and (($estado=="verificado" and $sismo_bd['estado']=="verificado") or ($estado="preliminar" and $sismo_bd['estado']=="preliminar"))) {
+		else if ($stmt->rowCount()==1 and (($estado=="verificado" and $sismo_bd['estado']=="verificado") or ($estado=="preliminar" and $sismo_bd['estado']=="preliminar"))) {
 
 			//USAR SOLO PARA DEBUGUEAR
 			/*if ($contador==1) {
