@@ -152,7 +152,7 @@ function curl($url){
 			//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 			//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
 			if ($magnitud>=5.0){
-				sendNotification("",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				sendNotification("Quakes","",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 				echo "Notificacion enviada\n";
 			}
 
@@ -185,7 +185,7 @@ function curl($url){
 			//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 			//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
 			if ($magnitud>=5.0){
-				sendNotification("[Corrección] ",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				sendNotification("Quakes","[Corrección] ",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 				echo "Notificacion enviada\n";
 			}
 
@@ -204,7 +204,7 @@ function curl($url){
 
 			//USAR SOLO PARA DEBUGUEAR
 			/*if ($contador==1) {
-				sendNotificationToDevice("",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				sendNotification("Test","",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 				$contador+=1;
 			}*/
 
