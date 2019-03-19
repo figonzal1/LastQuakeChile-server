@@ -48,8 +48,15 @@ function curl($url){
 			$href = str_replace("html","jpeg",$href);
 			$imagen = "http://www.sismologia.cl".$href;
 
-			$fecha_local = trim($cols->item(0)->nodeValue);          
+			//FORMATEAR FECHAS ESTILO XXXX-XX-XX XX:XX:XX
+			$fecha_local = trim($cols->item(0)->nodeValue);  
+			$fecha_local = date_create($fecha_local);
+			$fecha_local = $fecha_local->format('Y-m-d H:i:s')  
+
 			$fecha_utc = trim($cols->item(1)->nodeValue);
+			$fecha_utc = date_create($fecha_utc);
+			$fecha_utc = $fecha_utc->format('Y-m-d H:i:s')  
+
 			$latitud = trim($cols->item(2)->nodeValue);
 			$longitud = trim($cols->item(3)->nodeValue);
 			$profundidad = trim($cols->item(4)->nodeValue);
