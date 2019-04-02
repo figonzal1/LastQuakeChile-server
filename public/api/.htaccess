@@ -8,7 +8,16 @@ RewriteRule ^quakes/$ quakes.php [NC]
 RewriteCond %{QUERY_STRING} fecha=(?:(?<ANNO>\d{4})(?:\-(?<MES>\d{2}))(?:\-+(?<DIA>\d{2}))?)(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC]   #Consigue lo que va despues de ?
 RewriteRule ^(.*)$ quakes.php?anno=%1&mes=%2&dia=%3&limite=%4 [NC]
 
-RewriteCond ${QUERY_STRING} ciudad=(?<CIUDAD>\w+)(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC] #Funciona con inverso
-RewriteRule ^(.*)$ quakes.php?ciudad=%1&limite=%2 [NC]
+RewriteCond ${QUERY_STRING} ciudad=(?<CIUDAD>\w+)(?:\&magnitud=(?<MAGNITUD>[0-9](?>\.[0-9])?))?(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC] #Funciona con inverso
+RewriteRule ^(.*)$ quakes.php?ciudad=%1&magnitud=%2&limite=%3 [NC]
+
+RewriteCond ${QUERY_STRING} magnitud=(?<MAGNITUD>[0-9](?>\.[0-9])?)(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC]
+RewriteRule ^(.*)$ quakes.php?magnitud=%1&limite=%2 [NC]
+
+RewriteCond ${QUERY_STRING} ranking=(?<RANKING>magnitud|profundidad)(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC]
+RewriteRule ^(.*)$ quakes.php?ranking=%1&limite=%2 [NC]
+
+RewriteCond ${QUERY_STRING} limite=(?<LIMITE>\d{1,3})$ [NC]
+RewriteRule ^(.*)$ quakes.php?limite=%1 [NC]
 
 
