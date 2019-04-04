@@ -43,7 +43,7 @@
 
               <!-- Imagen boton google play -->
               <div class="my-4 wow fadeInDown delay-1s">
-                <a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile">
+                <a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile" target="_blank">
                   <img src="img/google-play-badge.png" class="mx-auto img-fluid" style="width: 50%;" alt="Google play link">
                 </a>
               </div>
