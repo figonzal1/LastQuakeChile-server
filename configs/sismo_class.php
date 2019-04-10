@@ -6,15 +6,16 @@ class Sismo {
 
 	private $fecha_local=false;
 	private $fecha_utc=false;
+	private $ciudad=false;
+	private $ref_geografica=false;
+	private $magnitud=false;
+	private $escala =false;
+	private $sensible=false;
 	private $latitud=false;
 	private $longitud=false;
 	private $profundidad=false;
-	private $magnitud=false;
-	private $escala =false;
 	private $agencia=false;
-	private $ref_geografica=false;
-	private $image=false;
-	private $sensible=false;
+	private $imagen=false;
 	private $estado=false;
 	
 
@@ -25,6 +26,10 @@ class Sismo {
 
 	public function getFechaUTC(){
 		return $this->fecha_utc;
+	}
+
+	public function getCiudad(){
+		return $this->ciudad;
 	}
 
 	public function getLatitud(){
@@ -56,7 +61,7 @@ class Sismo {
 	}
 
 	public function getImage(){
-		return $this->image;
+		return $this->imagen;
 	}
 
 	public function getSensible(){
@@ -76,6 +81,10 @@ class Sismo {
 		$this->fecha_utc=$fecha_utc;
 	}
 
+	public function setCiudad($ciudad){
+		$this->ciudad=$ciudad;
+	}
+	
 	public function setLatitud($latitud){
 		$this->latitud=$latitud;
 	}
@@ -105,7 +114,7 @@ class Sismo {
 	}
 
 	public function setImage($image){
-		$this->image=$image;
+		$this->image=$imagen;
 	}
 
 	public function setSensible($sensible){
@@ -116,4 +125,3 @@ class Sismo {
 		$this->estado=$estado;
 	}
 }
-?>

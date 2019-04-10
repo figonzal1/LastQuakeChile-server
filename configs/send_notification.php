@@ -13,6 +13,7 @@ use Kreait\Firebase\Exception\Messaging\InvalidMessage;
  * Funcion encargada de enviar notificaciones FCM a los dispositivos suscritos al canal 'Quakes'
  * @param  [type] $prefijo     Prefijo utilizado para el titulo de la notificacion
  * @param  [type] $fecha_utc   FEcha UTC del sismos
+ * @param  [type] $ciudad      Ciudad cercana al epicentro del sismo
  * @param  [type] $latitud     Latitud de sismo
  * @param  [type] $longitud    Longitud del sismo
  * @param  [type] $profundidad Profundidad en km del sismo
@@ -24,7 +25,7 @@ use Kreait\Firebase\Exception\Messaging\InvalidMessage;
  * @param  [type] $estado      Sismo preliminar o sismo verificado
  * @return [type]              S/D
  */
-function sendNotification($tipo_mensaje,$prefijo,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado){
+function sendNotification($tipo_mensaje,$prefijo,$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado){
 
 	//Revisar token de dispositivo en android
 	$deviceToken="dgto7240DZw:APA91bHxHhU8yDUkmdaB4XJbVGz1hIc6hFfGWGIyiUn6l0T8Nbl7SYxg9-fLAZ7jzraH8gsrB1OwZhSEk4iGnbTUlaJg9IdCQtBVQlp-6Txco0Og_4-mQybrBQfB6eki_HGTQBGksBrX";
@@ -43,7 +44,7 @@ function sendNotification($tipo_mensaje,$prefijo,$fecha_utc,$latitud,$longitud,$
 				'ttl' => '1200s',   // 20 minutos de expiracion para sismo preliminar
 				'priority' => 'high'  //Prioridad HIGH
 			]);
-		$data=setNotificationData('[Preliminar] ',$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+		$data=setNotificationData('[Preliminar] ',$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 
 	}
 		//Sismo verificado o sismo corregido (prefijo)
@@ -55,7 +56,7 @@ function sendNotification($tipo_mensaje,$prefijo,$fecha_utc,$latitud,$longitud,$
 				'priority' => 'high'  //Prioridad HIGH
 			]);
 
-		$data=setNotificationData($prefijo,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+		$data=setNotificationData($prefijo,$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 	}
 
 	//Envia solo a un dispositivo
@@ -91,6 +92,7 @@ function sendNotification($tipo_mensaje,$prefijo,$fecha_utc,$latitud,$longitud,$
  * Funcion encargada de setear el mensaje de la notifiacacion
  * @param  [type] $prefijo     Prefijo utilizado para el titulo de la notificacion
  * @param  [type] $fecha_utc   FEcha UTC del sismos
+ * @param  [type] $ciudad      Ciudad cercana al epicentro
  * @param  [type] $latitud     Latitud de sismo
  * @param  [type] $longitud    Longitud del sismo
  * @param  [type] $profundidad Profundidad en km del sismo
@@ -102,11 +104,12 @@ function sendNotification($tipo_mensaje,$prefijo,$fecha_utc,$latitud,$longitud,$
  * @param  [type] $estado      Sismo preliminar o sismo verificado
  * @return [type]              S/D
  */
-function setNotificationData($prefijo,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado){
+function setNotificationData($prefijo,$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado){
 	
 	return $data=[
 		'titulo' => $prefijo.'¡Alerta sísmica!',
 		'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
+		'ciudad' => $ciudad,
 		'latitud' => $latitud,
 		'longitud' => $longitud,
 		'fecha_utc' => $fecha_utc,
