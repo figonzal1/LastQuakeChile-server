@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD']=='GET'){
     else if(isset($_GET['ciudad'])and !empty($_GET['ciudad'])){
 
         $ciudad = $_GET['ciudad'];
-        $sql = $sql." WHERE referencia LIKE '%$ciudad%'";
+        $sql = $sql." WHERE ciudad LIKE '%$ciudad%'";
 
         $params['ciudad']=$ciudad;
 
@@ -279,14 +279,15 @@ function doQuery($sql)
             array(
                 'fecha_local' => $value['fecha_local'],
                 'fecha_utc' => $value['fecha_utc'],
-                'latitud' => $value['latitud'],
-                'longitud' => $value['longitud'],
+                'ciudad' => $value['ciudad'],
+                'referencia' => $value['referencia'],
                 'magnitud' => $value['magnitud'],
                 'escala' => $value['escala'],
-                'profundidad' => $value['profundidad'],
                 'sensible' => $value['sensible'],
+                'latitud' => $value['latitud'],
+                'longitud' => $value['longitud'],
+                'profundidad' => $value['profundidad'],
                 'agencia' => $value['agencia'],
-                'referencia' => $value['referencia'],
                 'imagen_url' => $value['imagen'],
                 'estado' => $value['estado']
             )

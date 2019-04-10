@@ -42,6 +42,7 @@ function curl($url){
 
 			$cols = $value->getElementsByTagName('td');
 
+			//Captura el tag "a" con la referencia de la imagen
 			$links = $value->getElementsByTagName('a');
 			$href= trim($links->item(0)->getAttribute('href'));
 			$href = str_replace("events","mapas",$href);
@@ -61,13 +62,15 @@ function curl($url){
 			$longitud = trim($cols->item(3)->nodeValue);
 			$profundidad = trim($cols->item(4)->nodeValue);
 
-
 			$magnitud_escala=explode(" ",trim($cols->item(5)->nodeValue));
 			$magnitud= $magnitud_escala[0];
 			$escala = $magnitud_escala[1];
+
 			$agencia = trim($cols->item(6)->nodeValue);
+
 			$ref_geografica = trim($cols->item(7)->nodeValue);
 			$ref_geografica = str_replace(".","",$ref_geografica);
+			$ciudad = substr($ref_geografica,strpos($ref_geografica,"de")+2);
 
 			//SI EL SISMO TIENE EL PREFIJO erb_ EN EL LINK DE LA IMAGEN -> EL SIMOS ES PRELIMINAR
 			if(strpos($imagen,"erb_")===FALSE){
@@ -86,16 +89,16 @@ function curl($url){
 			$obj = new Sismo();
 			$obj->setFechaLocal($fecha_local);
 			$obj->setFechaUTC($fecha_utc);
-			$obj->setLatitud($latitud);
-			$obj->setLongitud($longitud);
+			$obj->setCiudad($ciudad);
+			$obj->setRefGeograf($ref_geografica);
 			$obj->setMagnitud($magnitud);
 			$obj->setEscala($escala);
+			$obj->setLatitud($latitud);
+			$obj->setLongitud($longitud);
 			$obj->setProfundidad($profundidad);
 			$obj->setAgencia($agencia);
-			$obj->setRefGeograf($ref_geografica);
 			$obj->setImage($imagen);
 			$obj->setEstado($estado);
-
 
 			//CHECKEAR SENSIBILIDAD DE SISMOS BUSCANDO EL ATRIBUTO
 			if ($clase[1] == "s_sensible") {
@@ -105,7 +108,7 @@ function curl($url){
 				$obj->setSensible('0');
 			}
 
-			//PUSEAR INSTANCIA DE SISMO A LISTA DE SISMOS
+			//PUSHEAR INSTANCIA DE SISMO A LISTA DE SISMOS
 			array_push($list,$obj);
 		}
 
@@ -125,6 +128,7 @@ function curl($url){
 		//OBTENER DATOS DE CADA SISMOS DE LA LISTA SCRAPEADA
 		$fecha_local = $item->getFechaLocal();
 		$fecha_utc = $item->getFechaUTC();
+		$ciudad = $item->getCiudad();
 		$latitud = $item->getLatitud();
 		$longitud = $item->getLongitud();
 		$profundidad= $item->getProfundidad();
@@ -136,11 +140,12 @@ function curl($url){
 		$sensible = $item->getSensible();
 		$estado = $item->getEstado();
 
-		//SE USA IMAGEN PARA DISTINUIR PRELIMINAR VS TERMINADO (Debido a que los de sismologia cambian la mayoria de los campos por lo que el sismo se detecta como nuevo)
+		//SE USA IMAGEN PARA DISTINUIR PRELIMINAR VS TERMINADO (Debido a que los de sismologia 
+		//cambian la mayoria de los campos por lo que el sismo se detecta como nuevo)
 		//Buscar si existe el sismo
 		//
-		$stmt=$conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=?');
-		$stmt->execute([$imagen]);
+		$stmt=$conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=? and fecha_local=? and latitud=?');
+		$stmt->execute([$imagen,$fecha_local,$latitud]);
 
 		$sismo_bd=$stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -150,16 +155,16 @@ function curl($url){
 
 			//PREPARACION DE INSERT
 			$insert=$conn->prepare(
-				"INSERT INTO quakes (fecha_local,fecha_utc,latitud,longitud,profundidad,magnitud,escala,sensible,agencia,referencia,imagen,estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"
+				"INSERT INTO quakes (fecha_local,fecha_utc,ciudad,referencia,magnitud,escala,sensible,latitud,longitud,profundidad,agencia,imagen,estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
 			);
 			$insert->execute(array(
-				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$estado
+				$fecha_local,$fecha_utc,$ciudad,$referencia,$magnitud,$escala,$sensible,$latitud,$longitud,$profundidad,$agencia,$imagen,$estado
 			));
 
 			//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 			//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
 			if ($magnitud>=5.0){
-				sendNotification("Quakes","",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				sendNotification("Quakes","",$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 				echo "Notificacion enviada\n";
 			}
 
@@ -183,16 +188,16 @@ function curl($url){
 			
 			//PREPARACION DE UPDATE
 			$update=$conn->prepare(
-				"UPDATE quakes SET fecha_local=?,fecha_utc=?,latitud=?,longitud=?,profundidad=?,magnitud=?,escala=?,sensible=?,agencia=?,referencia=?,imagen=?,estado=? WHERE imagen=?");
+				"UPDATE quakes SET fecha_local=?,fecha_utc=?,ciudad=?,referencia=?,magnitud=?,escala=?,sensible=?,latitud=?,longitud=?,profundidad=?,agencia=?,imagen=?,estado=? WHERE imagen=?");
 		
 			$update->execute(array(
-				$fecha_local,$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$agencia,$referencia,$imagen,$estado,$imagen
+				$fecha_local,$fecha_utc,$ciudad,$referencia,$magnitud,$escala,$sensible,$latitud,$longitud,$profundidad,$agencia,$imagen,$estado,$imagen
 			));
 
 			//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 			//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
 			if ($magnitud>=5.0){
-				sendNotification("Quakes","[Corrección] ",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				sendNotification("Quakes","[Corrección] ",$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 				echo "Notificacion enviada\n";
 			}
 
@@ -211,7 +216,7 @@ function curl($url){
 
 			//USAR SOLO PARA DEBUGUEAR
 			/*if ($contador==1) {
-				sendNotification("Test","",$fecha_utc,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+				sendNotification("Test","",$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 				$contador+=1;
 			}*/
 
