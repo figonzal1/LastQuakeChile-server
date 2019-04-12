@@ -97,7 +97,7 @@ foreach ($rows as $key => $value) {
 		$obj->setLongitud($longitud);
 		$obj->setProfundidad($profundidad);
 		$obj->setAgencia($agencia);
-		$obj->setImage($imagen);
+		$obj->setImagen($imagen);
 		$obj->setEstado($estado);
 
 		//CHECKEAR SENSIBILIDAD DE SISMOS BUSCANDO EL ATRIBUTO
@@ -133,7 +133,7 @@ foreach (array_reverse($list) as $item) {
 	$escala = $item->getEscala();
 	$agencia = $item->getAgencia();
 	$referencia = $item->getRefGeograf();
-	$imagen = $item->getImage();
+	$imagen = $item->getImagen();
 	$sensible = $item->getSensible();
 	$estado = $item->getEstado();
 
@@ -191,7 +191,8 @@ foreach (array_reverse($list) as $item) {
 			);
 
 			$update->execute(array(
-				$fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud, $longitud, $profundidad, $agencia, $imagen, $estado, $imagen
+				$fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud,
+				$longitud, $profundidad, $agencia, $imagen, $estado, $imagen
 			));
 		} catch (PDOException $e) {
 			echo "Falla en update: " . $e->getMessage();
