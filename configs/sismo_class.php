@@ -60,7 +60,7 @@ class Sismo {
 		return $this->ref_geografica;
 	}
 
-	public function getImage(){
+	public function getImagen(){
 		return $this->imagen;
 	}
 
@@ -113,8 +113,8 @@ class Sismo {
 		$this->ref_geografica=$ref_geografica;
 	}
 
-	public function setImage($image){
-		$this->image=$imagen;
+	public function setImagen($imagen){
+		$this->imagen=$imagen;
 	}
 
 	public function setSensible($sensible){
