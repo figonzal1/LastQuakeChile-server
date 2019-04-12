@@ -141,8 +141,8 @@ foreach (array_reverse($list) as $item) {
 	//cambian la mayoria de los campos por lo que el sismo se detecta como nuevo)
 	//Buscar si existe el sismo
 	//
-	$stmt = $conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=? and fecha_local=? and latitud=?');
-	$stmt->execute([$imagen, $fecha_local, $latitud]);
+	$stmt = $conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=?');
+	$stmt->execute([$imagen]);
 
 	$sismo_bd = $stmt->fetch(PDO::FETCH_ASSOC);
 
