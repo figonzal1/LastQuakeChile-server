@@ -71,7 +71,7 @@ foreach ($rows as $key => $value) {
 
 		$ref_geografica = trim($cols->item(7)->nodeValue);
 		$ref_geografica = str_replace(".", "", $ref_geografica);
-		$ciudad = substr($ref_geografica, strpos($ref_geografica, "de") + 2);
+		$ciudad = trim(substr($ref_geografica, strpos($ref_geografica, "de") + 2));
 
 		//SI EL SISMO TIENE EL PREFIJO erb_ EN EL LINK DE LA IMAGEN -> EL SIMOS ES PRELIMINAR
 		if (strpos($imagen, "erb_") === FALSE) {
