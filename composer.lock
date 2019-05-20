@@ -104,16 +104,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.10",
+            "version": "8.10.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "26504d0425bdb7051ff69eefbb20360c9a9c97f2"
+                "reference": "6187402b4949ca7edc439ed4a0396922eeb13dfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/26504d0425bdb7051ff69eefbb20360c9a9c97f2",
-                "reference": "26504d0425bdb7051ff69eefbb20360c9a9c97f2",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/6187402b4949ca7edc439ed4a0396922eeb13dfa",
+                "reference": "6187402b4949ca7edc439ed4a0396922eeb13dfa",
                 "shasum": ""
             },
             "require": {
@@ -168,7 +168,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-04-16T12:18:10+00:00"
+            "time": "2019-05-14T11:30:38+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -332,16 +332,16 @@
         },
         {
             "name": "google/cloud-storage",
-            "version": "v1.12.0",
+            "version": "v1.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-storage.git",
-                "reference": "f44e53fcd60ef0e466237e7872afe026aedbb913"
+                "reference": "a252e2012ea875e873b6d146159e54edb8fa4544"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/f44e53fcd60ef0e466237e7872afe026aedbb913",
-                "reference": "f44e53fcd60ef0e466237e7872afe026aedbb913",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/a252e2012ea875e873b6d146159e54edb8fa4544",
+                "reference": "a252e2012ea875e873b6d146159e54edb8fa4544",
                 "shasum": ""
             },
             "require": {
@@ -378,7 +378,7 @@
                 "Apache-2.0"
             ],
             "description": "Cloud Storage Client for PHP",
-            "time": "2019-04-16T20:44:33+00:00"
+            "time": "2019-05-02T16:40:15+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -565,16 +565,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.20.1",
+            "version": "4.21.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "ec61e6cd445cf89a141c850168c761446d874ce7"
+                "reference": "e9b33a4893c721b22fe34bef2993c6e8a8b99bc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/ec61e6cd445cf89a141c850168c761446d874ce7",
-                "reference": "ec61e6cd445cf89a141c850168c761446d874ce7",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/e9b33a4893c721b22fe34bef2993c6e8a8b99bc3",
+                "reference": "e9b33a4893c721b22fe34bef2993c6e8a8b99bc3",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +632,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2019-04-25T21:29:27+00:00"
+            "time": "2019-05-14T10:15:17+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
