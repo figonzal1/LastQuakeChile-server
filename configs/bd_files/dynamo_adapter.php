@@ -12,7 +12,7 @@ class DynamoAdapter implements BdAdapter
 
     private $dynamodb;
 
-    public function DynamoAdapter()
+    public function __construct()
     {
         $this->dynamodb = connect_amazon();
     }
