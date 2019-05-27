@@ -141,7 +141,7 @@ foreach (array_reverse($list) as $item) {
 	//SE USA IMAGEN PARA DISTINUIR PRELIMINAR VS TERMINADO (Debido a que los de sismologia 
 	//cambian la mayoria de los campos por lo que el sismo se detecta como nuevo)
 	//Buscar si existe el sismo
-	$result=$mysql_adapter -> findQuake($imagen);
+	$result=$mysql_adapter -> findQuake($item);
 
 	//SI EL SISMO DE LA LISTA SCRAPEADA NO ESTA GUARDADO EN LA BASE DE DATOS
 	//SE PROCEDE A INSERCIÓN
