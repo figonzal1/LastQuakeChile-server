@@ -1,10 +1,9 @@
 <?php
 date_default_timezone_set('America/Santiago');
-require_once("bd_config.php");
+require_once("bd_files/mysql_adapter.php");
 require_once("sismo_class.php");
 require_once("send_notification.php");
 
-$conn = connect_pdo();
 $list = array();
 
 function curl($url)
@@ -69,9 +68,9 @@ foreach ($rows as $key => $value) {
 
 		$agencia = trim($cols->item(6)->nodeValue);
 
-		$ref_geografica = trim($cols->item(7)->nodeValue);
-		$ref_geografica = str_replace(".", "", $ref_geografica);
-		$ciudad = trim(substr($ref_geografica, strpos($ref_geografica, "de") + 2));
+		$referencia = trim($cols->item(7)->nodeValue);
+		$referencia = str_replace(".", "", $referencia);
+		$ciudad = trim(substr($referencia, strpos($referencia, "de") + 2));
 
 		//SI EL SISMO TIENE EL PREFIJO erb_ EN EL LINK DE LA IMAGEN -> EL SIMOS ES PRELIMINAR
 		if (strpos($imagen, "erb_") === FALSE) {
@@ -90,7 +89,7 @@ foreach ($rows as $key => $value) {
 		$obj->setFechaLocal($fecha_local);
 		$obj->setFechaUTC($fecha_utc);
 		$obj->setCiudad($ciudad);
-		$obj->setRefGeograf($ref_geografica);
+		$obj->setRefGeograf($referencia);
 		$obj->setMagnitud($magnitud);
 		$obj->setEscala($escala);
 		$obj->setLatitud($latitud);
@@ -119,6 +118,8 @@ if (isset($_GET['web']) && $_GET['web'] == 1) {
 }
 
 $contador = 1;
+$mysql_adapter = new MysqlAdapter();
+
 //RECORRER LA LISTA SCRAPEADA PARA REALIZAR LA INSERCION, ELIMINARCION Y NOTIFICACIONES
 foreach (array_reverse($list) as $item) {
 
@@ -140,27 +141,14 @@ foreach (array_reverse($list) as $item) {
 	//SE USA IMAGEN PARA DISTINUIR PRELIMINAR VS TERMINADO (Debido a que los de sismologia 
 	//cambian la mayoria de los campos por lo que el sismo se detecta como nuevo)
 	//Buscar si existe el sismo
-	//
-	$stmt = $conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=?');
-	$stmt->execute([$imagen]);
-
-	$sismo_bd = $stmt->fetch(PDO::FETCH_ASSOC);
+	$result=$mysql_adapter -> findQuake($imagen);
 
 	//SI EL SISMO DE LA LISTA SCRAPEADA NO ESTA GUARDADO EN LA BASE DE DATOS
 	//SE PROCEDE A INSERCIÓN
-	if ($stmt->rowCount() == 0) {
+	if (!$result['finded']) {
 
 		//PREPARACION DE INSERT
-		try {
-			$insert = $conn->prepare(
-				"INSERT INTO quakes (fecha_local,fecha_utc,ciudad,referencia,magnitud,escala,sensible,latitud,longitud,profundidad,agencia,imagen,estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
-			);
-			$insert->execute(array(
-				$fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud, $longitud, $profundidad, $agencia, $imagen, $estado
-			));
-		} catch (PDOException $e) {
-			echo "Falla en insert: " . $e->getMessage();
-		}
+		$mysql_adapter -> addQuake($item);
 
 		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 		//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
@@ -181,22 +169,11 @@ foreach (array_reverse($list) as $item) {
 	//- SE PROCEDE A INSERTAR EL SISMO VERIFICADO A BD
 	//- SE PROCEDE A NOTIFICAR NUEVAMENTE EL SISMO CON ESTADO VERIFICADO
 	//- SE ELIMINA EL SISMO PRELIMINAR
-	else if ($stmt->rowCount() == 1 and $sismo_bd['estado'] == "preliminar" and $estado == "verificado") {
+	else if ($result['finded'] and $result['estado'] == "preliminar" and $estado == "verificado") {
 
 
 		//PREPARACION DE UPDATE
-		try {
-			$update = $conn->prepare(
-				"UPDATE quakes SET fecha_local=?,fecha_utc=?,ciudad=?,referencia=?,magnitud=?,escala=?,sensible=?,latitud=?,longitud=?,profundidad=?,agencia=?,imagen=?,estado=? WHERE imagen=?"
-			);
-
-			$update->execute(array(
-				$fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud,
-				$longitud, $profundidad, $agencia, $imagen, $estado, $imagen
-			));
-		} catch (PDOException $e) {
-			echo "Falla en update: " . $e->getMessage();
-		}
+		$mysql_adapter -> updateQuake($item);
 
 		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 		//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
@@ -215,13 +192,13 @@ foreach (array_reverse($list) as $item) {
 	//SI YA EXISTE UN SISMO CON LA MISMA IMAGEN Y ESTE ES (VERIFICADO O PRELIMINAR)
 	//Y EN BASE DE DATOS TIENE SU ESTADO CORRESPONDIENTE (VERIFICADO O PRELIMINAR) IGUAL
 	//ENTONCES NO SE DEBE HACER NINGUNA OPERACION AL RESPECTO Y ES IGNORADO
-	else if ($stmt->rowCount() == 1 and (($estado == "verificado" and $sismo_bd['estado'] == "verificado") or ($estado == "preliminar" and $sismo_bd['estado'] == "preliminar"))) {
+	else if ($result['finded'] and (($estado == "verificado" and $result['estado'] == "verificado") or ($estado == "preliminar" and $result['estado'] == "preliminar"))) {
 
 		//USAR SOLO PARA DEBUGUEAR
 		/*if ($contador==1) {
 				sendNotification("Test","",$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
 				$contador+=1;
-			}*/
+		}*/
 
 		if (isset($_GET['web']) && $_GET['web'] == 1) {
 			echo "No hay sismos nuevos<br>";
@@ -230,4 +207,4 @@ foreach (array_reverse($list) as $item) {
 		}
 	}
 }
-$conn = null;
+?>

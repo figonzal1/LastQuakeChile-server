@@ -7,7 +7,7 @@ class Sismo {
 	private $fecha_local=false;
 	private $fecha_utc=false;
 	private $ciudad=false;
-	private $ref_geografica=false;
+	private $referencia=false;
 	private $magnitud=false;
 	private $escala =false;
 	private $sensible=false;
@@ -57,7 +57,7 @@ class Sismo {
 	}
 
 	public function getRefGeograf(){
-		return $this->ref_geografica;
+		return $this->referencia;
 	}
 
 	public function getImagen(){
@@ -109,8 +109,8 @@ class Sismo {
 		$this->agencia=$agencia;
 	}
 
-	public function setRefGeograf($ref_geografica){
-		$this->ref_geografica=$ref_geografica;
+	public function setRefGeograf($referencia){
+		$this->referencia=$referencia;
 	}
 
 	public function setImagen($imagen){
