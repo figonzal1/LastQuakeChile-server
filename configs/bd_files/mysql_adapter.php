@@ -10,7 +10,7 @@ class MysqlAdapter implements BdAdapter
 {
     private $conn;
 
-    public function MysqlAdapter()
+    public function __construct()
     {
         $this->conn = connect_pdo();
     }

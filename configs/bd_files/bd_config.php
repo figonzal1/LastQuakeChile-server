@@ -1,4 +1,5 @@
 <?php
+use JmesPath\Env;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
@@ -36,10 +37,13 @@ function connect_pdo()
  * Amazon dynamoDB config
  */
 function connect_amazon(){
+
+	$credentials = new Aws\Credentials\Credentials(getenv('AWS_ACCESS_KEY'),getenv('AWS_SECRET_ACCESS_KEY'));
+
 	$sdk = new Aws\Sdk([
-		'profile' => 'default',
 		'region'   => 'us-east-1',
-		'version'  => 'latest'
+		'version'  => 'latest',
+		'credentials' => $credentials
 	]);
 
 	$dynamodb = $sdk->createDynamoDb();
