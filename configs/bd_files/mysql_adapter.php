@@ -1,0 +1,99 @@
+<?php
+
+date_default_timezone_set('America/Santiago');
+
+require_once("bd_config.php");
+require_once("bd_interface.php");
+
+
+class MysqlAdapter implements BdAdapter
+{
+    private $conn;
+
+    public function MysqlAdapter()
+    {
+        $this->conn = connect_pdo();
+    }
+
+    public function addQuake($quake)
+    { 
+        $fecha_local = $quake['fecha_local'];
+        $fecha_utc = $quake['fecha_utc'];
+        $ciudad = $quake['ciudad'];
+        $referencia = $quake['referencia'];
+        $magnitud = $quake['magnitud'];
+        $escala = $quake['escala'];
+        $sensible = $quake['sensible'];
+        $latitud = $quake['latitud'];
+        $longitud = $quake['longitud'];
+        $profundidad = $quake['profundidad'];
+        $agencia = $quake['agencia'];
+        $imagen = $quake['imagen'];
+        $estado = $quake['estado'];
+
+        try {
+			$insert = $this->conn->prepare(
+				"INSERT INTO quakes (fecha_local,fecha_utc,ciudad,referencia,magnitud,escala,sensible,latitud,longitud,profundidad,agencia,imagen,estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+			);
+			$insert->execute(array(
+				$fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud, $longitud, $profundidad, $agencia, $imagen, $estado
+			));
+		} catch (PDOException $e) {
+			echo "Falla en insert: " . $e->getMessage();
+		}
+    }
+
+    public function updateQuake($quake)
+    { 
+        $fecha_local = $quake['fecha_local'];
+        $fecha_utc = $quake['fecha_utc'];
+        $ciudad = $quake['ciudad'];
+        $referencia = $quake['referencia'];
+        $magnitud = $quake['magnitud'];
+        $escala = $quake['escala'];
+        $sensible = $quake['sensible'];
+        $latitud = $quake['latitud'];
+        $longitud = $quake['longitud'];
+        $profundidad = $quake['profundidad'];
+        $agencia = $quake['agencia'];
+        $imagen = $quake['imagen'];
+        $estado = $quake['estado'];
+
+        try {
+			$update = $this->conn->prepare(
+				"UPDATE quakes SET fecha_local=?,fecha_utc=?,ciudad=?,referencia=?,magnitud=?,escala=?,sensible=?,latitud=?,longitud=?,profundidad=?,agencia=?,imagen=?,estado=? WHERE imagen=?"
+			);
+
+			$update->execute(array(
+				$fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud,
+				$longitud, $profundidad, $agencia, $imagen, $estado, $imagen
+			));
+		} catch (PDOException $e) {
+			echo "Falla en update: " . $e->getMessage();
+		}
+    }
+
+    /**
+     * Buscar si sismo existe en base a imagen
+     */
+    public function findQuake($imagen)
+    {
+
+        $stmt = $this->conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=?');
+        $stmt->execute([$imagen]);
+
+        $sismo_bd = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($stmt->rowCount() == 0) {
+            return array(
+                'finded' => false
+            );
+        } else if ($stmt->rowCount() == 1) {
+            return array(
+                'finded' => true,
+                'quake_id' => $sismo_bd['quakes_id'],
+                'estado' => $sismo_bd['estado']
+            );
+        }
+        $this->conn = null;
+    }
+}
