@@ -17,19 +17,19 @@ class MysqlAdapter implements BdAdapter
 
     public function addQuake($quake)
     { 
-        $fecha_local = $quake['fecha_local'];
-        $fecha_utc = $quake['fecha_utc'];
-        $ciudad = $quake['ciudad'];
-        $referencia = $quake['referencia'];
-        $magnitud = $quake['magnitud'];
-        $escala = $quake['escala'];
-        $sensible = $quake['sensible'];
-        $latitud = $quake['latitud'];
-        $longitud = $quake['longitud'];
-        $profundidad = $quake['profundidad'];
-        $agencia = $quake['agencia'];
-        $imagen = $quake['imagen'];
-        $estado = $quake['estado'];
+        $fecha_local = $quake->getFechaLocal();
+        $fecha_utc = $quake->getFechaUtc();
+        $ciudad = $quake->getCiudad();
+        $referencia = $quake->getRefGeograf();
+        $magnitud = $quake->getMagnitud();
+        $escala = $quake->getEscala();
+        $sensible = $quake->getSensible();
+        $latitud = $quake->getLatitud();
+        $longitud = $quake->getLongitud();
+        $profundidad = $quake->getProfundidad();
+        $agencia = $quake->getAgencia();
+        $imagen = $quake->getImagen();
+        $estado = $quake->getEstado();
 
         try {
 			$insert = $this->conn->prepare(
