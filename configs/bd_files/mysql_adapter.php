@@ -76,11 +76,11 @@ class MysqlAdapter implements BdAdapter
     /**
      * Buscar si sismo existe en base a imagen
      */
-    public function findQuake($imagen)
+    public function findQuake($quake)
     {
 
         $stmt = $this->conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=?');
-        $stmt->execute([$imagen]);
+        $stmt->execute([$quake->getImagen()]);
 
         $sismo_bd = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($stmt->rowCount() == 0) {
