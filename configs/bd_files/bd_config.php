@@ -1,9 +1,10 @@
 <?php
 
-/*
-	Clear DB config connection to Heroku
- */
+require_once __DIR__ . "/../../vendor/autoload.php";
 
+/**
+ * Clear DB config connection to Heroku
+ */
 function connect_pdo()
 {
 
@@ -30,3 +31,19 @@ function connect_pdo()
 		echo "Connection failed: " . $e->getMessage();
 	}
 }
+
+/**
+ * Amazon dynamoDB config
+ */
+function connect_amazon(){
+	$sdk = new Aws\Sdk([
+		'profile' => 'default',
+		'region'   => 'us-east-1',
+		'version'  => 'latest'
+	]);
+
+	$dynamodb = $sdk->createDynamoDb();
+	return $dynamodb;
+}
+
+?>
