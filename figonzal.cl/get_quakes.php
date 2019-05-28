@@ -1,7 +1,7 @@
 <?php
 header('Content-type: application/json; charset=UTF-8');
-require_once "../configs/bd_config.php";
-require_once "../configs/send_notification.php";
+require_once "../configs/bd_files/bd_config.php";
+require_once "../configs/bd_files/send_notification.php";
 
 $pdo = connect_pdo();
 
