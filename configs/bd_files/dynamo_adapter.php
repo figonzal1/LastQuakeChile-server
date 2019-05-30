@@ -110,7 +110,7 @@ class DynamoAdapter implements BdAdapter
                 ":mag": ' . $magnitud . ',
                 ":esc": "' . $escala . '",
                 ":sen": "' . $sensible . '",
-                ":latitud": "' . $latitud . '",
+                ":lat": "' . $latitud . '",
                 ":long": "' . $longitud . '",
                 ":prof": "' . $profundidad . '",
                 ":agen":  "' . $agencia . '",
