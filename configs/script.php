@@ -251,13 +251,6 @@ foreach (array_reverse($list) as $item) {
 		//PREPARACION DE INSERT
 		$dynamo_adapter -> addQuake($item);
 
-		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
-		//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
-		if ($magnitud >= 5.0) {
-			sendNotification("Quakes", "", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
-			echo "Notificacion enviada\n";
-		}
-
 		if (isset($_GET['web']) && $_GET['web'] == 1) {
 			echo "Sismo insertado<br>";
 		} else {
@@ -276,13 +269,6 @@ foreach (array_reverse($list) as $item) {
 		//PREPARACION DE UPDATE
 		$dynamo_adapter -> updateQuake($item);
 
-		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
-		//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
-		if ($magnitud >= 5.0) {
-			sendNotification("Quakes", "[Corrección] ", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
-			echo "Notificacion enviada\n";
-		}
-
 		if (isset($_GET['web']) and $_GET['web'] == 1) {
 			echo "Sismo actualizado (preliminar -> verificado)<br>";
 		} else {
@@ -294,12 +280,6 @@ foreach (array_reverse($list) as $item) {
 	//Y EN BASE DE DATOS TIENE SU ESTADO CORRESPONDIENTE (VERIFICADO O PRELIMINAR) IGUAL
 	//ENTONCES NO SE DEBE HACER NINGUNA OPERACION AL RESPECTO Y ES IGNORADO
 	else if ($result['finded'] and (($estado == "verificado" and $result['estado'] == "verificado") or ($estado == "preliminar" and $result['estado'] == "preliminar"))) {
-
-		//USAR SOLO PARA DEBUGUEAR
-		/*if ($contador==1) {
-				sendNotification("Test","",$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
-				$contador+=1;
-		}*/
 
 		if (isset($_GET['web']) && $_GET['web'] == 1) {
 			echo "No hay sismos nuevos<br>";
