@@ -102,7 +102,6 @@ class DynamoAdapter implements BdAdapter
 
         $eav = $marshaler->marshalJson('
             {
-                ":q_id": "' . $quake_id . '",
                 ":f_local": "' . $fecha_local . '",
                 ":f_utc": "' . $fecha_utc . '",
                 ":c": "' . $ciudad . '",
