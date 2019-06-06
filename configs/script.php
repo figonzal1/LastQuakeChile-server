@@ -208,4 +208,6 @@ foreach (array_reverse($list) as $item) {
 			echo "No hay sismos nuevos\n";
 		}
 	}
+
+	$mysql_adapter -> close();
 }

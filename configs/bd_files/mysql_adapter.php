@@ -3,10 +3,9 @@
 date_default_timezone_set('America/Santiago');
 
 require_once("bd_config.php");
-require_once("bd_interface.php");
 
 
-class MysqlAdapter implements BdAdapter
+class MysqlAdapter
 {
     private $conn;
 
@@ -15,6 +14,14 @@ class MysqlAdapter implements BdAdapter
         $this->conn = connect_pdo();
     }
 
+
+    /**
+     * METODOS PARA SISMOS
+     */
+
+    /**
+     * Agregar sismo
+     */
     public function addQuake($quake)
     {
         $fecha_local = $quake->getFechaLocal();
@@ -43,6 +50,9 @@ class MysqlAdapter implements BdAdapter
         }
     }
 
+    /**
+     * Actualizar sismo
+     */
     public function updateQuake($quake)
     {
         $fecha_local = $quake->getFechaLocal();
@@ -94,7 +104,6 @@ class MysqlAdapter implements BdAdapter
                 'estado' => $sismo_bd['estado']
             );
         }
-        $this->conn = null;
     }
 
     /**
@@ -102,6 +111,7 @@ class MysqlAdapter implements BdAdapter
      */
     public function findQuakeOfMonth($prev_month)
     {
+
         $select = $this->conn->prepare(
             "SELECT * FROM quakes WHERE Month(fecha_local)=?"
         );
@@ -110,5 +120,73 @@ class MysqlAdapter implements BdAdapter
         $result = $select->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
+    }
+
+    /**
+     * METODOS PARA CHANGE LOG
+     */
+
+    /**
+     * Agregar release
+     */
+    function addRelease($id_github, $tag_name, $body)
+    {
+        try {
+            $insert = $this->conn->prepare(
+                "INSERT INTO changelog (github_id,tag_name,body) VALUES (?,?,?)"
+            );
+
+            $insert->execute(array(
+                $id_github, $tag_name, $body
+            ));
+        } catch (PDOException $e) {
+            echo "Falla insert: " . $e->getMessage();
+        } finally {
+            echo "Release version insertada\n";
+        }
+    }
+
+    /**
+     * Actualizar release
+     */
+    function updateRelease($id_github, $tag_name, $body)
+    {
+        try {
+            $update = $this->conn->prepare(
+                "UPDATE changelog SET github_id=?,tag_name=?,body=? WHERE github_id=?"
+            );
+
+            $update->execute(array(
+                $id_github, $tag_name, $body, $id_github
+            ));
+        } catch (PDOException $e) {
+            echo "Falla update: " . $e->getMessage();
+        } finally {
+            echo "Release version actualizada\n";
+        }
+    }
+
+    /**
+     * Checkear si release existe en bd
+     */
+    function checkIfExistRelease($id_github)
+    {
+
+        $select = $this->conn->prepare(
+            "SELECT * FROM changelog WHERE github_id=?"
+        );
+
+        $select->execute([$id_github]);
+
+        if ($select->rowCount() == 0) {
+            return false;
+        } else if ($select->rowCount() == 1) {
+            return true;
+        }
+    }
+
+    function close()
+    {
+        $this->conn = null;
     }
 }
