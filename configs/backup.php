@@ -39,3 +39,5 @@ if ($day_of_month == 1 and $hour == '04') {
 } else {
     echo "BACKUP NO PERMITIDO\n";
 }
+
+$mysql_adapter->close();

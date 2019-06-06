@@ -1,13 +1,11 @@
 <?php
 
 date_default_timezone_set('America/Santiago');
-require_once("bd_interface.php");
-require_once("bd_config.php");
 
 use Aws\DynamoDb\Exception\DynamoDbException;
 use Aws\DynamoDb\Marshaler;
 
-class DynamoAdapter implements BdAdapter
+class DynamoAdapter
 {
 
     private $dynamodb;
@@ -64,13 +62,14 @@ class DynamoAdapter implements BdAdapter
         ];
         try {
             $result = $this->dynamodb->putItem($params);
-            echo "Insertando sismo: ".$fecha_local." - ".$ciudad."\n";
         } catch (DynamoDbException $e) {
-            echo "Unable to add quake: " . $e->getMessage()."\n";
+            echo "Unable to add quake: " . $e->getMessage() . "\n";
+        } finally {
+            echo "Insertando sismo: " . $fecha_local . " - " . $ciudad . "\n";
         }
     }
 
-    public function updateQuake($quake)
+    /*public function updateQuake($quake)
     {
         $marshaler = new Marshaler();
 
@@ -169,6 +168,5 @@ class DynamoAdapter implements BdAdapter
                 'finded' => false
             );
         }
-    }
+    }*/
 }
-?>
