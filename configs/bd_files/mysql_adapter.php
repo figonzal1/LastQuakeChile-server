@@ -139,10 +139,9 @@ class MysqlAdapter
             $insert->execute(array(
                 $id_github, $tag_name, $body
             ));
+            echo "Release version insertada\n";
         } catch (PDOException $e) {
             echo "Falla insert: " . $e->getMessage();
-        } finally {
-            echo "Release version insertada\n";
         }
     }
 
@@ -159,10 +158,9 @@ class MysqlAdapter
             $update->execute(array(
                 $id_github, $tag_name, $body, $id_github
             ));
+            echo "Release version actualizada\n";
         } catch (PDOException $e) {
             echo "Falla update: " . $e->getMessage();
-        } finally {
-            echo "Release version actualizada\n";
         }
     }
 
