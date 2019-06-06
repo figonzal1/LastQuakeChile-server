@@ -16,7 +16,7 @@ class MysqlAdapter implements BdAdapter
     }
 
     public function addQuake($quake)
-    { 
+    {
         $fecha_local = $quake->getFechaLocal();
         $fecha_utc = $quake->getFechaUtc();
         $ciudad = $quake->getCiudad();
@@ -32,19 +32,19 @@ class MysqlAdapter implements BdAdapter
         $estado = $quake->getEstado();
 
         try {
-			$insert = $this->conn->prepare(
-				"INSERT INTO quakes (fecha_local,fecha_utc,ciudad,referencia,magnitud,escala,sensible,latitud,longitud,profundidad,agencia,imagen,estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
-			);
-			$insert->execute(array(
-				$fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud, $longitud, $profundidad, $agencia, $imagen, $estado
-			));
-		} catch (PDOException $e) {
-			echo "Falla en insert: " . $e->getMessage();
-		}
+            $insert = $this->conn->prepare(
+                "INSERT INTO quakes (fecha_local,fecha_utc,ciudad,referencia,magnitud,escala,sensible,latitud,longitud,profundidad,agencia,imagen,estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+            );
+            $insert->execute(array(
+                $fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud, $longitud, $profundidad, $agencia, $imagen, $estado
+            ));
+        } catch (PDOException $e) {
+            echo "Falla en insert: " . $e->getMessage();
+        }
     }
 
     public function updateQuake($quake)
-    { 
+    {
         $fecha_local = $quake->getFechaLocal();
         $fecha_utc = $quake->getFechaUtc();
         $ciudad = $quake->getCiudad();
@@ -60,17 +60,17 @@ class MysqlAdapter implements BdAdapter
         $estado = $quake->getEstado();
 
         try {
-			$update = $this->conn->prepare(
-				"UPDATE quakes SET fecha_local=?,fecha_utc=?,ciudad=?,referencia=?,magnitud=?,escala=?,sensible=?,latitud=?,longitud=?,profundidad=?,agencia=?,imagen=?,estado=? WHERE imagen=?"
-			);
+            $update = $this->conn->prepare(
+                "UPDATE quakes SET fecha_local=?,fecha_utc=?,ciudad=?,referencia=?,magnitud=?,escala=?,sensible=?,latitud=?,longitud=?,profundidad=?,agencia=?,imagen=?,estado=? WHERE imagen=?"
+            );
 
-			$update->execute(array(
-				$fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud,
-				$longitud, $profundidad, $agencia, $imagen, $estado, $imagen
-			));
-		} catch (PDOException $e) {
-			echo "Falla en update: " . $e->getMessage();
-		}
+            $update->execute(array(
+                $fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud,
+                $longitud, $profundidad, $agencia, $imagen, $estado, $imagen
+            ));
+        } catch (PDOException $e) {
+            echo "Falla en update: " . $e->getMessage();
+        }
     }
 
     /**
@@ -95,5 +95,20 @@ class MysqlAdapter implements BdAdapter
             );
         }
         $this->conn = null;
+    }
+
+    /**
+     * Buscar sismos del mes
+     */
+    public function findQuakeOfMonth($prev_month)
+    {
+        $select = $this->conn->prepare(
+            "SELECT * FROM quakes WHERE Month(fecha_local)=?"
+        );
+        $select->execute([$prev_month]);
+
+        $result = $select->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
     }
 }

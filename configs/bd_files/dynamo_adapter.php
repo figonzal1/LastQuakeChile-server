@@ -62,9 +62,9 @@ class DynamoAdapter implements BdAdapter
             'Item' => $marshaler->marshalJson($json),
             'ReturnValues' => 'ALL_OLD'
         ];
-
         try {
             $result = $this->dynamodb->putItem($params);
+            echo "Insertando sismo: ".$fecha_local." - ".$ciudad."\n";
         } catch (DynamoDbException $e) {
             echo "Unable to add quake: " . $e->getMessage()."\n";
         }
