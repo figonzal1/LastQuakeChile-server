@@ -120,7 +120,6 @@ if (isset($_GET['web']) && $_GET['web'] == 1) {
 
 $contador = 1;
 $mysql_adapter = new MysqlAdapter();
-$dynamo_adapter = new DynamoAdapter();
 
 //RECORRER LA LISTA SCRAPEADA PARA REALIZAR LA INSERCION, ELIMINARCION Y NOTIFICACIONES
 foreach (array_reverse($list) as $item) {
@@ -144,14 +143,14 @@ foreach (array_reverse($list) as $item) {
 	//cambian la mayoria de los campos por lo que el sismo se detecta como nuevo)
 	//Buscar si existe el sismo
 
-	$result=$mysql_adapter -> findQuake($item);
+	$result = $mysql_adapter->findQuake($item);
 
 	//SI EL SISMO DE LA LISTA SCRAPEADA NO ESTA GUARDADO EN LA BASE DE DATOS
 	//SE PROCEDE A INSERCIÓN
 	if (!$result['finded']) {
 
 		//PREPARACION DE INSERT
-		$mysql_adapter -> addQuake($item);
+		$mysql_adapter->addQuake($item);
 
 		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 		//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
@@ -176,7 +175,7 @@ foreach (array_reverse($list) as $item) {
 
 
 		//PREPARACION DE UPDATE
-		$mysql_adapter -> updateQuake($item);
+		$mysql_adapter->updateQuake($item);
 
 		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 		//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
@@ -210,4 +209,3 @@ foreach (array_reverse($list) as $item) {
 		}
 	}
 }
-?>

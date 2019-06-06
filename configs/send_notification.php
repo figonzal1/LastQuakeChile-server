@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__."/../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use Kreait\Firebase\Messaging\CloudMessage;
@@ -25,65 +25,64 @@ use Kreait\Firebase\Exception\Messaging\InvalidMessage;
  * @param  [type] $estado      Sismo preliminar o sismo verificado
  * @return [type]              S/D
  */
-function sendNotification($tipo_mensaje,$prefijo,$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado){
+function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado)
+{
 
 	//Revisar token de dispositivo en android
-	$deviceToken="dgto7240DZw:APA91bHxHhU8yDUkmdaB4XJbVGz1hIc6hFfGWGIyiUn6l0T8Nbl7SYxg9-fLAZ7jzraH8gsrB1OwZhSEk4iGnbTUlaJg9IdCQtBVQlp-6Txco0Og_4-mQybrBQfB6eki_HGTQBGksBrX";
-	$serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/lastquake_credentials.json');
-	
+	$deviceToken = "dgto7240DZw:APA91bHxHhU8yDUkmdaB4XJbVGz1hIc6hFfGWGIyiUn6l0T8Nbl7SYxg9-fLAZ7jzraH8gsrB1OwZhSEk4iGnbTUlaJg9IdCQtBVQlp-6Txco0Og_4-mQybrBQfB6eki_HGTQBGksBrX";
+	$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/lastquake_credentials.json');
+
 	$firebase = (new Factory)
-	->withServiceAccount($serviceAccount)
-	->create();
+		->withServiceAccount($serviceAccount)
+		->create();
 
 	$messaging = $firebase->getMessaging();
 
-	if ($estado=="preliminar") {
+	if ($estado == "preliminar") {
 
 		//Configuracion mensaje ANDROID
 		$config = AndroidConfig::fromArray([
-				'ttl' => '1200s',   // 20 minutos de expiracion para sismo preliminar
-				'priority' => 'high'  //Prioridad HIGH
-			]);
-		$data=setNotificationData('[Preliminar] ',$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
-
+			'ttl' => '1200s',   // 20 minutos de expiracion para sismo preliminar
+			'priority' => 'high'  //Prioridad HIGH
+		]);
+		$data = setNotificationData('[Preliminar] ', $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 	}
-		//Sismo verificado o sismo corregido (prefijo)
-	else if ($estado=="verificado") {
+	//Sismo verificado o sismo corregido (prefijo)
+	else if ($estado == "verificado") {
 
 		//Configuracion mensaje ANDROID
 		$config = AndroidConfig::fromArray([
-				'ttl' => '3600s',   // 1 Hora de expiracion para sismo verificado
-				'priority' => 'high'  //Prioridad HIGH
-			]);
+			'ttl' => '3600s',   // 1 Hora de expiracion para sismo verificado
+			'priority' => 'high'  //Prioridad HIGH
+		]);
 
-		$data=setNotificationData($prefijo,$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
+		$data = setNotificationData($prefijo, $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 	}
 
 	//Envia solo a un dispositivo
-	if ($tipo_mensaje=="Test") {
-		$message = CloudMessage::withTarget('token',$deviceToken)
-		->withAndroidConfig($config)
-		->withData($data);
+	if ($tipo_mensaje == "Test") {
+		$message = CloudMessage::withTarget('token', $deviceToken)
+			->withAndroidConfig($config)
+			->withData($data);
 	}
 
 	//Envia a todos los dispositivos en Quakes
-	else if ($tipo_mensaje=="Quakes") {
-		$topic='Quakes';
-		$message = CloudMessage::withTarget('topic',$topic)
-		->withAndroidConfig($config)
-		->withData($data);
+	else if ($tipo_mensaje == "Quakes") {
+		$topic = 'Quakes';
+		$message = CloudMessage::withTarget('topic', $topic)
+			->withAndroidConfig($config)
+			->withData($data);
 	}
 
-	$response =$messaging->send($message);
+	$response = $messaging->send($message);
 
-	echo json_encode($response,JSON_PRETTY_PRINT);
+	echo json_encode($response, JSON_PRETTY_PRINT);
 
 	try {
 		$firebase->getMessaging()->validate($message);
 	} catch (InvalidMessage $e) {
 		print_r($e->errors());
 	}
-
 }
 
 
@@ -104,11 +103,12 @@ function sendNotification($tipo_mensaje,$prefijo,$fecha_utc,$ciudad,$latitud,$lo
  * @param  [type] $estado      Sismo preliminar o sismo verificado
  * @return [type]              S/D
  */
-function setNotificationData($prefijo,$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado){
-	
-	return $data=[
-		'titulo' => $prefijo.'¡Alerta sísmica!',
-		'descripcion' => 'Sismo de '.$magnitud.' registrado a '.$referencia,
+function setNotificationData($prefijo, $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado)
+{
+
+	return $data = [
+		'titulo' => $prefijo . '¡Alerta sísmica!',
+		'descripcion' => 'Sismo de ' . $magnitud . ' registrado a ' . $referencia,
 		'ciudad' => $ciudad,
 		'latitud' => $latitud,
 		'longitud' => $longitud,
@@ -122,5 +122,3 @@ function setNotificationData($prefijo,$fecha_utc,$ciudad,$latitud,$longitud,$pro
 		'estado' => $estado
 	];
 }
-
-?>
