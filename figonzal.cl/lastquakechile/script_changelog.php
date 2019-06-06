@@ -40,9 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         } else if($exist) {
             $mysql_adapter->updateRelease($id_github, $tag_name, $body);
         }
-        else{
-            echo "No hay actualizaciones\n";
-        }
         $i--;
     }
 
