@@ -13,7 +13,7 @@ $hour = date('H');
 
 //4 AM del primer dia del mes, hacer respaldo del mes anterior
 if ($day_of_month == 1 and $hour == '04') {
-    echo "BACKUP SISMOS - DYNAMO DB";
+    echo "BACKUP SISMOS - DYNAMO DB\n";
 
     $result = $mysql_adapter->findQuakeOfMonth($prev_month);
 

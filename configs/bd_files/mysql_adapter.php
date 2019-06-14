@@ -122,69 +122,10 @@ class MysqlAdapter
         return $result;
     }
 
-    /**
-     * METODOS PARA CHANGE LOG
-     */
-
-    /**
-     * Agregar release
-     */
-    function addRelease($id_github, $tag_name, $body)
-    {
-        try {
-            $insert = $this->conn->prepare(
-                "INSERT INTO changelog (github_id,tag_name,body) VALUES (?,?,?)"
-            );
-
-            $insert->execute(array(
-                $id_github, $tag_name, $body
-            ));
-            echo "Release version insertada\n";
-        } catch (PDOException $e) {
-            echo "Falla insert: " . $e->getMessage();
-        }
-    }
-
-    /**
-     * Actualizar release
-     */
-    function updateRelease($id_github, $tag_name, $body)
-    {
-        try {
-            $update = $this->conn->prepare(
-                "UPDATE changelog SET github_id=?,tag_name=?,body=? WHERE github_id=?"
-            );
-
-            $update->execute(array(
-                $id_github, $tag_name, $body, $id_github
-            ));
-            echo "Release version actualizada\n";
-        } catch (PDOException $e) {
-            echo "Falla update: " . $e->getMessage();
-        }
-    }
-
-    /**
-     * Checkear si release existe en bd
-     */
-    function checkIfExistRelease($id_github)
-    {
-
-        $select = $this->conn->prepare(
-            "SELECT * FROM changelog WHERE github_id=?"
-        );
-
-        $select->execute([$id_github]);
-
-        if ($select->rowCount() == 0) {
-            return false;
-        } else if ($select->rowCount() == 1) {
-            return true;
-        }
-    }
-
     function close()
     {
         $this->conn = null;
     }
 }
+
+?>
