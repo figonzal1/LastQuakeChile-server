@@ -42,7 +42,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 
 		//Configuracion mensaje ANDROID
 		$config = AndroidConfig::fromArray([
-			'ttl' => '1200s',   // 20 minutos de expiracion para sismo preliminar
+			'ttl' => '600s',   // 10 minutos de expiracion para sismo preliminar
 			'priority' => 'high'  //Prioridad HIGH
 		]);
 		$data = setNotificationData('[Preliminar] ', $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);

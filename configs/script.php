@@ -7,16 +7,6 @@ require_once("send_notification.php");
 
 $list = array();
 
-function curl($url)
-{
-	$ch = curl_init($url); // Inicia sesión cURL
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); // Configura cURL para devolver el resultado como cadena
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Configura cURL para que no verifique el peer del certificado dado que nuestra URL utiliza el protocolo HTTPS
-	$info = curl_exec($ch); // Establece una sesión cURL y asigna la información a la variable $info
-	curl_close($ch); // Cierra sesión cURL
-	return $info; // Devuelve la información de la función
-}
 $sitioweb = curl("http://www.sismologia.cl/links/ultimos_sismos.html");
 
 /*** a new dom object ***/
@@ -142,8 +132,13 @@ foreach (array_reverse($list) as $item) {
 	//SE USA IMAGEN PARA DISTINUIR PRELIMINAR VS TERMINADO (Debido a que los de sismologia 
 	//cambian la mayoria de los campos por lo que el sismo se detecta como nuevo)
 	//Buscar si existe el sismo
-
 	$result = $mysql_adapter->findQuake($item);
+
+	//Obtener diferencia en minutos
+	//tiempo actual con tiempo sismo
+	$diff = checkQuakeNowDiff($fecha_local);
+	$diff_horas = $diff[0];
+	$diff_minutes = $diff[1];
 
 	//SI EL SISMO DE LA LISTA SCRAPEADA NO ESTA GUARDADO EN LA BASE DE DATOS
 	//SE PROCEDE A INSERCIÓN
@@ -154,7 +149,7 @@ foreach (array_reverse($list) as $item) {
 
 		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 		//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
-		if ($magnitud >= 5.0) {
+		if ($magnitud >= 5.0 and $diff_horas==0 and $diff_minutes<=15) {
 			sendNotification("Quakes", "", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 			echo "Notificacion enviada\n";
 		}
@@ -170,7 +165,6 @@ foreach (array_reverse($list) as $item) {
 	//Y EL QUE SE PRETENDE INSERTAR ES UN SISMO VERIFICADO (ESTADO = VERIFICADO)
 	//- SE PROCEDE A INSERTAR EL SISMO VERIFICADO A BD
 	//- SE PROCEDE A NOTIFICAR NUEVAMENTE EL SISMO CON ESTADO VERIFICADO
-	//- SE ELIMINA EL SISMO PRELIMINAR
 	else if ($result['finded'] and $result['estado'] == "preliminar" and $estado == "verificado") {
 
 
@@ -179,7 +173,7 @@ foreach (array_reverse($list) as $item) {
 
 		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 		//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
-		if ($magnitud >= 5.0) {
+		if ($magnitud >= 5.0 and $diff_horas==0 and $diff_minutes<=30) {
 			sendNotification("Quakes", "[Corrección] ", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 			echo "Notificacion enviada\n";
 		}
@@ -208,6 +202,41 @@ foreach (array_reverse($list) as $item) {
 			echo "No hay sismos nuevos\n";
 		}
 	}
-
-	$mysql_adapter -> close();
 }
+$mysql_adapter->close();
+
+/**
+ * +---------------------+
+ * +     Funciones       +
+ * +    de utilidad      +
+ * +---------------------+
+ */
+
+ /**
+  * Funcion encargada de hacer la conexion a la url
+  */
+function curl($url)
+{
+	$ch = curl_init($url); // Inicia sesión cURL
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); // Configura cURL para devolver el resultado como cadena
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Configura cURL para que no verifique el peer del certificado dado que nuestra URL utiliza el protocolo HTTPS
+	$info = curl_exec($ch); // Establece una sesión cURL y asigna la información a la variable $info
+	curl_close($ch); // Cierra sesión cURL
+	return $info; // Devuelve la información de la función
+}
+
+/**
+ * Funcion encargada de checkear la diferencia entre la hora actual y la hora del sismo
+ */
+function checkQuakeNowDiff($fecha_local)
+{
+
+	$hora_sismo = new DateTime($fecha_local);
+	$hora_actual = new DateTime();
+	$diff = $hora_actual->diff($hora_sismo);
+
+	return [$diff->h, $diff->i];
+}
+
+?>
