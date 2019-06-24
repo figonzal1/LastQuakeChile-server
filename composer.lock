@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.100.4",
+            "version": "3.100.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "803f3cdc37f42112c4df1af0a77e25130b9448d3"
+                "reference": "858a3566f6bce79bb6449a9faff45ab3d8f75a3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/803f3cdc37f42112c4df1af0a77e25130b9448d3",
-                "reference": "803f3cdc37f42112c4df1af0a77e25130b9448d3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/858a3566f6bce79bb6449a9faff45ab3d8f75a3a",
+                "reference": "858a3566f6bce79bb6449a9faff45ab3d8f75a3a",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-06-14T18:12:13+00:00"
+            "time": "2019-06-21T18:12:55+00:00"
         },
         {
             "name": "fig/http-message-util",
