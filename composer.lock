@@ -187,16 +187,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.10.13",
+            "version": "8.10.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "660a6153fd1e5c25613e57115db27be87052c452"
+                "reference": "fd2d002edce2c21c49877a95c3d2058dac0e5cc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/660a6153fd1e5c25613e57115db27be87052c452",
-                "reference": "660a6153fd1e5c25613e57115db27be87052c452",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/fd2d002edce2c21c49877a95c3d2058dac0e5cc3",
+                "reference": "fd2d002edce2c21c49877a95c3d2058dac0e5cc3",
                 "shasum": ""
             },
             "require": {
@@ -251,7 +251,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2019-05-30T07:28:51+00:00"
+            "time": "2019-06-19T10:54:35+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -649,16 +649,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.25.0",
+            "version": "4.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "f3bc2ec8adaefa2e615096c818ef4eb715d12e76"
+                "reference": "2aaa3c2bb2a57fee01d1b956f6eb63bb1d7e18d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/f3bc2ec8adaefa2e615096c818ef4eb715d12e76",
-                "reference": "f3bc2ec8adaefa2e615096c818ef4eb715d12e76",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/2aaa3c2bb2a57fee01d1b956f6eb63bb1d7e18d0",
+                "reference": "2aaa3c2bb2a57fee01d1b956f6eb63bb1d7e18d0",
                 "shasum": ""
             },
             "require": {
@@ -674,10 +674,12 @@
                 "lcobucci/jwt": "^3.2",
                 "mtdowling/jmespath.php": "^2.3",
                 "php": "^7.0",
+                "psr/simple-cache": "^1.0",
                 "superbalist/flysystem-google-storage": "^7.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.0",
+                "jangregor/phpstan-prophecy": "^0.1.2",
                 "phpstan/phpstan-phpunit": "^0.9.2",
                 "phpunit/phpunit": "^6.0|^7.0",
                 "symfony/var-dumper": "^3.3"
@@ -716,7 +718,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2019-06-12T21:25:52+00:00"
+            "time": "2019-06-23T13:16:07+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
@@ -877,16 +879,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.52",
+            "version": "1.0.53",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391"
+                "reference": "08e12b7628f035600634a5e76d95b5eb66cea674"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c5a5097156387970e6f0ccfcdf03f752856f3391",
-                "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/08e12b7628f035600634a5e76d95b5eb66cea674",
+                "reference": "08e12b7628f035600634a5e76d95b5eb66cea674",
                 "shasum": ""
             },
             "require": {
@@ -957,7 +959,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-05-20T20:21:14+00:00"
+            "time": "2019-06-18T20:09:29+00:00"
         },
         {
             "name": "monolog/monolog",
