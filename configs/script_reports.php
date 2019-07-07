@@ -6,6 +6,7 @@ require_once('bd_files/bd_config.php');
 //Mes y año del mes anterior
 $prev_month = date('n', strtotime("-1 Month"));
 $prev_year = date('Y', strtotime("-1 Month"));
+$report_date = date ('Y-m-d',strtotime("-1 Month"));
 
 //Dia y hora del mes que corre el script
 $day_of_month = date('j');
@@ -14,7 +15,7 @@ $hour = date('H');
 
 if ($day_of_month == 1 and $hour == '04') {
 
-  echo "-------------- Realizando reporte de sismos " . $prev_month . "-" . $prev_year . " --------------\n";
+  echo "-------------- Realizando reporte de sismos ".$report_date." --------------\n";
 
   $conn = connect_pdo();
 
@@ -35,9 +36,9 @@ if ($day_of_month == 1 and $hour == '04') {
   $min_profundidad = $result['min_profundidad'];
 
 
-  $stmt = $conn->prepare('INSERT INTO reports (n_sensibles, n_sismos, prom_magnitud, prom_profundidad, max_magnitud, min_profundidad) VALUES (?,?,?,?,?,?)');
+  $stmt = $conn->prepare('INSERT INTO reports (fecha_reporte,n_sensibles, n_sismos, prom_magnitud, prom_profundidad, max_magnitud, min_profundidad) VALUES (?,?,?,?,?,?,?)');
   $stmt->execute(array(
-    $n_sensibles['n_sensibles'], $n_sismos, $prom_magnitud, $prom_profundidad, $max_magnitud, $min_profundidad
+    $report_date,$n_sensibles['n_sensibles'], $n_sismos, $prom_magnitud, $prom_profundidad, $max_magnitud, $min_profundidad
   ));
   $last_id = $conn->lastInsertId();
 
