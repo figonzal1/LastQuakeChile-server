@@ -17,6 +17,11 @@ function connect_pdo()
 	$username = "bd0e87518d1d3c";
 	$password = "e0e3de85";
 	$bd = "heroku_94ad8af7a05c2f1";
+	
+	/*$servername="localhost";
+	$username="root";
+	$password="";
+	$bd="mydb";*/
 
 	try {
 		$conn = new PDO("mysql:host=$servername;dbname=$bd", $username, $password, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
