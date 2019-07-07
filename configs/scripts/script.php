@@ -1,9 +1,9 @@
 <?php
 date_default_timezone_set('America/Santiago');
-require_once("bd_files/mysql_adapter.php");
-require_once("bd_files/dynamo_adapter.php");
-require_once("sismo_class.php");
-require_once("send_notification.php");
+require_once("../bd_files/mysql_adapter.php");
+require_once("../bd_files/dynamo_adapter.php");
+require_once("../sismo_class.php");
+require_once("../send_notification.php");
 
 $list = array();
 
