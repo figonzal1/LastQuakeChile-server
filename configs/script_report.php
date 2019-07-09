@@ -1,7 +1,7 @@
 <?php
 
 date_default_timezone_set('America/Santiago');
-require_once('bd_files/bd_config.php');
+require_once 'bd_files/bd_config.php';
 
 //Mes y año del mes anterior
 $prev_month = date('n', strtotime('-1 Month'));

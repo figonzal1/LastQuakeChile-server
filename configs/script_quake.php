@@ -7,7 +7,7 @@ require_once 'send_notification.php';
 
 $list = array();
 
-$sitioweb = curl('http://www.sismologia.cl/links/ultimos_sismos.html');
+$sitioweb = curl("http://www.sismologia.cl/links/ultimos_sismos.html");
 
 /*** a new dom object ***/
 $dom = new domDocument;
@@ -38,7 +38,7 @@ foreach ($rows as $key => $value) {
 		$href = trim($links->item(0)->getAttribute('href'));
 		$href = str_replace('events', 'mapas', $href);
 		$href = str_replace('html', 'jpeg', $href);
-		$imagen = 'http://www.sismologia.cl' . $href;
+		$imagen = "http://www.sismologia.cl" . $href;
 
 		//FORMATEAR FECHAS ESTILO XXXX-XX-XX XX:XX:XX
 		$fecha_local = trim($cols->item(0)->nodeValue);
