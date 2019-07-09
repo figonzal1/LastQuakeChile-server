@@ -2,7 +2,7 @@
 
 date_default_timezone_set('America/Santiago');
 
-require_once("bd_config.php");
+require_once 'bd_config.php';
 
 
 class MysqlAdapter
@@ -46,7 +46,7 @@ class MysqlAdapter
                 $fecha_local, $fecha_utc, $ciudad, $referencia, $magnitud, $escala, $sensible, $latitud, $longitud, $profundidad, $agencia, $imagen, $estado
             ));
         } catch (PDOException $e) {
-            echo "Falla en insert: " . $e->getMessage();
+            echo 'Falla en insert: ' . $e->getMessage();
         }
     }
 
@@ -79,7 +79,7 @@ class MysqlAdapter
                 $longitud, $profundidad, $agencia, $imagen, $estado, $imagen
             ));
         } catch (PDOException $e) {
-            echo "Falla en update: " . $e->getMessage();
+            echo 'Falla en update: ' . $e->getMessage();
         }
     }
 
@@ -89,7 +89,7 @@ class MysqlAdapter
     public function findQuake($quake)
     {
 
-        $stmt = $this->conn->prepare('SELECT quakes_id,estado FROM quakes WHERE imagen=?');
+        $stmt = $this->conn->prepare("SELECT quakes_id,estado FROM quakes WHERE imagen=?");
         $stmt->execute([$quake->getImagen()]);
 
         $sismo_bd = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -127,5 +127,3 @@ class MysqlAdapter
         $this->conn = null;
     }
 }
-
-?>

@@ -63,7 +63,7 @@ class DynamoAdapter
         try {
             $result = $this->dynamodb->putItem($params);
         } catch (DynamoDbException $e) {
-            echo "Unable to add quake: " . $e->getMessage() . "\n";
+            echo 'Unable to add quake: ' . $e->getMessage() . "\n";
         } finally {
             echo "Insertando sismo: " . $fecha_local . " - " . $ciudad . "\n";
         }

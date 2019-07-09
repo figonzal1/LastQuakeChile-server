@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use Kreait\Firebase\Messaging\CloudMessage;
@@ -29,7 +30,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 {
 
 	//Revisar token de dispositivo en android
-	$deviceToken = "dgto7240DZw:APA91bHxHhU8yDUkmdaB4XJbVGz1hIc6hFfGWGIyiUn6l0T8Nbl7SYxg9-fLAZ7jzraH8gsrB1OwZhSEk4iGnbTUlaJg9IdCQtBVQlp-6Txco0Og_4-mQybrBQfB6eki_HGTQBGksBrX";
+	$deviceToken = 'dgto7240DZw:APA91bHxHhU8yDUkmdaB4XJbVGz1hIc6hFfGWGIyiUn6l0T8Nbl7SYxg9-fLAZ7jzraH8gsrB1OwZhSEk4iGnbTUlaJg9IdCQtBVQlp-6Txco0Og_4-mQybrBQfB6eki_HGTQBGksBrX';
 	$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/lastquake_credentials.json');
 
 	$firebase = (new Factory)
@@ -38,7 +39,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 
 	$messaging = $firebase->getMessaging();
 
-	if ($estado == "preliminar") {
+	if ($estado == 'preliminar') {
 
 		//Configuracion mensaje ANDROID
 		$config = AndroidConfig::fromArray([
@@ -48,7 +49,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 		$data = setNotificationData('[Preliminar] ', $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 	}
 	//Sismo verificado o sismo corregido (prefijo)
-	else if ($estado == "verificado") {
+	else if ($estado == 'verificado') {
 
 		//Configuracion mensaje ANDROID
 		$config = AndroidConfig::fromArray([
@@ -60,14 +61,14 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 	}
 
 	//Envia solo a un dispositivo
-	if ($tipo_mensaje == "Test") {
+	if ($tipo_mensaje == 'Test') {
 		$message = CloudMessage::withTarget('token', $deviceToken)
 			->withAndroidConfig($config)
 			->withData($data);
 	}
 
 	//Envia a todos los dispositivos en Quakes
-	else if ($tipo_mensaje == "Quakes") {
+	else if ($tipo_mensaje == 'Quakes') {
 		$topic = 'Quakes';
 		$message = CloudMessage::withTarget('topic', $topic)
 			->withAndroidConfig($config)
