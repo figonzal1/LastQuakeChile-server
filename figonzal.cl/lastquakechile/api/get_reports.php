@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             "prom_profundidad" => $reports[$i]['prom_profundidad'],
             "max_magnitud" => $reports[$i]['max_magnitud'],
             "min_profundidad" => $reports[$i]['min_profundidad'],
-            "quakes_city" => array(
+            "top_ciudades" => array(
                 array("ciudad" => $citys[0]['ciudad'], "n_sismos" => $citys[0]['n_sismos']),
                 array("ciudad" => $citys[1]['ciudad'], "n_sismos" => $citys[1]['n_sismos']),
                 array("ciudad" => $citys[2]['ciudad'], "n_sismos" => $citys[2]['n_sismos']),
