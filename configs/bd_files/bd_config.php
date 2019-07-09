@@ -14,10 +14,10 @@ function connect_pdo()
 		VISIT: https://www.cleardb.com/dashboard
 	 */
 
-	$servername = "s-cdbr-iron-east-01.cleardb.net";
-	$username = "bd0e87518d1d3c";
-	$password = "e0e3de85";
-	$bd = "heroku_94ad8af7a05c2f1";
+	$servername = 'us-cdbr-iron-east-01.cleardb.net';
+	$username = 'bd0e87518d1d3c';
+	$password = 'e0e3de85';
+	$bd = 'heroku_94ad8af7a05c2f1';
 	/*
 	$servername="localhost";
 	$username="root";
