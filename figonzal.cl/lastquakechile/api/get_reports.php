@@ -1,7 +1,7 @@
 <?php
 
 header('Content-type: application/json; charset=UTF-8');
-require_once "../../../configs/bd_files/bd_config.php";
+require_once '../../../configs/bd_files/bd_config.php';
 
 $conn = connect_pdo();
 
@@ -37,25 +37,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $citys = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $item = array(
-            "fecha_reporte" => $reports[$i]['fecha_reporte'],
-            "n_sismos" => $reports[$i]['n_sismos'],
-            "n_sensibles" => $reports[$i]['n_sensibles'],
-            "prom_magnitud" => $reports[$i]['prom_magnitud'],
-            "prom_profundidad" => $reports[$i]['prom_profundidad'],
-            "max_magnitud" => $reports[$i]['max_magnitud'],
-            "min_profundidad" => $reports[$i]['min_profundidad'],
-            "top_ciudades" => array(
-                array("ciudad" => $citys[0]['ciudad'], "n_sismos" => $citys[0]['n_sismos']),
-                array("ciudad" => $citys[1]['ciudad'], "n_sismos" => $citys[1]['n_sismos']),
-                array("ciudad" => $citys[2]['ciudad'], "n_sismos" => $citys[2]['n_sismos']),
-                array("ciudad" => $citys[3]['ciudad'], "n_sismos" => $citys[3]['n_sismos']),
+            'fecha_reporte' => $reports[$i]['fecha_reporte'],
+            'n_sismos' => $reports[$i]['n_sismos'],
+            'n_sensibles' => $reports[$i]['n_sensibles'],
+            'prom_magnitud' => $reports[$i]['prom_magnitud'],
+            'prom_profundidad' => $reports[$i]['prom_profundidad'],
+            'max_magnitud' => $reports[$i]['max_magnitud'],
+            'min_profundidad' => $reports[$i]['min_profundidad'],
+            'top_ciudades' => array(
+                array('ciudad' => $citys[0]['ciudad'], 'n_sismos' => $citys[0]['n_sismos']),
+                array('ciudad' => $citys[1]['ciudad'], 'n_sismos' => $citys[1]['n_sismos']),
+                array('ciudad' => $citys[2]['ciudad'], 'n_sismos' => $citys[2]['n_sismos']),
+                array('ciudad' => $citys[3]['ciudad'], 'n_sismos' => $citys[3]['n_sismos']),
             )
         );
 
         array_push($lista, $item);
     }
 
-    if (sizeof($params) > 0) {
+    if (isset($params) and sizeof($params) > 0) {
         echo json_encode(
             array(
                 'parametros' => $params,
