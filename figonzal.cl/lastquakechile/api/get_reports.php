@@ -13,6 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $anno = $_GET['anno'];
         $mes = $_GET['mes'];
 
+        $params['anno'] = $anno;
+        $params['mes'] = $mes;
+
         $sql = "SELECT * FROM reports WHERE Month(fecha_reporte)= ? and Year(fecha_reporte)= ? ORDER BY fecha_reporte DESC";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$mes, $anno]);
@@ -52,11 +55,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         array_push($lista, $item);
     }
 
-    echo json_encode($lista, JSON_PRETTY_PRINT);
-
+    if (sizeof($params) > 0) {
+        echo json_encode(
+            array(
+                'parametros' => $params,
+                'reportes' => $lista
+            ),
+            JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+        );
+    } else {
+        echo json_encode(
+            array(
+                'reportes' => $lista
+            ),
+            JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+        );
+    }
     $conn = null;
 }
-//Si no es get , error 405
+//Si no es get , error 501
 else {
     http_response_code(501);
     exit();
