@@ -1,13 +1,13 @@
 <?php
 date_default_timezone_set('America/Santiago');
-require_once("bd_files/mysql_adapter.php");
-require_once("bd_files/dynamo_adapter.php");
-require_once("sismo_class.php");
-require_once("send_notification.php");
+require_once 'bd_files/mysql_adapter.php';
+require_once 'bd_files/dynamo_adapter.php';
+require_once 'sismo_class.php';
+require_once 'send_notification.php';
 
 $list = array();
 
-$sitioweb = curl("http://www.sismologia.cl/links/ultimos_sismos.html");
+$sitioweb = curl('http://www.sismologia.cl/links/ultimos_sismos.html');
 
 /*** a new dom object ***/
 $dom = new domDocument;
@@ -36,9 +36,9 @@ foreach ($rows as $key => $value) {
 		//Captura el tag "a" con la referencia de la imagen
 		$links = $value->getElementsByTagName('a');
 		$href = trim($links->item(0)->getAttribute('href'));
-		$href = str_replace("events", "mapas", $href);
-		$href = str_replace("html", "jpeg", $href);
-		$imagen = "http://www.sismologia.cl" . $href;
+		$href = str_replace('events', 'mapas', $href);
+		$href = str_replace('html', 'jpeg', $href);
+		$imagen = 'http://www.sismologia.cl' . $href;
 
 		//FORMATEAR FECHAS ESTILO XXXX-XX-XX XX:XX:XX
 		$fecha_local = trim($cols->item(0)->nodeValue);
@@ -53,26 +53,26 @@ foreach ($rows as $key => $value) {
 		$longitud = trim($cols->item(3)->nodeValue);
 		$profundidad = trim($cols->item(4)->nodeValue);
 
-		$magnitud_escala = explode(" ", trim($cols->item(5)->nodeValue));
+		$magnitud_escala = explode(' ', trim($cols->item(5)->nodeValue));
 		$magnitud = $magnitud_escala[0];
 		$escala = $magnitud_escala[1];
 
 		$agencia = trim($cols->item(6)->nodeValue);
 
 		$referencia = trim($cols->item(7)->nodeValue);
-		$referencia = str_replace(".", "", $referencia);
-		$ciudad = trim(substr($referencia, strpos($referencia, "de") + 2));
+		$referencia = str_replace('.', '', $referencia);
+		$ciudad = trim(substr($referencia, strpos($referencia, 'de') + 2));
 
 		//SI EL SISMO TIENE EL PREFIJO erb_ EN EL LINK DE LA IMAGEN -> EL SIMOS ES PRELIMINAR
-		if (strpos($imagen, "erb_") === FALSE) {
-			$estado = "verificado";
+		if (strpos($imagen, 'erb_') === FALSE) {
+			$estado = 'verificado';
 		} else {
-			$estado = "preliminar";
-			$imagen = str_replace("erb_", "", $imagen);
+			$estado = 'preliminar';
+			$imagen = str_replace('erb_', '', $imagen);
 		}
 
 		//BUSCAR EL ATRIBUTO EN LA TABLA DE SISMOLOGIA.CL QUE INDICA SENSIBILIDAD DE SISMOS
-		$clase = explode(" ", $value->getAttribute("class") . " ");
+		$clase = explode(' ', $value->getAttribute('class') . ' ');
 
 
 		//CREACION INSTANCIA SISMO
@@ -91,7 +91,7 @@ foreach ($rows as $key => $value) {
 		$obj->setEstado($estado);
 
 		//CHECKEAR SENSIBILIDAD DE SISMOS BUSCANDO EL ATRIBUTO
-		if ($clase[1] == "s_sensible") {
+		if ($clase[1] == 's_sensible') {
 			$obj->setSensible('1');
 		} else {
 			$obj->setSensible('0');
@@ -149,8 +149,8 @@ foreach (array_reverse($list) as $item) {
 
 		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 		//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
-		if ($magnitud >= 5.0 and $diff_horas==0 and $diff_minutes<=15) {
-			sendNotification("Quakes", "", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
+		if ($magnitud >= 5.0 and $diff_horas == 0 and $diff_minutes <= 15) {
+			sendNotification('Quakes', '', $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 			echo "Notificacion enviada\n";
 		}
 
@@ -165,7 +165,7 @@ foreach (array_reverse($list) as $item) {
 	//Y EL QUE SE PRETENDE INSERTAR ES UN SISMO VERIFICADO (ESTADO = VERIFICADO)
 	//- SE PROCEDE A INSERTAR EL SISMO VERIFICADO A BD
 	//- SE PROCEDE A NOTIFICAR NUEVAMENTE EL SISMO CON ESTADO VERIFICADO
-	else if ($result['finded'] and $result['estado'] == "preliminar" and $estado == "verificado") {
+	else if ($result['finded'] and $result['estado'] == 'preliminar' and $estado == 'verificado') {
 
 
 		//PREPARACION DE UPDATE
@@ -173,8 +173,8 @@ foreach (array_reverse($list) as $item) {
 
 		//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 		//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
-		if ($magnitud >= 5.0 and $diff_horas==0 and $diff_minutes<=30) {
-			sendNotification("Quakes", "[Corrección] ", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
+		if ($magnitud >= 5.0 and $diff_horas == 0 and $diff_minutes <= 30) {
+			sendNotification('Quakes', '[Corrección] ', $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 			echo "Notificacion enviada\n";
 		}
 
@@ -188,7 +188,7 @@ foreach (array_reverse($list) as $item) {
 	//SI YA EXISTE UN SISMO CON LA MISMA IMAGEN Y ESTE ES (VERIFICADO O PRELIMINAR)
 	//Y EN BASE DE DATOS TIENE SU ESTADO CORRESPONDIENTE (VERIFICADO O PRELIMINAR) IGUAL
 	//ENTONCES NO SE DEBE HACER NINGUNA OPERACION AL RESPECTO Y ES IGNORADO
-	else if ($result['finded'] and (($estado == "verificado" and $result['estado'] == "verificado") or ($estado == "preliminar" and $result['estado'] == "preliminar"))) {
+	else if ($result['finded'] and (($estado == 'verificado' and $result['estado'] == 'verificado') or ($estado == 'preliminar' and $result['estado'] == 'preliminar'))) {
 
 		//USAR SOLO PARA DEBUGUEAR
 		/*if ($contador==1) {
@@ -212,9 +212,9 @@ $mysql_adapter->close();
  * +---------------------+
  */
 
- /**
-  * Funcion encargada de hacer la conexion a la url
-  */
+/**
+ * Funcion encargada de hacer la conexion a la url
+ */
 function curl($url)
 {
 	$ch = curl_init($url); // Inicia sesión cURL
@@ -238,5 +238,3 @@ function checkQuakeNowDiff($fecha_local)
 
 	return [$diff->h, $diff->i];
 }
-
-?>

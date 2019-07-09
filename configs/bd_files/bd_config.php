@@ -1,4 +1,5 @@
 <?php
+
 use JmesPath\Env;
 
 require_once __DIR__ . "/../../vendor/autoload.php";
@@ -13,10 +14,10 @@ function connect_pdo()
 		VISIT: https://www.cleardb.com/dashboard
 	 */
 
-	$servername = "us-cdbr-iron-east-01.cleardb.net";
-	$username = "bd0e87518d1d3c";
-	$password = "e0e3de85";
-	$bd = "heroku_94ad8af7a05c2f1";
+	$servername = 's-cdbr-iron-east-01.cleardb.net';
+	$username = 'bd0e87518d1d3c';
+	$password = 'e0e3de85';
+	$bd = 'heroku_94ad8af7a05c2f1';
 	/*
 	$servername="localhost";
 	$username="root";
@@ -29,7 +30,7 @@ function connect_pdo()
 		//echo "Connected Succesfully";
 		return $conn;
 	} catch (PDOException $e) {
-		echo "Connection failed: " . $e->getMessage();
+		echo 'Connection failed: ' . $e->getMessage();
 	}
 }
 

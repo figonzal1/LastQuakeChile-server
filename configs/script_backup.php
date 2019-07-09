@@ -1,10 +1,10 @@
 <?php
 date_default_timezone_set('America/Santiago');
-require_once("bd_files/dynamo_adapter.php");
-require_once("bd_files/mysql_adapter.php");
-require_once("sismo_class.php");
+require_once 'bd_files/dynamo_adapter.php';
+require_once 'bd_files/mysql_adapter.php';
+require_once 'sismo_class.php';
 
-$prev_month = date('n', strtotime("-1 Month"));
+$prev_month = date('n', strtotime('-1 Month'));
 $day_of_month = date('j');
 $hour = date('H');
 
@@ -44,5 +44,3 @@ if ($day_of_month == 1 and $hour == '04') {
 } else {
     echo "BACKUP NO PERMITIDO\n";
 }
-
-

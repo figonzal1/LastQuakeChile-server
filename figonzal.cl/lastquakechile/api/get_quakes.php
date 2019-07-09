@@ -1,7 +1,7 @@
 <?php
 
 header('Content-type: application/json; charset=UTF-8');
-require_once "../../../configs/bd_files/bd_config.php";
+require_once '../../../configs/bd_files/bd_config.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
