@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.109.1",
+            "version": "3.110.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "1fb0ddf20c9b1a82dcc4dbae2362bb6de1392d31"
+                "reference": "57d9dd171a5afe0b48ce44f05be2d8875c2f7b34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1fb0ddf20c9b1a82dcc4dbae2362bb6de1392d31",
-                "reference": "1fb0ddf20c9b1a82dcc4dbae2362bb6de1392d31",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/57d9dd171a5afe0b48ce44f05be2d8875c2f7b34",
+                "reference": "57d9dd171a5afe0b48ce44f05be2d8875c2f7b34",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-08-09T18:17:08+00:00"
+            "time": "2019-08-30T18:07:59+00:00"
         },
         {
             "name": "fig/http-message-util",
@@ -172,13 +172,13 @@
             "authors": [
                 {
                     "name": "Neuman Vong",
-                    "role": "Developer",
-                    "email": "neuman+pear@twilio.com"
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
                 },
                 {
                     "name": "Anant Narayanan",
-                    "role": "Developer",
-                    "email": "anant@php.net"
+                    "email": "anant@php.net",
+                    "role": "Developer"
                 }
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
