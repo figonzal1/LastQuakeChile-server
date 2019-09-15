@@ -18,7 +18,7 @@ if ($day_of_month == 1 and $hour == '04') {
     $mysql_adapter = new MysqlAdapter();
     $dynamo_adapter = new DynamoAdapter();
 
-    $result = $mysql_adapter->findQuakeOfMonth($prev_month);
+    $result = $mysql_adapter->findQuakesOfMonth($prev_month);
 
     foreach ($result as $item) {
         $quake = new Sismo();
