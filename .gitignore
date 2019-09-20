@@ -1,1 +1,4 @@
 /vendor/
+.env
+src/configs/lastquake_credentials.json
+.phpunit.result.cache
