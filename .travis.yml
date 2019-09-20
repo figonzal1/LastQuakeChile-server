@@ -1,0 +1,30 @@
+language: php
+dist: trusty
+php: 7.2
+
+service:
+  - mysql
+
+stages:
+  - test
+
+cache:
+  directories:
+    - $HOME/.m2
+
+jobs:
+  include:        
+    - stage: test
+      name: "Run test"
+      install:
+        - composer selfupdate
+        - composer install --no-interaction
+      before_script:
+        - openssl aes-256-cbc -K $encrypted_35df2c453899_key -iv $encrypted_35df2c453899_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
+        - tar -xzvf encrypt.tar.gz
+        - mysql -u root -e 'CREATE DATABASE testdb;'
+        - mysql -u root testdb < test/test.sql
+      script: 
+        - phpunit --bootstrap vendor/autoload.php --testsuite unit
+       
+  

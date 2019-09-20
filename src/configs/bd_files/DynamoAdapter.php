@@ -12,7 +12,27 @@ class DynamoAdapter
 
     public function __construct()
     {
-        $this->dynamodb = connect_amazon();
+        $this->dynamodb = connect();
+    }
+
+    public function connect()
+    {
+
+        $credentials = new Aws\Credentials\Credentials(getenv('AWS_ACCESS_KEY'), getenv('AWS_SECRET_ACCESS_KEY'));
+
+        $sdk = new Aws\Sdk([
+            'region'   => 'us-east-1',
+            'version'  => 'latest',
+            'credentials' => $credentials
+        ]);
+
+        /*$sdk = new Aws\Sdk([
+		'region'   => 'us-east-1',
+		'version'  => 'latest'
+        ]);*/
+
+        $dynamodb = $sdk->createDynamoDb();
+        return $dynamodb;
     }
 
     public function addQuake($quake)

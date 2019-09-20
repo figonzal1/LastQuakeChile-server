@@ -1,1 +1,1 @@
-web: vendor/bin/heroku-php-apache2 figonzal.cl/
+web: vendor/bin/heroku-php-apache2 src/figonzal.cl/
