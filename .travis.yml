@@ -28,5 +28,9 @@ jobs:
         - phpunit --bootstrap vendor/autoload.php --testsuite unit
       after_success:
         - bash <(curl -s https://codecov.io/bash)
-       
-  
+notifications:
+  email: false
+  slack:
+    secure: $SLACK_TOKEN
+    on_success: always
+    on_failure: always
