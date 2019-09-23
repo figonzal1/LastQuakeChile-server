@@ -1,6 +1,8 @@
 # Lastquakechile-server
-
 [![CodeFactor](https://www.codefactor.io/repository/github/figonzal1/lastquakechile-server/badge)](https://www.codefactor.io/repository/github/figonzal1/lastquakechile-server) 
+[![codecov](https://codecov.io/gh/figonzal1/LastQuakeChile-server/branch/development/graph/badge.svg)](https://codecov.io/gh/figonzal1/LastQuakeChile-server) 
+[![Known Vulnerabilities](https://snyk.io//test/github/figonzal1/LastQuakeChile-server/badge.svg?targetFile=composer.lock)](https://snyk.io//test/github/figonzal1/LastQuakeChile-server?targetFile=composer.lock) 
+[![Heroku](http://heroku-badge.herokuapp.com/?app=lastquakechile-server-prod)](https://dashboard.heroku.com/apps/lastquakechile-server-prod)
 
 Servidor de sismos, encargado de consultar la página de [www.sismologia.cl](https://www.sismología.cl)
 
