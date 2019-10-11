@@ -1,33 +1,43 @@
 <?php
 header('Content-type: application/json; charset=UTF-8');
-require_once '../configs/bd_files/bd_config.php';
+require_once '../configs/bd_files/MysqlAdapter.php';
 require_once '../configs/send_notification.php';
 
-$pdo = connect_pdo();
+$mysql_adapter = new MysqlAdapter("prod");
+$conn = $mysql_adapter->connect();
 
-$sql="SELECT * FROM quakes ORDER BY fecha_local DESC LIMIT 15";
-$stmt=$pdo ->query($sql);
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if ($conn) {
 
-$list=array();
-foreach ($rows as $key=>$value) {
+	$sql = "SELECT * FROM quakes ORDER BY fecha_local DESC LIMIT 15";
+	$stmt = $conn->query($sql);
+	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-	array_push($list,
-		array('fecha_local' => $value['fecha_local'],
-			'fecha_utc' => $value['fecha_utc'],
-			'latitud' => $value['latitud'],
-			'longitud' => $value['longitud'],
-			'magnitud' => $value['magnitud'],
-			'escala' => $value['escala'],
-			'profundidad' => $value['profundidad'],
-			'sensible' => $value['sensible'],
-			'agencia' => $value['agencia'],
-			'referencia' => $value['referencia'],
-			'imagen_url' => $value['imagen'],
-			'estado' => $value['estado'])
-	);
+	$list = array();
+	foreach ($rows as $key => $value) {
+
+		array_push(
+			$list,
+			array(
+				'fecha_local' => $value['fecha_local'],
+				'fecha_utc' => $value['fecha_utc'],
+				'latitud' => $value['latitud'],
+				'longitud' => $value['longitud'],
+				'magnitud' => $value['magnitud'],
+				'escala' => $value['escala'],
+				'profundidad' => $value['profundidad'],
+				'sensible' => $value['sensible'],
+				'agencia' => $value['agencia'],
+				'referencia' => $value['referencia'],
+				'imagen_url' => $value['imagen'],
+				'estado' => $value['estado']
+			)
+		);
+	}
+
+	$pdo = null;
+	echo $quakes_json = json_encode(array('quakes' => $list), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 }
-
-$pdo =null;
-echo $quakes_json=json_encode(array('quakes' => $list),JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-?>
+else{
+	echo "Script fail \n";
+	http_response_code(500);
+}
