@@ -1,27 +1,73 @@
 <?php
-
+header('Cache-Control: no-cache');
+header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json; charset=UTF-8');
-require_once '../../../configs/bd_files/bd_config.php';
+require_once '../../../configs/bd_files/MysqlAdapter.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
+    $mysql_adapter = new MysqlAdapter("prod");
+    $conn = $mysql_adapter->connect();
 
-    if (queryDates()[0]) {
-        $quakes = queryDates()[1];
-        $params = queryDates()[2];
-    } else if (queryCity()[0]) {
-        $quakes = queryCity()[1];
-        $params = queryCity()[2];
-    } else if (queryMagnitud()[0]) {
-        $quakes = queryMagnitud()[1];
-        $params = queryMagnitud()[2];
-    } else if (queryTopRanking()[0]) {
-        $quakes = queryTopRanking()[1];
-        $params = queryTopRanking()[2];
-    } else if (queryToLimit()[0]) {
-        $quakes = queryToLimit()[1];
-        $params = queryToLimit()[2];
+    $quakes = [];
+    $params = [];
+
+
+    if (isset($_GET['anno']) and isset($_GET['mes'])) {
+
+        $result = queryDates($conn);
+        if ($result[0]) {
+            $quakes = $result[1];
+            $params = $result[2];
+        } else {
+            http_response_code(400);
+            exit();
+        }
+    }
+    else if (isset($_GET['ciudad'])) {
+
+        $result = queryCity($conn);
+        if ($result[0]) {
+            $quakes = $result[1];
+            $params = $result[2];
+            unset($_GET['limite']);
+        } else {
+            http_response_code(400);
+            exit();
+        }
+    }
+    else if (isset($_GET['magnitud'])) {
+        $result = queryMagnitud($conn);
+        if ($result[0]) {
+            $quakes = $result[1];
+            $params = $result[2];
+        } else {
+            http_response_code(400);
+            exit();
+        }
+    }
+
+    else if (isset($_GET['ranking'])) {
+        $result = queryTopRanking($conn);
+        if ($result[0]) {
+            $quakes = $result[1];
+            $params = $result[2];
+        } else {
+            http_response_code(400);
+            exit();
+        }
+    }
+
+    else if (isset($_GET['limite'])) {
+        $result = queryToLimit($conn);
+        if ($result[0]) {
+            $quakes = $result[1];
+            $params = $result[2];
+        } else {
+            http_response_code(400);
+            exit();
+        }
     }
     //URL mal escrita error 400
     //Error para rutas mal escritas
@@ -82,17 +128,21 @@ function processRows($stmt)
 /**
  * Funcion que maneja las consultas referentes a fechas
  */
-function queryDates()
+
+function queryDates($conn)
 {
-    $conn = connect_pdo();
     $status_query = false;
-    //Todos los parametros
+
+
+    //Año, mes ,dia con limite
+    //Si el anno mes y dia estan definidos y son distintos de vacio
+    //si el limite esta definido y es distinto de vacio
     if (isset($_GET['anno']) and isset($_GET['mes']) and isset($_GET['dia']) and !empty($_GET['dia']) and isset($_GET['limite']) and !empty($_GET['limite'])) {
 
-        $anno = $_GET['anno'];
-        $mes = $_GET['mes'];
-        $dia = $_GET['dia'];
-        $limite = $_GET['limite'];
+        $anno = htmlentities($_GET['anno']);
+        $mes = htmlentities($_GET['mes']);
+        $dia = htmlentities($_GET['dia']);
+        $limite = htmlentities($_GET['limite']);
 
         $sql = "SELECT * FROM quakes WHERE Year(fecha_local)=:anno and Month(fecha_local)=:mes and Day(fecha_local)=:dia ORDER BY fecha_local DESC LIMIT :limite";
 
@@ -110,14 +160,26 @@ function queryDates()
         $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
 
         $status_query = true;
+
+        $quakes = processRows($stmt);
+        $conn = null;
+        return [$status_query, $quakes, $params];
     }
 
     //Año-mes-dia sin limite
-    else if (isset($_GET['anno']) and isset($_GET['mes']) and isset($_GET['dia']) and !empty($_GET['dia'])) {
+    //Año mes y dia estan definidos y diferentes de vacio
+    //Limite esta definido y es vacio
+    else if (isset($_GET['anno']) and isset($_GET['mes']) and isset($_GET['dia']) and !empty($_GET['dia']) and isset($_GET['limite']) and empty($_GET['limite'])) {
+        $conn = null;
+        return [$status_query];
+    }
+    //Añno mes y dia existentes y no vacios
+    //Limite no esta definido
+     else if (isset($_GET['anno']) and isset($_GET['mes']) and isset($_GET['dia']) and !empty($_GET['dia']) and !isset($_GET['limite'])) {
 
-        $anno = $_GET['anno'];
-        $mes = $_GET['mes'];
-        $dia = $_GET['dia'];
+        $anno = htmlentities($_GET['anno']);
+        $mes = htmlentities($_GET['mes']);
+        $dia = htmlentities($_GET['dia']);
 
         $sql = "SELECT * FROM quakes WHERE Year(fecha_local)=:anno and Month(fecha_local)=:mes and Day(fecha_local)=:dia ORDER BY fecha_local DESC ";
 
@@ -132,13 +194,19 @@ function queryDates()
         $stmt->bindParam(':dia', $dia);
 
         $status_query = true;
+
+        $quakes = processRows($stmt);
+        $conn = null;
+        return [$status_query, $quakes, $params];
     }
 
     //Ano-mes con limite
+    //Año - mes existen y no distintos de nulo
+    //Limite esta definido y es diferente de vacio
     else if (isset($_GET['anno']) and isset($_GET['mes']) and isset($_GET['limite']) and !empty($_GET['limite'])) {
-        $anno = $_GET['anno'];
-        $mes = $_GET['mes'];
-        $limite = $_GET['limite'];
+        $anno = htmlentities($_GET['anno']);
+        $mes = htmlentities($_GET['mes']);
+        $limite = htmlentities($_GET['limite']);
 
         $sql = "SELECT * FROM quakes WHERE Year(fecha_local)=:anno and Month(fecha_local)=:mes ORDER BY fecha_local DESC LIMIT :limite";
 
@@ -154,11 +222,25 @@ function queryDates()
         $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
 
         $status_query = true;
+
+        $quakes = processRows($stmt);
+        $conn = null;
+        return [$status_query, $quakes, $params];
+    }
+    //Ano-mes sin limite
+    //Año - mes existen y son distintos de nulo
+    //Limite esta definido y es vacio
+    else if (isset($_GET['anno']) and isset($_GET['mes']) and isset($_GET['limite']) and empty($_GET['limite'])) {
+        $conn = null;
+        return [$status_query];
     }
     //Año mes sin limite
-    else if (isset($_GET['anno']) and isset($_GET['mes'])) {
-        $anno = $_GET['anno'];
-        $mes = $_GET['mes'];
+    //Año - mes existen y son distintos de nulo
+    //Limite NO esta definido
+    
+    else if (isset($_GET['anno']) and isset($_GET['mes']) and !isset($_GET['limite'])) {
+        $anno = htmlentities($_GET['anno']);
+        $mes = htmlentities($_GET['mes']);
 
         $sql = "SELECT * FROM quakes WHERE Year(fecha_local)=:anno and Month(fecha_local)=:mes ORDER BY fecha_local DESC ";
 
@@ -172,34 +254,29 @@ function queryDates()
         $stmt->bindParam(':mes', $mes);
 
         $status_query = true;
-    }
 
-
-    if ($status_query) {
         $quakes = processRows($stmt);
         $conn = null;
         return [$status_query, $quakes, $params];
-    } else {
-        $conn = null;
-        return [$status_query];
     }
 }
 
 /**
  * Funcion encargada de procesar las peticiones de ciudades.
  */
-function queryCity()
+function queryCity($conn)
 {
-
-    $conn = connect_pdo();
     $status_query = false;
 
     //Resuelve peticiones de ciudades con limite
+    //Si ciudad esta definido y es distino de vacio
+    //Si limite esta definido y es distinto de vacio
     if (isset($_GET['ciudad']) and !empty($_GET['ciudad']) and isset($_GET['limite']) and !empty($_GET['limite'])) {
 
+
         $sql = "SELECT * FROM quakes WHERE ciudad LIKE CONCAT('%',:ciudad,'%') ORDER BY fecha_local DESC LIMIT :limite";
-        $ciudad = $_GET['ciudad'];
-        $limite = $_GET['limite'];
+        $ciudad = htmlentities($_GET['ciudad']);
+        $limite = htmlentities($_GET['limite']);
 
         $params['ciudad'] = $ciudad;
         $params['limite'] = $limite;
@@ -209,12 +286,23 @@ function queryCity()
         $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
 
         $status_query = true;
+        $quakes = processRows($stmt);
+        $conn = null;
+        return [$status_query, $quakes, $params];
+    }
+    //Si ciudad esta definido y es distino de vacio
+    //Si limite esta esta definido y es vacio
+    else if (isset($_GET['ciudad']) and !empty($_GET['ciudad']) and isset($_GET['limite']) and empty($_GET['limite'])) {
+        $conn = null;
+        return [$status_query];
     }
 
-    //Resuelve peticion de ciudades sin limite 
-    else if (isset($_GET['ciudad']) and !empty($_GET['ciudad'])) {
+    //Si ciudad esta definido y es distino de vacio
+    //Si limite NO esta esta definido
+    else if (isset($_GET['ciudad']) and !empty($_GET['ciudad']) and !isset($_GET['limite'])) {
+
         $sql = "SELECT * FROM quakes WHERE ciudad LIKE CONCAT('%',:ciudad,'%') ORDER BY fecha_local DESC";
-        $ciudad = $_GET['ciudad'];
+        $ciudad = htmlentities($_GET['ciudad']);
 
         $params['ciudad'] = $ciudad;
 
@@ -222,33 +310,28 @@ function queryCity()
         $stmt->bindParam(':ciudad', $ciudad);
 
         $status_query = true;
-    }
 
-    //logica de returns
-    if ($status_query) {
         $quakes = processRows($stmt);
         $conn = null;
         return [$status_query, $quakes, $params];
-    } else {
-        $conn = null;
-        return [$status_query];
     }
 }
 
 /**
  * Funcion encargada de procesar las peticiones de magnitud
  */
-function queryMagnitud()
-{
 
-    $conn = connect_pdo();
+function queryMagnitud($conn)
+{
     $status_query = false;
 
     //Resuelve peticiones de magnitudes con limite
+    //Si magnitud esta definido y es distinto de vacio
+    //Si limite esta definido y es distinto de vacio.
     if (isset($_GET['magnitud']) and !empty($_GET['magnitud']) and isset($_GET['limite']) and !empty($_GET['limite'])) {
 
-        $magnitud = $_GET['magnitud'];
-        $limite = $_GET['limite'];
+        $magnitud = htmlentities($_GET['magnitud']);
+        $limite = htmlentities($_GET['limite']);
 
         $params['magnitud'] = $magnitud;
         $params['limite'] = $limite;
@@ -260,11 +343,23 @@ function queryMagnitud()
         $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
 
         $status_query = true;
+
+        $quakes = processRows($stmt);
+        $conn = null;
+        return [$status_query, $quakes, $params];
+    }
+    //Si magnitud esta definido y es distinto de vacio
+    //Si limite esta definido y es vacio
+    else if (isset($_GET['magnitud']) and !empty($_GET['magnitud']) and isset($_GET['limite']) and empty($_GET['limite'])) {
+        $conn = null;
+        return [$status_query];
     }
     //Resuelve peticiones de magnitud sin limite
-    else if (isset($_GET['magnitud']) and !empty($_GET['magnitud'])) {
+    //Si magnitud esta definido y es distinto de vacio
+    //Si limite no esta definido
+    else if (isset($_GET['magnitud']) and !empty($_GET['magnitud']) and !isset($_GET['limite'])) {
 
-        $magnitud = $_GET['magnitud'];
+        $magnitud = htmlentities($_GET['magnitud']);
 
         $params['magnitud'] = $magnitud;
 
@@ -274,37 +369,33 @@ function queryMagnitud()
         $stmt->bindParam(':magnitud', $magnitud);
 
         $status_query = true;
-    }
 
-    if ($status_query) {
         $quakes = processRows($stmt);
         $conn = null;
         return [$status_query, $quakes, $params];
-    } else {
-        $conn = null;
-        return [$status_query];
     }
 }
 
 /**
  * Funcion encargada de procesar las peticiones de rankings
  */
-function queryTopRanking()
+
+function queryTopRanking($conn)
 {
-
-    $conn = connect_pdo();
     $status_query = false;
-
     //Procesa ranking con limite incluido
+    //Si el ranking esta definido y es distinto de vacio
+    //Si el limite esta definido y es distinto de vacio
     if (isset($_GET['ranking']) and !empty($_GET['ranking']) and isset($_GET['limite']) and !empty($_GET['limite'])) {
 
         /**
          * ORDER BY solo funciona en PDO con el numero de la columna en BD
          */
+
         $sql = "SELECT * FROM quakes ORDER BY :ranking DESC LIMIT :limite";
 
-        $ranking = $_GET['ranking'];
-        $limite = $_GET['limite'];
+        $ranking = htmlentities($_GET['ranking']);
+        $limite = htmlentities($_GET['limite']);
 
         if ($ranking == 'magnitud') {
             //Mirar tabla MYSQL
@@ -312,6 +403,9 @@ function queryTopRanking()
         } else if ($ranking == 'profundidad') {
             //Mirar tabla MYSQL
             $ranking_column = 11;
+        } else {
+            http_response_code(400);
+            exit();
         }
         $params['ranking'] = $ranking;
         $params['limite'] = $limite;
@@ -321,13 +415,25 @@ function queryTopRanking()
         $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
 
         $status_query = true;
+
+        $quakes = processRows($stmt);
+        $conn = null;
+        return [$status_query, $quakes, $params];
+    }
+    //Si el ranking esta definido y es distinto de vacio
+    //Si el limite esta definido y es vacio
+    else if (isset($_GET['ranking']) and !empty($_GET['ranking']) and isset($_GET['limite']) and empty($_GET['limite'])) {
+        $conn = null;
+        return [$status_query];
     }
 
     //Procesa ranking sin limite incluido
-    else if (isset($_GET['ranking']) and !empty($_GET['ranking'])) {
+    //Si el ranking esta definido y es distinto de vacio
+    //Si el limite NO esta definido
+    else if (isset($_GET['ranking']) and !empty($_GET['ranking']) and !isset($_GET['limite'])) {
         $sql = "SELECT * FROM quakes ORDER BY :ranking DESC";
 
-        $ranking = $_GET['ranking'];
+        $ranking = htmlentities($_GET['ranking']);
 
         if ($ranking == 'magnitud') {
             //Mirar tabla MYSQL
@@ -335,31 +441,28 @@ function queryTopRanking()
         } else if ($ranking == 'profundidad') {
             //Mirar tabla MYSQL
             $ranking_column = 11;
+        } else {
+            http_response_code(400);
+            exit();
         }
         $params['ranking'] = $ranking;
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':ranking', $ranking_column, PDO::PARAM_INT);
         $status_query = true;
-    }
 
-    if ($status_query) {
         $quakes = processRows($stmt);
         $conn = null;
         return [$status_query, $quakes, $params];
-    } else {
-        $conn = null;
-        return [$status_query];
     }
 }
 
 /**
  * Funcion encargada de limitar la cantidad de registros entregados
  */
-function queryToLimit()
-{
 
-    $conn = connect_pdo();
+function queryToLimit($conn)
+{
     $status_query = false;
 
     //Procesa solicitudes con limite
@@ -367,20 +470,18 @@ function queryToLimit()
 
         $sql = "SELECT * FROM quakes ORDER BY fecha_local DESC LIMIT :limite";
 
-        $limite = $_GET['limite'];
+        $limite = htmlentities($_GET['limite']);
         $params['limite'] = $limite;
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
 
         $status_query = true;
-    }
 
-    if ($status_query) {
         $quakes = processRows($stmt);
         $conn = null;
         return [$status_query, $quakes, $params];
-    } else {
+    }else if (isset($_GET['limite']) and empty($_GET['limite'])) {
         $conn = null;
         return [$status_query];
     }
