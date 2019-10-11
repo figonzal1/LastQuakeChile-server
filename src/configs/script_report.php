@@ -1,7 +1,7 @@
 <?php
 
 date_default_timezone_set('America/Santiago');
-require_once 'bd_files/bd_config.php';
+require_once 'bd_files/MysqlAdapter.php';
 
 //Mes y año del mes anterior
 $prev_month = date('n', strtotime('-1 Month'));
@@ -17,7 +17,8 @@ if ($day_of_month == 1 and $hour == '04') {
 
   echo "-------------- Realizando reporte de sismos " . $report_date . " --------------\n";
 
-  $conn = connect_pdo();
+  $mysql_adapter = new MysqlAdapter("prod");
+  $conn = $mysql_adapter->connect();
 
   //Numero de sismos sensibles
   $stmt = $conn->prepare("SELECT COUNT(*) as n_sensibles FROM quakes WHERE Month(fecha_local) = ? and Year(fecha_local) = ? and sensible=1");

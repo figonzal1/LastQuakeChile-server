@@ -1,0 +1,88 @@
+language: php
+dist: trusty
+php: 7.2
+
+service:
+  - mysql
+
+stages:
+  - test
+  - name: deploy-dev
+    if: branch = development
+  - name: deploy-prod
+    if: branch = master
+
+cache:
+  directories:
+    - $HOME/.m2
+
+jobs:
+  include:
+    - stage: test
+      name: "Run test"
+      install:
+        - composer selfupdate
+        - composer install --no-interaction
+      before_script:
+        - openssl aes-256-cbc -K $encrypted_35df2c453899_key -iv $encrypted_35df2c453899_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
+        - tar -xzvf encrypt.tar.gz
+        - mysql -u root -e 'CREATE DATABASE testdb;'
+        - mysql -u root testdb < test/test.sql
+      script:
+        - phpunit --bootstrap vendor/autoload.php --testsuite unit
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+    #DEPLOY DEV STAGE
+    - stage: deploy-dev
+      name: "Deploy to heroku-dev"
+      install:
+        - composer selfupdate
+        - composer install --no-interaction
+      before_script:
+        - openssl aes-256-cbc -K $encrypted_35df2c453899_key -iv $encrypted_35df2c453899_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
+        - tar -xzvf encrypt.tar.gz
+        - mysql -u root -e 'CREATE DATABASE testdb;'
+        - mysql -u root testdb < test/test.sql
+      script:
+        - phpunit --bootstrap vendor/autoload.php --testsuite unit
+      deploy:
+        provider: heroku
+        api_key:
+          secure: "1MIJMO4m95Owr0BjvHgtyVcjxcIM/UM0JujNye9woo7L1W0YvyOcBa25nre/SkaW4e4Z2jF78fcS5EBE1NEXkeGBhHVgusj+wbU6kbrUeyXp2S1fb8C3qwPQq0aH2e0iQZVEGCUSDxxawYesoO+Znc2mfGj/LNji9+sAk1GTpsRfFPftbmaf9ET4kB6MLheKDyPER4tNgBD0ENwaiBQgYjcdiS8KBWhBo8k25C1uq2Ze9SOja7fhnkhwWqBVPc4sj4mIJXSHwB7JyOu1/OMGEg+vWH1XEZ1816c4wp3rBMBO1axpEsF/nA0hV5KoHLtEfJGTKdfvp5wsCh+f0B8TwImFZyMmXGy+GAmISjXcDy8PR/8Jp3Pkuf77IHSVginz3hGkC8MVNL1EeyPxZVCDOO3s1dFJQAgiX0anysbU/nBdv0pyozwz8AD+8fWHUhThDSt0B82hHWW/s8RcjOurSsH/uX9yNOGbghxSNBNdBLlQw+h923fo8OxVIPGy+4cyF4yU5SK/tWzoZbO5moGtBVu3qUBL4mhhgkgEeJ3JQ8BOV1iDVVGpf8JwnfsvBhwUi9I6I6OqRl/tF+VI1zXumjr1v9r1j6sMXgGprdeJaUBhjpRNFQMjEzLtvhWjo6II7aXIpMKDHNaBtW4CYEy6akz/S44zsOcJmHjk1RKAIEI="
+        app: lastquakechile-server-dev
+        on:
+          branch: development
+    #DEPLOY PRODUCTION STAGE
+    - stage: deploy-prod
+      name: "Deploy to heroku-prod"
+      install:
+        - composer selfupdate
+        - composer install --no-interaction
+      before_script:
+        - openssl aes-256-cbc -K $encrypted_35df2c453899_key -iv $encrypted_35df2c453899_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
+        - tar -xzvf encrypt.tar.gz
+        - mysql -u root -e 'CREATE DATABASE testdb;'
+        - mysql -u root testdb < test/test.sql
+      script:
+        - phpunit --bootstrap vendor/autoload.php --testsuite unit
+      deploy:
+        provider: heroku
+        api_key:
+          secure: "1MIJMO4m95Owr0BjvHgtyVcjxcIM/UM0JujNye9woo7L1W0YvyOcBa25nre/SkaW4e4Z2jF78fcS5EBE1NEXkeGBhHVgusj+wbU6kbrUeyXp2S1fb8C3qwPQq0aH2e0iQZVEGCUSDxxawYesoO+Znc2mfGj/LNji9+sAk1GTpsRfFPftbmaf9ET4kB6MLheKDyPER4tNgBD0ENwaiBQgYjcdiS8KBWhBo8k25C1uq2Ze9SOja7fhnkhwWqBVPc4sj4mIJXSHwB7JyOu1/OMGEg+vWH1XEZ1816c4wp3rBMBO1axpEsF/nA0hV5KoHLtEfJGTKdfvp5wsCh+f0B8TwImFZyMmXGy+GAmISjXcDy8PR/8Jp3Pkuf77IHSVginz3hGkC8MVNL1EeyPxZVCDOO3s1dFJQAgiX0anysbU/nBdv0pyozwz8AD+8fWHUhThDSt0B82hHWW/s8RcjOurSsH/uX9yNOGbghxSNBNdBLlQw+h923fo8OxVIPGy+4cyF4yU5SK/tWzoZbO5moGtBVu3qUBL4mhhgkgEeJ3JQ8BOV1iDVVGpf8JwnfsvBhwUi9I6I6OqRl/tF+VI1zXumjr1v9r1j6sMXgGprdeJaUBhjpRNFQMjEzLtvhWjo6II7aXIpMKDHNaBtW4CYEy6akz/S44zsOcJmHjk1RKAIEI="
+        app: lastquakechile-server-prod
+        on:
+          branch: master
+
+#Notificaciones SLACK
+notifications:
+  slack:
+    rooms:
+      - secure: "IGD8itETeBM3N3x8EU/C+DrKyZPU/ehvMEMnTF0ZsupA62l8ABvpKltG/Pis6Kl9eH9iz28zL7FW7HRBniPFm8gSIbb0Vy5IisiKAOeU9IXfMWTeiIzWAe1Vn8KB/70H5bcl0VRY2+RiamCSFK6geBe8qx4Eo+ukarGMCM1SukYbju8wfGhB/FQ4E8hGsBSeKX02AsAYAO/Ea5DVK/IC26DPeNmhst5wpTP3LxyjwYZPw7ZycOs/DEVUAujULrRvgR6Vn8Ex2ITv6ZWuHPV7SqZT45ymfJIzqzzYYm5dpNQQHqja/w1H4MMYz2QBpt5yM9EdDj/bsH4BLwBFLsR0Z1RpKAL1aCrqOJskN9LYKE8fzbEIXzwXSuxnzWOv20ZGkOUkAa3G8YD4s9PfNwM0EeqH+Tuh4SftA/Z5g5ci+fpyEEP+2QrWxQl2FBD8+10GqPRP0gCqX115LPhqv4NgcSdcpWpk0KKeN4DSUOcidUA9gRhLnKAM8sKbwxNuDs5nq9iR1i62GcDUPDVHMApLYLAbEqExhDHMwG70cjCLoVrWrzObHbAzh8VQLJloejar8oG13Vq+Q4EKyUrQRMfx48aRILNC9WcGQqg1ZAyaFQJ67XDiEY5BB+Am75qA9++wi0ZJZUlUUP37Tg0b+conJV9zHEeH8f0rA4Ym3o66a5M="
+    on_success: always
+    on_failure: always
+
+#WHITE LIST
+branches:
+  only:
+    - master
+    - development
