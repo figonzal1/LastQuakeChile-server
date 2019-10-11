@@ -1,7 +1,6 @@
 <?php
 date_default_timezone_set('America/Santiago');
 require_once("bd_files/MysqlAdapter.php");
-require_once("bd_files/DynamoAdapter.php");
 require_once("Sismo.php");
 require_once("send_notification.php");
 
