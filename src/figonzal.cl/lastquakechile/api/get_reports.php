@@ -1,17 +1,21 @@
 <?php
-
+header('Cache-Control: no-cache');
+header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json; charset=UTF-8');
-require_once '../../../configs/bd_files/bd_config.php';
+require_once '../../../configs/bd_files/MysqlAdapter.php';
 
-$conn = connect_pdo();
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+    $mysql_adapter = new MysqlAdapter("prod");
+    $conn = $mysql_adapter->connect();
+
     $sql = "SELECT * FROM reports ORDER BY fecha_reporte DESC";
 
     if (isset($_GET['anno']) and isset($_GET['mes'])) {
 
-        $anno = $_GET['anno'];
-        $mes = $_GET['mes'];
+        $anno = htmlentities($_GET['anno']);
+        $mes = htmlentities($_GET['mes']);
 
         $params['anno'] = $anno;
         $params['mes'] = $mes;

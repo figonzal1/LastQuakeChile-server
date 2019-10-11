@@ -2,32 +2,18 @@ Options +FollowSymLinks -MultiViews
 RewriteEngine On
 
 #REPORTES
-#Responde a solicitudes -> api/reports/?fecha=yyyy-MM
-RewriteCond %{QUERY_STRING} ^fecha=(?<ANNO>\d{4})\-(?<MES>\d{2})\/?$ [NC]
-RewriteRule ^reports\/(.*)$ get_reports.php?anno=%1&mes=%2 [NC,L]
+RewriteRule ^reports\/$ get_reports.php [L]
+RewriteRule ^reports\/(.*)$ get_reports.php?anno=%1&mes=%2 [L,QSA]
 
-#Responde solicitudes api/reports y api/reports/
-RewriteRule ^reports\/$ get_reports.php [NC,L]
 
 #SISMOS
 
-#Responde a solicitudes -> api/quakes/?fecha=YYYY-MM-DD con DD opcional
-RewriteCond %{QUERY_STRING} ^fecha=(?:(?<ANNO>\d{4})(?:\-(?<MES>\d{2}))(?:\-+(?<DIA>\d{2}))?)(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC]   #Consigue lo que va despues de ?
-RewriteRule ^quakes\/(.*)$ get_quakes.php?anno=%1&mes=%2&dia=%3&limite=%4 [NC,L]
+RewriteRule ^quakes\/$ get_quakes.php [L]
+RewriteRule ^quakes\/(.*)$ get_quakes.php?ciudad=%1 [L,QSA]
+RewriteRule ^quakes\/(.*)$ get_quakes.php?magnitud=%1 [L,QSA]
+RewriteRule ^quakes\/(.*)$ get_quakes.php?ranking=%1 [L,QSA]
+RewriteRule ^quakes\/(.*)$ get_quakes.php?anno=%1&mes=%2&dia=%3 [L,QSA]
 
-RewriteCond %{QUERY_STRING} ^ciudad=(?<CIUDAD>\w+)(?:\&magnitud=(?<MAGNITUD>[0-9](?>\.[0-9])?))?(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC] #Funciona con inverso
-RewriteRule ^quakes\/(.*)$ get_quakes.php?ciudad=%1&magnitud=%2&limite=%3 [NC,L]
 
-RewriteCond %{QUERY_STRING} ^magnitud=(?<MAGNITUD>[0-9](?>\.[0-9])?)(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC]
-RewriteRule ^quakes\/(.*)$ get_quakes.php?magnitud=%1&limite=%2 [NC,L]
-
-RewriteCond %{QUERY_STRING} ^ranking=(?<RANKING>magnitud|profundidad)(?:\&limite=(?<LIMITE>\d{1,3}))?$ [NC]
-RewriteRule ^quakes\/(.*)$ get_quakes.php?ranking=%1&limite=%2 [NC,L]
-
-RewriteCond %{QUERY_STRING} ^limite=(?<LIMITE>\d{1,3})$ [NC]
-RewriteRule ^quakes\/(.*)$ get_quakes.php?limite=%1 [NC,L]
-
-#Reponde solicitudes api/quakes y api/quakes/
-RewriteRule ^quakes\/$ get_quakes.php [NC,L]
 
 
