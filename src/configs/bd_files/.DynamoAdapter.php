@@ -1,58 +1,66 @@
 <?php
 
+//TODO: COREGIR BACKUP
 date_default_timezone_set('America/Santiago');
+require(__DIR__ . "../../../../vendor/autoload.php");
 
 use Aws\DynamoDb\Exception\DynamoDbException;
 use Aws\DynamoDb\Marshaler;
 
 class DynamoAdapter
 {
+    private $conn;
 
-    private $dynamodb;
-
-    public function __construct()
+    public function connect()
     {
-        $this->dynamodb = connect_amazon();
+
+        $credentials = new Aws\Credentials\Credentials("AKIAJTAO6H4XIF6JJL4Q", "UcSVHGOMKLHjvvs4izFoSJQgxAJe1xZ6py2k03rt");
+
+        $sdk = new Aws\Sdk([
+            'region'   => 'us-east-1',
+            'version'  => 'latest',
+            'credentials' => [
+                'key'    => 'AKIAJTAO6H4XIF6JJL4Q',
+                'secret' => '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',
+            ]]);
+
+        $this->conn = $sdk->createDynamoDb();
+        return $this->conn;
     }
 
     public function addQuake($quake)
     {
+        $sdk = new Aws\Sdk([
+            'region'   => 'us-east-1',
+            'version'  => 'latest',
+            'credentials' => [
+                'key'    => 'AKIAJTAO6H4XIF6JJL4Q',
+                'secret' => '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',
+            ]]);
+
+        $conn = $sdk->createDynamoDb();
         $marshaler = new Marshaler();
 
         $tableName = "Quakes";
 
-        $fecha_local = $quake->getFechaLocal();
-        $fecha_utc = $quake->getFechaUtc();
-        $ciudad = $quake->getCiudad();
-        $referencia = $quake->getRefGeograf();
-        $magnitud = $quake->getMagnitud();
-        $escala = $quake->getEscala();
-        $sensible = $quake->getSensible();
-        $latitud = $quake->getLatitud();
-        $longitud = $quake->getLongitud();
-        $profundidad = $quake->getProfundidad();
-        $agencia = $quake->getAgencia();
-        $imagen = $quake->getImagen();
-        $estado = $quake->getEstado();
-
-        $quake_id = explode("/", $imagen);
+        $quake_id = explode("/", $quake->getImagen());
         $quake_id = str_replace(".jpeg", "", $quake_id[7]);
 
         $json = json_encode([
             'quake_id' => $quake_id,
-            'fecha_local' => $fecha_local,
-            'fecha_utc' => $fecha_utc,
-            'ciudad' => $ciudad,
-            'referencia' => $referencia,
-            'magnitud' => $magnitud,
-            'escala' => $escala,
-            'sensible' => $sensible,
-            'latitud' => $latitud,
-            'longitud' => $longitud,
-            'profundidad' => $profundidad,
-            'agencia' => $agencia,
-            'imagen' => $imagen,
-            'estado' => $estado
+            'fecha_local' =>  $quake->getFechaLocal(),
+            'fecha_utc' => $quake->getFechaUtc(),
+            'ciudad' => $quake->getCiudad(),
+            'referencia' => $quake->getRefGeograf(),
+            'magnitud' => $quake->getMagnitud(),
+            'escala' => $quake->getEscala(),
+            'sensible' => $quake->getSensible(),
+            'latitud' => $quake->getLatitud(),
+            'longitud' => $quake->getLongitud(),
+            'profundidad' => $quake->getProfundidad(),
+            'agencia' => $quake->getAgencia(),
+            'imagen' => $quake->getImagen(),
+            'estado' => $quake->getEstado()
         ]);
 
         $params = [
@@ -61,11 +69,11 @@ class DynamoAdapter
             'ReturnValues' => 'ALL_OLD'
         ];
         try {
-            $result = $this->dynamodb->putItem($params);
+            $result = $conn->putItem($params);
         } catch (DynamoDbException $e) {
             echo 'Unable to add quake: ' . $e->getMessage() . "\n";
         } finally {
-            echo "Insertando sismo: " . $fecha_local . " - " . $ciudad . "\n";
+            echo "Insertando sismo: " . $quake->getFechaLocal() . " - " . $quake->getCiudad() . "\n";
         }
     }
 

@@ -1,0 +1,19 @@
+Options +FollowSymLinks -MultiViews
+RewriteEngine On
+
+#REPORTES
+RewriteRule ^reports\/$ get_reports.php [L]
+RewriteRule ^reports\/(.*)$ get_reports.php?anno=%1&mes=%2 [L,QSA]
+
+
+#SISMOS
+
+RewriteRule ^quakes\/$ get_quakes.php [L]
+RewriteRule ^quakes\/(.*)$ get_quakes.php?ciudad=%1 [L,QSA]
+RewriteRule ^quakes\/(.*)$ get_quakes.php?magnitud=%1 [L,QSA]
+RewriteRule ^quakes\/(.*)$ get_quakes.php?ranking=%1 [L,QSA]
+RewriteRule ^quakes\/(.*)$ get_quakes.php?anno=%1&mes=%2&dia=%3 [L,QSA]
+
+
+
+
