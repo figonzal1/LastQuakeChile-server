@@ -111,7 +111,6 @@ function parseHtml()
 	return $list;
 }
 
-$contador = 1;
 $mysql_adapter = new MysqlAdapter($run_in);
 $conn = $mysql_adapter->connect();
 $list = parseHtml();
