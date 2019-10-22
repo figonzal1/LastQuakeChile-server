@@ -24,7 +24,7 @@ jobs:
         - composer selfupdate
         - composer install --no-interaction
       before_script:
-        - openssl aes-256-cbc -K $encrypted_35df2c453899_key -iv $encrypted_35df2c453899_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
+        - openssl aes-256-cbc -K $encrypted_3c95c69ab616_key -iv $encrypted_3c95c69ab616_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
         - tar -xzvf encrypt.tar.gz
         - mysql -u root -e 'CREATE DATABASE testdb;'
         - mysql -u root testdb < test/test.sql
@@ -39,7 +39,7 @@ jobs:
         - composer selfupdate
         - composer install --no-interaction
       before_script:
-        - openssl aes-256-cbc -K $encrypted_35df2c453899_key -iv $encrypted_35df2c453899_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
+        - openssl aes-256-cbc -K $encrypted_3c95c69ab616_key -iv $encrypted_3c95c69ab616_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
         - tar -xzvf encrypt.tar.gz
         - mysql -u root -e 'CREATE DATABASE testdb;'
         - mysql -u root testdb < test/test.sql
@@ -59,7 +59,7 @@ jobs:
         - composer selfupdate
         - composer install --no-interaction
       before_script:
-        - openssl aes-256-cbc -K $encrypted_35df2c453899_key -iv $encrypted_35df2c453899_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
+        - openssl aes-256-cbc -K $encrypted_3c95c69ab616_key -iv $encrypted_3c95c69ab616_iv -in encrypt.tar.gz.enc -out encrypt.tar.gz -d
         - tar -xzvf encrypt.tar.gz
         - mysql -u root -e 'CREATE DATABASE testdb;'
         - mysql -u root testdb < test/test.sql
@@ -72,14 +72,6 @@ jobs:
         app: lastquakechile-server-prod
         on:
           branch: master
-
-#Notificaciones SLACK
-notifications:
-  slack:
-    rooms:
-      - secure: "IGD8itETeBM3N3x8EU/C+DrKyZPU/ehvMEMnTF0ZsupA62l8ABvpKltG/Pis6Kl9eH9iz28zL7FW7HRBniPFm8gSIbb0Vy5IisiKAOeU9IXfMWTeiIzWAe1Vn8KB/70H5bcl0VRY2+RiamCSFK6geBe8qx4Eo+ukarGMCM1SukYbju8wfGhB/FQ4E8hGsBSeKX02AsAYAO/Ea5DVK/IC26DPeNmhst5wpTP3LxyjwYZPw7ZycOs/DEVUAujULrRvgR6Vn8Ex2ITv6ZWuHPV7SqZT45ymfJIzqzzYYm5dpNQQHqja/w1H4MMYz2QBpt5yM9EdDj/bsH4BLwBFLsR0Z1RpKAL1aCrqOJskN9LYKE8fzbEIXzwXSuxnzWOv20ZGkOUkAa3G8YD4s9PfNwM0EeqH+Tuh4SftA/Z5g5ci+fpyEEP+2QrWxQl2FBD8+10GqPRP0gCqX115LPhqv4NgcSdcpWpk0KKeN4DSUOcidUA9gRhLnKAM8sKbwxNuDs5nq9iR1i62GcDUPDVHMApLYLAbEqExhDHMwG70cjCLoVrWrzObHbAzh8VQLJloejar8oG13Vq+Q4EKyUrQRMfx48aRILNC9WcGQqg1ZAyaFQJ67XDiEY5BB+Am75qA9++wi0ZJZUlUUP37Tg0b+conJV9zHEeH8f0rA4Ym3o66a5M="
-    on_success: always
-    on_failure: always
 
 #WHITE LIST
 branches:
