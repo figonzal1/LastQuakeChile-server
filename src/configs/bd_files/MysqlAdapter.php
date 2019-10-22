@@ -18,8 +18,8 @@ class MysqlAdapter
         if ($tipo == "test") {
 
             //Activar dotenv solo para usar .env en local
-            //$dotenv = Dotenv\Dotenv::create(__DIR__ . "../../../../");
-            //$dotenv->load();
+            $dotenv = Dotenv\Dotenv::create(__DIR__ . "../../../../");
+            $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME_TEST');
             $this->db = getenv('DB_DATABASE_TEST');
