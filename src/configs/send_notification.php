@@ -29,7 +29,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 {
 
 	//Revisar token de dispositivo en android
-	$deviceToken = 'fyfqfBapUyI:APA91bEs9NXbkgruZM5tXmls58Z9cEMY5fNSu12JeK6DdeJi6zX2Z1XAZ5CJPYzwj79GWplfWt3tS38W1xbJlSsARvZcfAFzIu-v-eJxrSQ_kbRqu8Yu1QFHfG_bKGqsM2I8trByyBCk';
+	//$deviceToken = 'fyfqfBapUyI:APA91bEs9NXbkgruZM5tXmls58Z9cEMY5fNSu12JeK6DdeJi6zX2Z1XAZ5CJPYzwj79GWplfWt3tS38W1xbJlSsARvZcfAFzIu-v-eJxrSQ_kbRqu8Yu1QFHfG_bKGqsM2I8trByyBCk';
 
 	$firebase = (new Factory());
 
@@ -57,11 +57,11 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 	}
 
 	//Envia solo a un dispositivo
-	if ($tipo_mensaje == 'Test') {
+	/*if ($tipo_mensaje == 'Test') {
 		$message = CloudMessage::withTarget('token', $deviceToken)
 			->withAndroidConfig($config)
 			->withData($data);
-	}
+	}*/
 
 	//Envia a todos los dispositivos en Quakes
 	if ($tipo_mensaje == 'Quakes') {
