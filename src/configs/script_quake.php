@@ -115,7 +115,7 @@ $conn = $mysql_adapter->connect();
 $list = parseHtml();
 
 //Contador para debug
-$contador = 1; 
+//$contador = 1; 
 if ($conn != null) {
 
 	echo "========== Actualizacion MYSQL" . date("Y-m-d H:i:s") . "==========\n";
@@ -198,10 +198,10 @@ if ($conn != null) {
 		else if ($result['finded'] and (($estado == 'verificado' and $result['estado'] == 'verificado') or ($estado == 'preliminar' and $result['estado'] == 'preliminar'))) {
 
 			//USAR SOLO PARA DEBUGUEAR
-			if ($contador == 1) {
+			/*if ($contador == 1) {
 				sendNotification("Test", "", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 				$contador += 1;
-			}
+			}*/
 
 			echo "No hay sismos nuevos\n";
 		}
