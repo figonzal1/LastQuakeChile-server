@@ -88,6 +88,7 @@
                 "sdk"
             ],
             "time": "2019-10-18T18:08:55+00:00"
+
         },
         {
             "name": "fig/http-message-util",
@@ -197,6 +198,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/04d0228908237931bc1d9c841e3380991055a7e6",
                 "reference": "04d0228908237931bc1d9c841e3380991055a7e6",
+
                 "shasum": ""
             },
             "require": {
@@ -252,6 +254,7 @@
                 "validation"
             ],
             "time": "2019-10-16T11:25:36+00:00"
+
         },
         {
             "name": "giggsey/locale",
