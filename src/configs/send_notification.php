@@ -3,7 +3,6 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\MessageToRegistrationToken;
 use Kreait\Firebase\Messaging\AndroidConfig;
@@ -30,14 +29,11 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 {
 
 	//Revisar token de dispositivo en android
-	$deviceToken = 'dgto7240DZw:APA91bHxHhU8yDUkmdaB4XJbVGz1hIc6hFfGWGIyiUn6l0T8Nbl7SYxg9-fLAZ7jzraH8gsrB1OwZhSEk4iGnbTUlaJg9IdCQtBVQlp-6Txco0Og_4-mQybrBQfB6eki_HGTQBGksBrX';
-	$serviceAccount = ServiceAccount::fromJsonFile(__DIR__ . '/lastquake_credentials.json');
+	//$deviceToken = 'fyfqfBapUyI:APA91bEs9NXbkgruZM5tXmls58Z9cEMY5fNSu12JeK6DdeJi6zX2Z1XAZ5CJPYzwj79GWplfWt3tS38W1xbJlSsARvZcfAFzIu-v-eJxrSQ_kbRqu8Yu1QFHfG_bKGqsM2I8trByyBCk';
 
-	$firebase = (new Factory)
-		->withServiceAccount($serviceAccount)
-		->create();
+	$firebase = (new Factory());
 
-	$messaging = $firebase->getMessaging();
+	$messaging = $firebase->createMessaging();
 
 	if ($estado == 'preliminar') {
 
@@ -61,14 +57,14 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 	}
 
 	//Envia solo a un dispositivo
-	if ($tipo_mensaje == 'Test') {
+	/*if ($tipo_mensaje == 'Test') {
 		$message = CloudMessage::withTarget('token', $deviceToken)
 			->withAndroidConfig($config)
 			->withData($data);
-	}
+	}*/
 
 	//Envia a todos los dispositivos en Quakes
-	else if ($tipo_mensaje == 'Quakes') {
+	if ($tipo_mensaje == 'Quakes') {
 		$topic = 'Quakes';
 		$message = CloudMessage::withTarget('topic', $topic)
 			->withAndroidConfig($config)
@@ -80,7 +76,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 	echo json_encode($response, JSON_PRETTY_PRINT);
 
 	try {
-		$firebase->getMessaging()->validate($message);
+		$messaging->validate($message);
 	} catch (InvalidMessage $e) {
 		print_r($e->errors());
 	}
