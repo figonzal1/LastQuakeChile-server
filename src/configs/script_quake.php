@@ -114,6 +114,8 @@ $mysql_adapter = new MysqlAdapter($run_in);
 $conn = $mysql_adapter->connect();
 $list = parseHtml();
 
+//Contador para debug
+//$contador = 1; 
 if ($conn != null) {
 
 	echo "========== Actualizacion MYSQL" . date("Y-m-d H:i:s") . "==========\n";
@@ -192,12 +194,13 @@ if ($conn != null) {
 		//SI YA EXISTE UN SISMO CON LA MISMA IMAGEN Y ESTE ES (VERIFICADO O PRELIMINAR)
 		//Y EN BASE DE DATOS TIENE SU ESTADO CORRESPONDIENTE (VERIFICADO O PRELIMINAR) IGUAL
 		//ENTONCES NO SE DEBE HACER NINGUNA OPERACION AL RESPECTO Y ES IGNORADO
+
 		else if ($result['finded'] and (($estado == 'verificado' and $result['estado'] == 'verificado') or ($estado == 'preliminar' and $result['estado'] == 'preliminar'))) {
 
 			//USAR SOLO PARA DEBUGUEAR
-			/*if ($contador==1) {
-				sendNotification("Test","",$fecha_utc,$ciudad,$latitud,$longitud,$profundidad,$magnitud,$escala,$sensible,$referencia,$imagen,$estado);
-				$contador+=1;
+			/*if ($contador == 1) {
+				sendNotification("Test", "", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
+				$contador += 1;
 			}*/
 
 			echo "No hay sismos nuevos\n";
