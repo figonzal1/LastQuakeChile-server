@@ -30,8 +30,8 @@ class MysqlAdapter
         else if ($tipo == "prod") {
 
             //Activar dotenv solo para usar .env en local
-            //$dotenv = Dotenv\Dotenv::create(__DIR__ . "../../../../");
-            //$dotenv->load();
+            $dotenv = Dotenv\Dotenv::create(__DIR__ . "../../../../");
+            $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME');
             $this->username = getenv('DB_USERNAME');
