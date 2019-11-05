@@ -2,7 +2,7 @@ Options +FollowSymLinks -MultiViews
 RewriteEngine On
 
 #REPORTES
-RewriteRule ^reports\/$ get_reports.php [L]
+RewriteRule ^reports\/?$ get_reports.php [L]
 RewriteRule ^reports\/(.*)$ get_reports.php?anno=%1&mes=%2 [L,QSA]
 
 
