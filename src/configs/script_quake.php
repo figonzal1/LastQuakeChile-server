@@ -1,8 +1,8 @@
 <?php
 date_default_timezone_set('America/Santiago');
-require_once("bd_files/MysqlAdapter.php");
-require_once("Sismo.php");
-require_once("send_notification.php");
+require("bd_files/MysqlAdapter.php");
+require("Sismo.php");
+require("send_notification.php");
 
 //Test | Prod Mode
 $run_in = $argv[1];
