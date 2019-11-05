@@ -1,7 +1,7 @@
 <?php
 header('Content-type: application/json; charset=UTF-8');
-require_once '../configs/bd_files/MysqlAdapter.php';
-require_once '../configs/send_notification.php';
+require('../configs/bd_files/MysqlAdapter.php');
+require('../configs/send_notification.php');
 
 $mysql_adapter = new MysqlAdapter("prod");
 $conn = $mysql_adapter->connect();
