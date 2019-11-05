@@ -2,7 +2,7 @@
 header('Cache-Control: no-cache');
 header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json; charset=UTF-8');
-require_once '../../../configs/bd_files/MysqlAdapter.php';
+require('../../../configs/bd_files/MysqlAdapter.php');
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -10,79 +10,80 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $mysql_adapter = new MysqlAdapter("prod");
     $conn = $mysql_adapter->connect();
 
-    $quakes = [];
-    $params = [];
+    if ($conn !== false) {
+        $quakes = [];
+        $params = [];
 
 
-    if (isset($_GET['anno']) and isset($_GET['mes'])) {
+        if (isset($_GET['anno']) and isset($_GET['mes'])) {
 
-        $result = queryDates($conn);
-        if ($result[0]) {
-            $quakes = $result[1];
-            $params = $result[2];
-        } else {
+            $result = queryDates($conn);
+            if ($result[0]) {
+                $quakes = $result[1];
+                $params = $result[2];
+            } else {
+                http_response_code(400);
+                exit();
+            }
+        } else if (isset($_GET['ciudad'])) {
+
+            $result = queryCity($conn);
+            if ($result[0]) {
+                $quakes = $result[1];
+                $params = $result[2];
+                unset($_GET['limite']);
+            } else {
+                http_response_code(400);
+                exit();
+            }
+        } else if (isset($_GET['magnitud'])) {
+            $result = queryMagnitud($conn);
+            if ($result[0]) {
+                $quakes = $result[1];
+                $params = $result[2];
+            } else {
+                http_response_code(400);
+                exit();
+            }
+        } else if (isset($_GET['ranking'])) {
+            $result = queryTopRanking($conn);
+            if ($result[0]) {
+                $quakes = $result[1];
+                $params = $result[2];
+            } else {
+                http_response_code(400);
+                exit();
+            }
+        } else if (isset($_GET['limite'])) {
+            $result = queryToLimit($conn);
+            if ($result[0]) {
+                $quakes = $result[1];
+                $params = $result[2];
+            } else {
+                http_response_code(400);
+                exit();
+            }
+        }
+        //URL mal escrita error 400
+        //Error para rutas mal escritas
+        else {
             http_response_code(400);
             exit();
         }
-    }
-    else if (isset($_GET['ciudad'])) {
 
-        $result = queryCity($conn);
-        if ($result[0]) {
-            $quakes = $result[1];
-            $params = $result[2];
-            unset($_GET['limite']);
-        } else {
-            http_response_code(400);
-            exit();
-        }
+        echo json_encode(
+            array(
+                'parametros' => $params,
+                'sismos' => $quakes
+            ),
+            JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+        );
     }
-    else if (isset($_GET['magnitud'])) {
-        $result = queryMagnitud($conn);
-        if ($result[0]) {
-            $quakes = $result[1];
-            $params = $result[2];
-        } else {
-            http_response_code(400);
-            exit();
-        }
-    }
-
-    else if (isset($_GET['ranking'])) {
-        $result = queryTopRanking($conn);
-        if ($result[0]) {
-            $quakes = $result[1];
-            $params = $result[2];
-        } else {
-            http_response_code(400);
-            exit();
-        }
-    }
-
-    else if (isset($_GET['limite'])) {
-        $result = queryToLimit($conn);
-        if ($result[0]) {
-            $quakes = $result[1];
-            $params = $result[2];
-        } else {
-            http_response_code(400);
-            exit();
-        }
-    }
-    //URL mal escrita error 400
-    //Error para rutas mal escritas
+    //Si conexion falla
     else {
-        http_response_code(400);
+        http_response_code(500);
         exit();
     }
-
-    echo json_encode(
-        array(
-            'parametros' => $params,
-            'sismos' => $quakes
-        ),
-        JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
-    );
 }
 
 //Si no es get , error 501
@@ -91,8 +92,12 @@ else {
     exit();
 }
 
-
-
+/**
+ * +---------------------+
+ * +     Funciones       +
+ * +    de utilidad      +
+ * +---------------------+
+ */
 /**
  * Funcion encargada de procesar los registros y pasarlos a un arreglo con columnas específicas.
  */
@@ -175,7 +180,7 @@ function queryDates($conn)
     }
     //Añno mes y dia existentes y no vacios
     //Limite no esta definido
-     else if (isset($_GET['anno']) and isset($_GET['mes']) and isset($_GET['dia']) and !empty($_GET['dia']) and !isset($_GET['limite'])) {
+    else if (isset($_GET['anno']) and isset($_GET['mes']) and isset($_GET['dia']) and !empty($_GET['dia']) and !isset($_GET['limite'])) {
 
         $anno = htmlentities($_GET['anno']);
         $mes = htmlentities($_GET['mes']);
@@ -237,7 +242,7 @@ function queryDates($conn)
     //Año mes sin limite
     //Año - mes existen y son distintos de nulo
     //Limite NO esta definido
-    
+
     else if (isset($_GET['anno']) and isset($_GET['mes']) and !isset($_GET['limite'])) {
         $anno = htmlentities($_GET['anno']);
         $mes = htmlentities($_GET['mes']);
@@ -481,7 +486,7 @@ function queryToLimit($conn)
         $quakes = processRows($stmt);
         $conn = null;
         return [$status_query, $quakes, $params];
-    }else if (isset($_GET['limite']) and empty($_GET['limite'])) {
+    } else if (isset($_GET['limite']) and empty($_GET['limite'])) {
         $conn = null;
         return [$status_query];
     }
