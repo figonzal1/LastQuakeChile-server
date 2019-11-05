@@ -4,6 +4,10 @@
 [![Known Vulnerabilities](https://snyk.io//test/github/figonzal1/LastQuakeChile-server/badge.svg?targetFile=composer.lock)](https://snyk.io//test/github/figonzal1/LastQuakeChile-server?targetFile=composer.lock) 
 [![Heroku](http://heroku-badge.herokuapp.com/?app=lastquakechile-server-prod)](https://dashboard.heroku.com/apps/lastquakechile-server-prod)
 
+| MasterBranch | DevBranch |
+|--------|------------|
+|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile-server.svg?branch=master)](https://travis-ci.com/figonzal1/LastQuakeChile-server)|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile-server.svg?branch=development)](https://travis-ci.com/figonzal1/LastQuakeChile-server)|
+
 Servidor de sismos, encargado de consultar la página de [www.sismologia.cl](https://www.sismología.cl)
 
 ## Scripts funcionales
