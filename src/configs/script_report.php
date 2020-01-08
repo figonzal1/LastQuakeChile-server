@@ -13,7 +13,7 @@ $day_of_month = date('j');
 $hour = date('H');
 
 
-//if ($day_of_month == 1 and $hour == '04') {
+if ($day_of_month == 1 and $hour == '04') {
 
   echo "-------------- Realizando reporte de sismos " . $report_date . " --------------\n";
 
@@ -68,6 +68,6 @@ $hour = date('H');
     http_response_code(500);
     exit();
   }
-//} else {
-//  echo "REPORTE NO PERMITIDO\n";
-//}
+} else {
+  echo "REPORTE NO PERMITIDO\n";
+}
