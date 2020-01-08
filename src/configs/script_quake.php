@@ -25,9 +25,12 @@ function parseHtml()
 
 	/*** the table by its tag name ***/
 	$tables = $dom->getElementsByTagName('table');
-
-	/*** get all rows from the table ***/
-	$rows = $tables->item(0)->getElementsByTagName('tr');
+	foreach ($tables as $table) {
+		$tbodys = $table->getElementsByTagName('tbody');
+		foreach ($tbodys as $tbody) {
+			$rows = $tbody->getElementsByTagName('tr');
+		}
+	}
 
 	//RECORRER EL LISTADO DE SISMOLOGIA.CL Y SCRAPEAR DATOS DE LOS SISMOS
 	//INSERCION EN LISTA
@@ -101,7 +104,6 @@ function parseHtml()
 			} else {
 				$obj->setSensible('0');
 			}
-
 			//PUSHEAR INSTANCIA DE SISMO A LISTA DE SISMOS
 			array_push($list, $obj);
 		}
@@ -199,7 +201,7 @@ if ($conn != null) {
 
 			//USAR SOLO PARA DEBUGUEAR
 			/*if ($contador == 1) {
-				sendNotification("Test", "", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
+				sendNotification("Test", "[DEBUG] ", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
 				$contador += 1;
 			}*/
 

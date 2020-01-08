@@ -19,6 +19,17 @@ class Sismo
 	private $imagen = false;
 	private $estado = false;
 
+	public function __toString()
+	{
+		return "Sismos[".
+		"Fecha Local:".$this->fecha_local.
+		" Ciudad: ".$this->ciudad.
+		" Referencia: ".$this->referencia.
+		" Magnitud: ".$this->magnitud.
+		" Profundidad: ".$this->profundidad.
+		"]";
+	}
+
 
 	//GETTERS
 	public function getFechaLocal()
