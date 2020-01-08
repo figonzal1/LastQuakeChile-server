@@ -29,8 +29,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 {
 
 	//Revisar token de dispositivo en android
-	//$deviceToken = 'fyfqfBapUyI:APA91bEs9NXbkgruZM5tXmls58Z9cEMY5fNSu12JeK6DdeJi6zX2Z1XAZ5CJPYzwj79GWplfWt3tS38W1xbJlSsARvZcfAFzIu-v-eJxrSQ_kbRqu8Yu1QFHfG_bKGqsM2I8trByyBCk';
-
+	//$deviceToken = 'cOlsGliOqKA:APA91bG-AT7Ot9xBHC1c4PTpVzpNNI6ussZdzsVxPQmOvBDcL4THZqmDh-Ez9XWRl9PpNlCTI8kKWvHLMBpf0jnzHwntvCRAoFWcuEhmTP3cd_cfw_wQmfRBvmFMHPKfwtdkkL1CpSJp';
 	$firebase = (new Factory());
 
 	$messaging = $firebase->createMessaging();
