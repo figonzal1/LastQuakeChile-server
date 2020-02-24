@@ -660,16 +660,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.39.2",
+            "version": "4.40.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "c8f6387ef4f0ea707c516ab5f3da34d7730475f5"
+                "reference": "f9a27562e6cb3c9ccc67397a9ff7fddd42f0b42a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/c8f6387ef4f0ea707c516ab5f3da34d7730475f5",
-                "reference": "c8f6387ef4f0ea707c516ab5f3da34d7730475f5",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/f9a27562e6cb3c9ccc67397a9ff7fddd42f0b42a",
+                "reference": "f9a27562e6cb3c9ccc67397a9ff7fddd42f0b42a",
                 "shasum": ""
             },
             "require": {
@@ -693,6 +693,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
+                "google/cloud-firestore": "^1.11",
                 "jangregor/phpstan-prophecy": "^0.1.2|^0.2|^0.3|^0.4.2",
                 "phpstan/phpstan-phpunit": "^0.9.4|^0.11.2",
                 "phpunit/phpunit": "^6.5.14|^7.5.17",
@@ -734,7 +735,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2020-02-13T09:36:00+00:00"
+            "time": "2020-02-18T03:07:58+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
