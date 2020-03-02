@@ -60,23 +60,23 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v5.0.0",
+            "version": "v5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e"
+                "reference": "4566062c68f76f43d44f1643f4970fe89757d4c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
-                "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/4566062c68f76f43d44f1643f4970fe89757d4c6",
+                "reference": "4566062c68f76f43d44f1643f4970fe89757d4c6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": " 4.8.35"
+                "phpunit/phpunit": "^4.8|^5"
             },
             "type": "library",
             "autoload": {
@@ -102,20 +102,20 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2017-06-27T22:17:23+00:00"
+            "time": "2020-02-24T23:15:03+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.11.4",
+            "version": "8.11.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "d429c468fdc8d7b68aefc6f5a2cb7fee0cc26ee9"
+                "reference": "095dc721e8a090124b69005b14c1aeec93141c86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/d429c468fdc8d7b68aefc6f5a2cb7fee0cc26ee9",
-                "reference": "d429c468fdc8d7b68aefc6f5a2cb7fee0cc26ee9",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/095dc721e8a090124b69005b14c1aeec93141c86",
+                "reference": "095dc721e8a090124b69005b14c1aeec93141c86",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2020-02-12T11:21:37+00:00"
+            "time": "2020-03-02T09:12:35+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -660,16 +660,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.39.2",
+            "version": "4.40.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "c8f6387ef4f0ea707c516ab5f3da34d7730475f5"
+                "reference": "208a5d0ee83a0f4c895e59e1b48eded7cb205e5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/c8f6387ef4f0ea707c516ab5f3da34d7730475f5",
-                "reference": "c8f6387ef4f0ea707c516ab5f3da34d7730475f5",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/208a5d0ee83a0f4c895e59e1b48eded7cb205e5c",
+                "reference": "208a5d0ee83a0f4c895e59e1b48eded7cb205e5c",
                 "shasum": ""
             },
             "require": {
@@ -693,6 +693,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.16",
+                "google/cloud-firestore": "^1.11",
                 "jangregor/phpstan-prophecy": "^0.1.2|^0.2|^0.3|^0.4.2",
                 "phpstan/phpstan-phpunit": "^0.9.4|^0.11.2",
                 "phpunit/phpunit": "^6.5.14|^7.5.17",
@@ -734,7 +735,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2020-02-13T09:36:00+00:00"
+            "time": "2020-02-29T11:25:17+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
