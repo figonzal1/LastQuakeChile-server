@@ -50,12 +50,11 @@ class MysqlAdapter
                 $this->password,
                 array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'", PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
-            //echo "Connected Succesfully \n";
             return $this->conn;
         }
         // @codeCoverageIgnoreStart
         catch (PDOException $e) {
-            //echo 'Connection Failed: ' . $e->getMessage() . "\n";
+            error_log("Connection Failed: " . $e->getMessage(), 0);
             return false;
         }
         // @codeCoverageIgnoreEnd
@@ -87,7 +86,7 @@ class MysqlAdapter
             ));
             return 1;
         } catch (PDOException $e) {
-            echo 'Falla en insert: ' . $e->getMessage();
+            error_log("Falla en insert quakes: " . $e->getMessage(), 0);
             return 0;
         }
     }
@@ -119,7 +118,7 @@ class MysqlAdapter
                 $quake->getImagen()
             ));
         } catch (PDOException $e) {
-            echo 'Falla en update: ' . $e->getMessage();
+            error_log("Falla en update updates: " . $e->getMessage(), 0);
         }
     }
 
