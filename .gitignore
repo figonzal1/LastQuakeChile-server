@@ -3,3 +3,4 @@
 .phpunit.result.cache
 lqch-server-credentials.json
 encrypt.tar.gz
+coverage.xml
