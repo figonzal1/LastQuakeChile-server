@@ -6,16 +6,18 @@ require('bd_files/MysqlAdapter.php');
 //Mes y año del mes anterior
 $prev_month = date('n', strtotime('-1 Month'));
 $prev_year = date('Y', strtotime('-1 Month'));
-$report_date = date('Y-m-d', strtotime('-1 Month'));
+$report_date = date('Y-m-d');
 
 //Dia y hora del mes que corre el script
 $day_of_month = date('j');
-$hour = date('H');
+//$hour = date('H');
 
 
-if ($day_of_month == 1 and $hour == '04') {
+if ($day_of_month == 1) {
 
-    echo "-------------- Realizando reporte de sismos " . $report_date . " --------------\n";
+    echo "GENERANDO REPORTE\n";
+    echo "MES REPORTE: " . $prev_month . "\n";
+    echo "FECHA REPORTE: " . $report_date . "\n";
 
     $mysql_adapter = new MysqlAdapter("prod");
     $conn = $mysql_adapter->connect();
