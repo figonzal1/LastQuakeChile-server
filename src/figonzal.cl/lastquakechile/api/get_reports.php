@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     if ($conn !== false) {
 
-        $sql = "SELECT * FROM reports ORDER BY fecha_reporte DESC";
+        $sql = "SELECT * FROM reports ORDER BY mes_reporte DESC";
 
         if (isset($_GET['anno']) and isset($_GET['mes'])) {
 
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $params['anno'] = $anno;
             $params['mes'] = $mes;
 
-            $sql = "SELECT * FROM reports WHERE Month(fecha_reporte)= ? and Year(fecha_reporte)= ? ORDER BY fecha_reporte DESC";
+            $sql = "SELECT * FROM reports WHERE mes_reporte LIKE '%'.$anno.'-'.$mes.'%' ORDER BY mes_reporte DESC";
             $stmt = $conn->prepare($sql);
             $stmt->execute([$mes, $anno]);
         } else {
@@ -43,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $citys = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $item = array(
-                'fecha_reporte' => $reports[$i]['fecha_reporte'],
+                'fecha_script' => $reports[$i]['fecha_script'],
+                'mes_reporte' => $reports[$i]['mes_reporte'],
                 'n_sismos' => $reports[$i]['n_sismos'],
                 'n_sensibles' => $reports[$i]['n_sensibles'],
                 'prom_magnitud' => $reports[$i]['prom_magnitud'],
