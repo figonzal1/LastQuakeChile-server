@@ -6,7 +6,8 @@ require('bd_files/MysqlAdapter.php');
 //Mes y año del mes anterior
 $prev_month = date('n', strtotime('-1 Month'));
 $prev_year = date('Y', strtotime('-1 Month'));
-$report_date = date('Y-m-d');
+$month_report = date('Y-m', strtotime('-1 Month'));
+$script_date = date('Y-m-d');
 
 //Dia y hora del mes que corre el script
 $day_of_month = date('j');
@@ -16,8 +17,8 @@ $day_of_month = date('j');
 if ($day_of_month == 1) {
 
     echo "GENERANDO REPORTE\n";
-    echo "MES REPORTE: " . $prev_month . "\n";
-    echo "FECHA REPORTE: " . $report_date . "\n";
+    echo "MES REPORTE: " . $month_report . "\n";
+    echo "FECHA SCRIPT: " . $script_date . "\n";
 
     $mysql_adapter = new MysqlAdapter("prod");
     $conn = $mysql_adapter->connect();
@@ -40,9 +41,9 @@ if ($day_of_month == 1) {
         $min_profundidad = $result['min_profundidad'];
 
 
-        $stmt = $conn->prepare("INSERT INTO reports (fecha_reporte,n_sensibles, n_sismos, prom_magnitud, prom_profundidad, max_magnitud, min_profundidad) VALUES (?,?,?,?,?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO reports (fecha_script,mes_reporte,n_sensibles, n_sismos, prom_magnitud, prom_profundidad, max_magnitud, min_profundidad) VALUES (?,?,?,?,?,?,?,?)");
         $stmt->execute(array(
-            $report_date, $n_sensibles['n_sensibles'], $n_sismos, $prom_magnitud, $prom_profundidad, $max_magnitud, $min_profundidad
+            $script_date, $month_report, $n_sensibles['n_sensibles'], $n_sismos, $prom_magnitud, $prom_profundidad, $max_magnitud, $min_profundidad
         ));
         $last_id = $conn->lastInsertId();
 
