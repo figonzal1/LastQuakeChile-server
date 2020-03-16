@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $params['anno'] = $anno;
             $params['mes'] = $mes;
 
-            $sql = "SELECT * FROM reports WHERE mes_reporte LIKE '%'.$anno.'-'.$mes.'%' ORDER BY mes_reporte DESC";
+            $sql = "SELECT * FROM reports WHERE mes_reporte LIKE '%" . $anno . "-" . $mes . "%' ORDER BY mes_reporte DESC";
             $stmt = $conn->prepare($sql);
             $stmt->execute([$mes, $anno]);
         } else {
