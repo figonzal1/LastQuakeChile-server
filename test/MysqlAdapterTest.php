@@ -43,7 +43,7 @@ final class MysqlAdapterTest extends TestCase
                 array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'", PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
         } catch (PDOException $e) {
-            //echo 'Connection Failed: ' . $e->getMessage()."\n";
+            error_log("Connection Failed: ".$e->getMessage(),0);
             $result = false;
         }
 

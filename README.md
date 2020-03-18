@@ -22,9 +22,6 @@ Encargado de generar reporte de sismos mensuales.
     $ php src/configs/script_report.php
 ```
 
-### Script respaldo de datos
-Encargado de respaldar desde base de datos de producción hacia Amazon DynamoDB [Amazon ]()
-
 ## PhpUnit test
 Ejecución phpunit mediante composer
 ```ssh
