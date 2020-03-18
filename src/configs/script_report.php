@@ -6,16 +6,19 @@ require('bd_files/MysqlAdapter.php');
 //Mes y año del mes anterior
 $prev_month = date('n', strtotime('-1 Month'));
 $prev_year = date('Y', strtotime('-1 Month'));
-$report_date = date('Y-m-d', strtotime('-1 Month'));
+$month_report = date('Y-m', strtotime('-1 Month'));
+$script_date = date('Y-m-d');
 
 //Dia y hora del mes que corre el script
 $day_of_month = date('j');
-$hour = date('H');
+//$hour = date('H');
 
-if ($day_of_month == 1 and $hour == '04') {
+
+if ($day_of_month == 1) {
 
     echo "GENERANDO REPORTE\n";
-    echo "MES: " . $prev_month . "- FECHA REPORTE: " . $report_date . "\n";
+    echo "MES REPORTE: " . $month_report . "\n";
+    echo "FECHA SCRIPT: " . $script_date . "\n";
 
     $mysql_adapter = new MysqlAdapter("prod");
     $conn = $mysql_adapter->connect();
@@ -37,10 +40,15 @@ if ($day_of_month == 1 and $hour == '04') {
         $max_magnitud = $result['max_magnitud'];
         $min_profundidad = $result['min_profundidad'];
 
-
         $stmt = $conn->prepare("INSERT INTO reports (fecha_reporte,n_sensibles, n_sismos, prom_magnitud, prom_profundidad, max_magnitud, min_profundidad) VALUES (?,?,?,?,?,?,?)");
         $stmt->execute(array(
             $report_date, $n_sensibles['n_sensibles'], $n_sismos, $prom_magnitud, $prom_profundidad, $max_magnitud, $min_profundidad
+        ));
+        $last_id = $conn->lastInsertId();
+
+        $stmt = $conn->prepare("INSERT INTO reports (fecha_script,mes_reporte,n_sensibles, n_sismos, prom_magnitud, prom_profundidad, max_magnitud, min_profundidad) VALUES (?,?,?,?,?,?,?,?)");
+        $stmt->execute(array(
+            $script_date, $month_report, $n_sensibles['n_sensibles'], $n_sismos, $prom_magnitud, $prom_profundidad, $max_magnitud, $min_profundidad
         ));
         $last_id = $conn->lastInsertId();
 
@@ -64,10 +72,11 @@ if ($day_of_month == 1 and $hour == '04') {
 
     //Status de error de conexion
     else {
-        echo "Error de conexion\n";
+        error_log("Error de conexion", 0);
         http_response_code(500);
         exit();
     }
 } else {
-    echo "REPORTE NO PERMITIDO\n";
+    error_log("REPORTE NO PERMITIDO", 0);
+    exit();
 }

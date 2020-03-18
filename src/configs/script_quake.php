@@ -210,7 +210,7 @@ if ($conn != null) {
 	}
 	$mysql_adapter->close();
 } else {
-	echo "Script fail \n";
+	error_log("Script quakes fail",0);
 	http_response_code(500);
 }
 

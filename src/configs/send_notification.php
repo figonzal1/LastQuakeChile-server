@@ -29,10 +29,11 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 {
 
 	//Revisar token de dispositivo en android
-	//$deviceToken = 'cOlsGliOqKA:APA91bG-AT7Ot9xBHC1c4PTpVzpNNI6ussZdzsVxPQmOvBDcL4THZqmDh-Ez9XWRl9PpNlCTI8kKWvHLMBpf0jnzHwntvCRAoFWcuEhmTP3cd_cfw_wQmfRBvmFMHPKfwtdkkL1CpSJp';
-	$firebase = (new Factory());
+	//$deviceToken = 'fhqiPZkxRlWP3Cwxpg7eua:APA91bHejtL78CUV_EHl1Z8gHkmZhLMakNL8-S2Z4xch2bhyuioDAX2wP_mo2gmeRk2EK8i1dHywS9KN-hdIGK5M8fC1ErsazJ7Qy2b8C7OlphQ_TsyGfoWI_f7nHicQwAnpF6Y3ntEH';
+	$factory = (new Factory())
+		->withServiceAccount('../../lqch-server-credentials.json');
 
-	$messaging = $firebase->createMessaging();
+	$messaging = $factory->createMessaging();
 
 	if ($estado == 'preliminar') {
 
@@ -77,7 +78,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 	try {
 		$messaging->validate($message);
 	} catch (InvalidMessage $e) {
-		print_r($e->errors());
+		error_log("Invalid FCM: " . $e->errors(), 0);
 	}
 }
 
