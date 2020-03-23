@@ -106,16 +106,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.11.5",
+            "version": "8.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "095dc721e8a090124b69005b14c1aeec93141c86"
+                "reference": "f15a9cdffd6728abb28184a1c45e84a9919f8b40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/095dc721e8a090124b69005b14c1aeec93141c86",
-                "reference": "095dc721e8a090124b69005b14c1aeec93141c86",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/f15a9cdffd6728abb28184a1c45e84a9919f8b40",
+                "reference": "f15a9cdffd6728abb28184a1c45e84a9919f8b40",
                 "shasum": ""
             },
             "require": {
@@ -170,7 +170,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2020-03-02T09:12:35+00:00"
+            "time": "2020-03-18T21:29:37+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -660,16 +660,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.40.1",
+            "version": "4.41.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "208a5d0ee83a0f4c895e59e1b48eded7cb205e5c"
+                "reference": "7d11727f8685813dbae135ce0903b412235c11c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/208a5d0ee83a0f4c895e59e1b48eded7cb205e5c",
-                "reference": "208a5d0ee83a0f4c895e59e1b48eded7cb205e5c",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/7d11727f8685813dbae135ce0903b412235c11c2",
+                "reference": "7d11727f8685813dbae135ce0903b412235c11c2",
                 "shasum": ""
             },
             "require": {
@@ -735,7 +735,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2020-02-29T11:25:17+00:00"
+            "time": "2020-03-16T18:19:54+00:00"
         },
         {
             "name": "kreait/firebase-tokens",
@@ -807,16 +807,16 @@
         },
         {
             "name": "kreait/gcp-metadata",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/gcp-metadata-php.git",
-                "reference": "9bc4b871bd8623aa018bbd0ff38e3a286e760bc7"
+                "reference": "7ab206ba1d7b59a502be07e5ec2df617a7b1ba38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/gcp-metadata-php/zipball/9bc4b871bd8623aa018bbd0ff38e3a286e760bc7",
-                "reference": "9bc4b871bd8623aa018bbd0ff38e3a286e760bc7",
+                "url": "https://api.github.com/repos/kreait/gcp-metadata-php/zipball/7ab206ba1d7b59a502be07e5ec2df617a7b1ba38",
+                "reference": "7ab206ba1d7b59a502be07e5ec2df617a7b1ba38",
                 "shasum": ""
             },
             "require": {
@@ -825,7 +825,7 @@
                 "psr/http-message": "^1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.0"
+                "phpunit/phpunit": "^6.5.14|^7.5.19"
             },
             "type": "library",
             "autoload": {
@@ -852,7 +852,7 @@
                 "google-cloud-engine",
                 "google-cloud-platform"
             ],
-            "time": "2018-07-28T13:57:51+00:00"
+            "time": "2020-03-19T18:31:55+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -911,16 +911,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.65",
+            "version": "1.0.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "8f17b3ba67097aafb8318cd5c553b1acf7c891c8"
+                "reference": "021569195e15f8209b1c4bebb78bd66aa4f08c21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/8f17b3ba67097aafb8318cd5c553b1acf7c891c8",
-                "reference": "8f17b3ba67097aafb8318cd5c553b1acf7c891c8",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/021569195e15f8209b1c4bebb78bd66aa4f08c21",
+                "reference": "021569195e15f8209b1c4bebb78bd66aa4f08c21",
                 "shasum": ""
             },
             "require": {
@@ -991,17 +991,7 @@
                 "sftp",
                 "storage"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/frankdejonge",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/league/flysystem",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-03-08T18:53:20+00:00"
+            "time": "2020-03-17T18:58:12+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1746,12 +1736,6 @@
                 "dotenv",
                 "env",
                 "environment"
-            ],
-            "funding": [
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/vlucas/phpdotenv",
-                    "type": "tidelift"
-                }
             ],
             "time": "2020-03-12T13:44:15+00:00"
         }
@@ -3224,6 +3208,5 @@
     "platform": {
         "php": "^7.3"
     },
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-dev": []
 }
