@@ -29,9 +29,9 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 {
 
 	//Revisar token de dispositivo en android
-	//$deviceToken = 'fhqiPZkxRlWP3Cwxpg7eua:APA91bHejtL78CUV_EHl1Z8gHkmZhLMakNL8-S2Z4xch2bhyuioDAX2wP_mo2gmeRk2EK8i1dHywS9KN-hdIGK5M8fC1ErsazJ7Qy2b8C7OlphQ_TsyGfoWI_f7nHicQwAnpF6Y3ntEH';
-	$factory = (new Factory())
-		->withServiceAccount('../../lqch-server-credentials.json');
+	//$deviceToken = 'd5jw-vfFTiKCqUtJiVvLge:APA91bETJjpXaRsDvZNyAZ_TV0-1hE-S7RltbqUwGV6Jg2uh6ulp-rUSdvPq5HDytQAPSlbXlExoCXmb4KpFJfBeeYv1kJoOPlb9lIjEx8tLBbn9JBW0OBE9wMrxtEqG2Cp3MdezjTmA';
+	
+	$factory = (new Factory())->withServiceAccount(getenv("FIREBASE_CREDENTIALS"));
 
 	$messaging = $factory->createMessaging();
 
