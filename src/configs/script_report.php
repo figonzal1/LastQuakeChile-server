@@ -13,7 +13,6 @@ $script_date = date('Y-m-d');
 $day_of_month = date('j');
 //$hour = date('H');
 
-
 if ($day_of_month == 1) {
 
     echo "GENERANDO REPORTE\n";
