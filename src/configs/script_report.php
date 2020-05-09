@@ -39,12 +39,6 @@ if ($day_of_month == 1) {
         $max_magnitud = $result['max_magnitud'];
         $min_profundidad = $result['min_profundidad'];
 
-        $stmt = $conn->prepare("INSERT INTO reports (fecha_reporte,n_sensibles, n_sismos, prom_magnitud, prom_profundidad, max_magnitud, min_profundidad) VALUES (?,?,?,?,?,?,?)");
-        $stmt->execute(array(
-            $report_date, $n_sensibles['n_sensibles'], $n_sismos, $prom_magnitud, $prom_profundidad, $max_magnitud, $min_profundidad
-        ));
-        $last_id = $conn->lastInsertId();
-
         $stmt = $conn->prepare("INSERT INTO reports (fecha_script,mes_reporte,n_sensibles, n_sismos, prom_magnitud, prom_profundidad, max_magnitud, min_profundidad) VALUES (?,?,?,?,?,?,?,?)");
         $stmt->execute(array(
             $script_date, $month_report, $n_sensibles['n_sensibles'], $n_sismos, $prom_magnitud, $prom_profundidad, $max_magnitud, $min_profundidad
