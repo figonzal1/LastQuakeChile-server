@@ -6,6 +6,9 @@ require('../configs/send_notification.php');
 $mysql_adapter = new MysqlAdapter("prod");
 $conn = $mysql_adapter->connect();
 
+/**
+ * !DEPRECADO
+ */
 if ($conn) {
 
 	$sql = "SELECT * FROM quakes ORDER BY fecha_local DESC LIMIT 15";
