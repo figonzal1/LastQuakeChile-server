@@ -19,7 +19,7 @@
     <div id="portada" class="view">
       <div class="mask rgba-black-strong" id="inicio">
 
-        <div class="container mt-5">
+        <div class="container-fluid mt-5">
 
           <div class="row p-5">
 
@@ -27,18 +27,10 @@
             <div class="col-md-6 white-text d-flex flex-column justify-content-center">
 
               <!-- Titulo -->
-              <div class="text-sm-center text-left wow fadeInDown">
-                <h1 class="h1 font-weight-bold">¡Descárgala ahora!</h1>
-              </div>
-
-              <!-- Separador  -->
-              <div class="text-center wow fadeInDown">
-                <hr class="hr-light">
-              </div>
-
-              <!-- Descripcion -->
-              <div class="text-sm-center text-left mt-2 wow fadeInDown">
-                <p class="text-justify">Revisa los últimos sismos en Chile y recibe notificaciones de los más importantes.</p>
+              <div class="text-sm-center text-center wow fadeInDown">
+                <h1 class="h1 font-weight-bold">¡Descárgala!</h1>
+                <hr class="hr-light mx-5">
+                <h1 class="h4 font-weight-bold">Información actualizada, reportes y notificaciones de los últimos sismos ocurridos en Chile.</h1>
               </div>
 
               <!-- Imagen boton google play -->
@@ -52,8 +44,10 @@
 
             <!-- Columna derecha -->
             <div class="col-md-6 wow fadeInDown">
-              <!-- Imagen celular -->
-              <img src="img/lastquakechile_pantalla.png" alt="Imagen Celular" class="mx-auto img-fluid" style="width: 50%;">
+              <div class="d-flex flex-row">
+                <img src="img/pantalla_lastquakechile.png" alt="Imagen Celular" class="ml-5 img-fluid" style="width: 40%;">
+                <img src="img/pantalla_lastquakechile_mapa.png" alt="Imagen Celular" class="ml-3 img-fluid" style="width: 40%;">
+              </div>
             </div>
 
           </div>
@@ -71,7 +65,7 @@
     <section id="caractaristicas" class="py-5">
 
       <div class="container">
-        <h2 class="h2-responsive my-5 font-weight-bold text-center wow fadeInDown">Características</h2>
+        <h2 class="h2-responsive my-5 font-weight-bold text-center wow fadeInDown">Características de la aplicación</h2>
 
         <div class="row">
           <div class="col-md-4 mb-5">
@@ -82,10 +76,10 @@
 
               <!-- Descripcion del icono -->
               <div class="card-body">
-                <h4 class="card-title text-center">Sismos diarios</h4>
-                <p class="card-text text-center">
-                  Consulta en tiempo real el listado completo de los sismos ocurridos durante un día
-                </p>
+                <h1 class="card-title text-center h3">Sismos diarios</h1>
+                <h1 class="card-text text-center">
+                  Consulta el listado completo de los sismos ocurridos durante un día
+                </h1>
               </div>
             </div>
           </div>
@@ -99,29 +93,64 @@
 
               <!-- Descripcion del icono -->
               <div class="card-body">
-                <h4 class="card-title text-center">Notificaciones</h4>
-                <p class="card-text text-center">
+                <h1 class="card-title text-center h3">Notificaciones</h1>
+                <h1 class="card-text text-center">
                   Obtén notificaciones directamente a tu celular de los sismos mayores a 5.0 grados Richter
-                </p>
+                </h1>
               </div>
 
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 mb-5">
 
             <div class="card wow fadeIn z-depth-1-half py-3">
 
               <!-- Icono caracteristica -->
-              <img class="card-img-top mx-auto" src="img/svg/baseline-beenhere-24px.svg" style="width: 25%;" alt="Icono mapa">
+              <img class="card-img-top mx-auto" src="img/svg/room-24px.svg" style="width: 25%;" alt="Icono mapa">
 
               <!-- Descripcion del icono -->
               <div class="card-body">
-                <h4 class="card-title text-center">Ubicación</h4>
-                <p class="card-text text-center">
-                  Revisa la posición del epicentro de cada sismo percibido
-                </p>
+                <h1 class="card-title text-center h3">Ubicación</h1>
+                <h1 class="card-text text-center">
+                  Revisa el epicentro de los sismos en el mapa de la aplicación
+                </h1>
               </div>
 
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-5">
+
+            <div class="card wow fadeIn z-depth-1-half py-3">
+
+              <!-- Icono caracteristica -->
+              <img class="card-img-top mx-auto" src="img/svg/analytics-24px.svg" style="width: 25%;" alt="Icono mapa">
+
+              <!-- Descripcion del icono -->
+              <div class="card-body">
+                <h1 class="card-title text-center h3">Reportes Mensuales</h1>
+                <h1 class="card-text text-center">
+                  Recibe resúmenes de información sísmica una vez al mes
+                </h1>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-5">
+
+            <div class="card wow fadeIn z-depth-1-half py-3">
+
+              <!-- Icono caracteristica -->
+              <img class="card-img-top mx-auto" src="img/svg/share-24px.svg" style="width: 25%;" alt="Icono mapa">
+
+              <!-- Descripcion del icono -->
+              <div class="card-body">
+                <h1 class="card-title text-center h3">Compartir sismos</h1>
+                <h1 class="h1 card-text text-center">
+                  Comparte los sismos fácilmente vía WhatsApp o vía Email con tus cercanos
+                </h1>
+              </div>
             </div>
           </div>
 
@@ -129,12 +158,12 @@
       </div>
     </section>
 
-    <div class="container">
+    <!--<div class="container">
       <hr>
-    </div>
+    </div>-->
 
     <!-- Section desarrollo-->
-    <section id="caracteristica_dev" class="pb-md-5 py-5">
+    <!--<section id="caracteristica_dev" class="pb-md-5 py-5">
       <div class="container">
         <h2 class="h2-responsive font-weight-bold text-center mt-md-5 wow fadeInDown">... en un tiempo más, podrás tener</h2>
 
@@ -177,7 +206,7 @@
 
       </div>
 
-    </section>
+    </section>-->
 
 
   </main>
