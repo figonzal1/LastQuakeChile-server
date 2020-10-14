@@ -6,16 +6,37 @@
   ARCHIVO: index.php
 -->
 
-<!-- Importacion de head.html-->
-<?php readfile("head.html"); ?>
+<head>
+  <meta charset="utf-8">
+  <title>Últimos sismos en Chile - LastQuakeChile</title>
+  <meta name="description" content="Aplicación para revisar los últimos sismos en Chile. Recibe notificaciones en tu celular. Reportes sismológicos todos los meses" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="google-site-verification" content="3s7di-xAGBPqXOlS9EbC3Ox_RZwzbG82pHa7IRlRx80" />
+
+  
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Material Design Bootstrap -->
+  <link href="css/mdb.min.css" rel="stylesheet">
+
+  <!-- Your custom styles (optional) -->
+  <link href="css/style.css" rel="stylesheet">
+
+  <!--FAvicon -->
+  <link rel="shortcut icon" type="image/png" href="img/favicon.ico">
+</head>
 
 <body data-spy="scroll" data-target="navbar" data-offset="20" style="position: relative;">
-  <header>
 
     <?php readfile("navbar.html"); ?>
 
     <!-- Mascara Imagen-->
-
     <div id="portada" class="view">
       <div class="mask rgba-black-strong" id="inicio">
 
@@ -55,8 +76,6 @@
         </div>
       </div>
     </div>
-
-  </header>
 
   <!--Main layout-->
   <main>
