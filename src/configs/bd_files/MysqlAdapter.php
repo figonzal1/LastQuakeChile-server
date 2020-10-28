@@ -127,7 +127,7 @@ class MysqlAdapter
      */
     public function findQuake($quake)
     {
-        $stmt = $this->conn->prepare("SELECT quakes_id,estado FROM quakes WHERE imagen=?");
+        $stmt = $this->conn->prepare("SELECT * FROM quakes WHERE imagen=?");
         $stmt->execute([$quake->getImagen()]);
 
         $sismo_bd = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -138,8 +138,7 @@ class MysqlAdapter
         } else if ($stmt->rowCount() == 1) {
             return array(
                 'finded' => true,
-                'quake_id' => $sismo_bd['quakes_id'],
-                'estado' => $sismo_bd['estado']
+                'sismo' => $sismo_bd
             );
         }
     }
