@@ -161,7 +161,25 @@ if ($conn != null) {
 			//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 			//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
 			if ($magnitud >= 5.0 and $diff_horas == 0 and $diff_minutes <= 15) {
-				sendNotification('Quakes', '', $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
+
+				$result = $mysql_adapter->findQuake($item);
+				$sismo = $result['sismo'];
+
+				sendNotification(
+					'Quakes',
+					'',
+					$sismo['fecha_utc'],
+					$sismo['ciudad'],
+					$sismo['latidud'],
+					$sismo['longitud'],
+					$sismo['profundidad'],
+					$sismo['magnitud'],
+					$sismo['escala'],
+					$sismo['sensible'],
+					$sismo['referencia'],
+					$sismo['imagen'],
+					$sismo['estado']
+				);
 				echo "Notificacion enviada\n";
 			}
 
@@ -176,7 +194,7 @@ if ($conn != null) {
 		//Y EL QUE SE PRETENDE INSERTAR ES UN SISMO VERIFICADO (ESTADO = VERIFICADO)
 		//- SE PROCEDE A INSERTAR EL SISMO VERIFICADO A BD
 		//- SE PROCEDE A NOTIFICAR NUEVAMENTE EL SISMO CON ESTADO VERIFICADO
-		else if ($result['finded'] and $result['estado'] == 'preliminar' and $estado == 'verificado') {
+		else if ($result['finded'] and $result['sismo']['estado'] == 'preliminar' and $estado == 'verificado') {
 
 
 			//PREPARACION DE UPDATE
@@ -185,7 +203,26 @@ if ($conn != null) {
 			//SI EL SISMO DE LA LISTA SCRAPEADA ES MAYOR DE 5 GRADOS
 			//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
 			if ($magnitud >= 5.0 and $diff_horas == 0 and $diff_minutes <= 30) {
-				sendNotification('Quakes', '[Corrección] ', $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
+
+				$result = $mysql_adapter->findQuake($item);
+				$sismo = $result['sismo'];
+
+				sendNotification(
+					'Quakes',
+					'[Corrección] ',
+					$sismo['fecha_utc'],
+					$sismo['ciudad'],
+					$sismo['latidud'],
+					$sismo['longitud'],
+					$sismo['profundidad'],
+					$sismo['magnitud'],
+					$sismo['escala'],
+					$sismo['sensible'],
+					$sismo['referencia'],
+					$sismo['imagen'],
+					$sismo['estado']
+				);
+
 				echo "Notificacion enviada\n";
 			}
 
@@ -197,7 +234,7 @@ if ($conn != null) {
 		//Y EN BASE DE DATOS TIENE SU ESTADO CORRESPONDIENTE (VERIFICADO O PRELIMINAR) IGUAL
 		//ENTONCES NO SE DEBE HACER NINGUNA OPERACION AL RESPECTO Y ES IGNORADO
 
-		else if ($result['finded'] and (($estado == 'verificado' and $result['estado'] == 'verificado') or ($estado == 'preliminar' and $result['estado'] == 'preliminar'))) {
+		else if ($result['finded'] and (($estado == 'verificado' and $result['sismo']['estado'] == 'verificado') or ($estado == 'preliminar' and $result['sismo']['estado'] == 'preliminar'))) {
 
 			//USAR SOLO PARA DEBUGUEAR
 			/*if ($contador == 1) {
@@ -210,7 +247,7 @@ if ($conn != null) {
 	}
 	$mysql_adapter->close();
 } else {
-	error_log("Script quakes fail",0);
+	error_log("Script quakes fail", 0);
 	http_response_code(500);
 }
 
