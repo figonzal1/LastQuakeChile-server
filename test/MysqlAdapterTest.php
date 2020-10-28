@@ -96,11 +96,7 @@ final class MysqlAdapterTest extends TestCase
         $this->assertIsBool($result['finded']);
         $this->assertTrue($result['finded']);
 
-        $this->assertArrayHasKey('quake_id', $result);
-        $this->assertIsNumeric($result['quake_id']);
-
-        $this->assertArrayHasKey('estado', $result);
-        $this->assertIsString($result['estado']);
+        $this->assertArrayHasKey('sismo', $result);
     }
 
     /**
@@ -122,8 +118,7 @@ final class MysqlAdapterTest extends TestCase
         $this->assertIsBool($result['finded']);
         $this->assertFalse($result['finded']);
 
-        $this->assertArrayNotHasKey('quake_id', $result);
-        $this->assertArrayNotHasKey('estado', $result);
+        $this->assertArrayNotHasKey('sismo', $result);
     }
 
     /**
