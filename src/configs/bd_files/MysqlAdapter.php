@@ -18,7 +18,7 @@ class MysqlAdapter
         if ($tipo == "test") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "../../../../");
+            $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME_TEST');
@@ -30,7 +30,7 @@ class MysqlAdapter
         else if ($tipo == "prod") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "../../../../");
+            $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME');
