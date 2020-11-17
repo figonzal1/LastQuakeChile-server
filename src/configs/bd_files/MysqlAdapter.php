@@ -18,19 +18,19 @@ class MysqlAdapter
         if ($tipo == "test") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "../../../../");
+            $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
             $dotenv->load();
 
-            $this->hostname = $_ENV('DB_HOSTNAME_TEST');
-            $this->db = $_ENV('DB_DATABASE_TEST');
-            $this->username = $_ENV('DB_USERNAME_TEST');
-            $this->password = $_ENV('DB_PASSWORD_TEST');
+            $this->hostname = getenv('DB_HOSTNAME_TEST');
+            $this->db = getenv('DB_DATABASE_TEST');
+            $this->username = getenv('DB_USERNAME_TEST');
+            $this->password = getenv('DB_PASSWORD_TEST');
         }
         // @codeCoverageIgnoreStart 
         else if ($tipo == "prod") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . "../../../../");
+            $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME');
