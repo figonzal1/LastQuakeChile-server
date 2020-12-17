@@ -29,7 +29,7 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 {
 
 	//Revisar token de dispositivo en android
-	//$deviceToken = 'e0QZjV_wSsilG_obOIeFeE:APA91bEBYPq1ni08g-SwUtsZ0H6Btg4EGm4coX4zcv8F4bc1AjdQG76P0onO3ivO-PN1XIo0nE2pPFbcxGDrcld0y5_ox6S3o9k6_9w4BF0b69vn5BZaQV8ynWPl7pLGxwBow3hCsC-7';
+	//$deviceToken = '';
 	
 	$factory = (new Factory())->withServiceAccount(getenv("FIREBASE_CREDENTIALS"));
 	//$factory = (new Factory())->withServiceAccount("absolute/path");
