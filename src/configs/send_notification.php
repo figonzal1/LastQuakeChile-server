@@ -29,10 +29,10 @@ function sendNotification($tipo_mensaje, $prefijo, $fecha_utc, $ciudad, $latitud
 {
 
 	//Revisar token de dispositivo en android
-	//$deviceToken = '';
+	#$deviceToken = '';
 	
-	$factory = (new Factory())->withServiceAccount(getenv("FIREBASE_CREDENTIALS"));
-	//$factory = (new Factory())->withServiceAccount("absolute/path");
+	##$factory = (new Factory())->withServiceAccount(getenv("FIREBASE_CREDENTIALS"));
+	$factory = (new Factory())->withServiceAccount("C:\\xampp\\htdocs\\LastQuakeChile-server\\lqch-server-credentials.json");
 
 	$messaging = $factory->createMessaging();
 
