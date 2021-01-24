@@ -33,9 +33,9 @@ class MysqlAdapter
             $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
             $dotenv->load();
 
-            $this->hostname = "190.163.124.16";
-            $this->username = "root";
-            $this->password = "";
+            $this->hostname = getenv('DB_HOSTNAME');
+            $this->username = getenv('DB_USERNAME');
+            $this->password = getenv('DB_PASSWORD');
             $this->db = getenv('DB_DATABASE');
         }
         // @codeCoverageIgnoreEnd

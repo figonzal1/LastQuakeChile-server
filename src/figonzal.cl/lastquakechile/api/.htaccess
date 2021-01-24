@@ -14,6 +14,8 @@ RewriteRule ^quakes\/(.*)$ get_quakes.php?magnitud=%1 [L,QSA]
 RewriteRule ^quakes\/(.*)$ get_quakes.php?ranking=%1 [L,QSA]
 RewriteRule ^quakes\/(.*)$ get_quakes.php?anno=%1&mes=%2&dia=%3 [L,QSA]
 
+FileETag INode MTime Size
+
 
 
 
