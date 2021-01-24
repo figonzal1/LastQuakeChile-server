@@ -1,5 +1,5 @@
 <?php
-header('Cache-Control: no-cache');
+header('Cache-Control: public,no-cache,max-age=660,s-maxage=600,must-revalidate');
 header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json; charset=UTF-8');
 require('../../../configs/bd_files/MysqlAdapter.php');
