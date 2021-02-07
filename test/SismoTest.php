@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use LastQuakeChile\Domain\Sismo;
 
 /**
  * @covers \Sismo
@@ -12,8 +13,8 @@ final class SismoTest extends TestCase
     public function testSismoClass()
     {
 
-        $this->assertClassHasAttribute('fecha_local', Sismo::class);
-        $this->assertClassHasAttribute('fecha_utc', Sismo::class);
+        $this->assertClassHasAttribute('fechaLocal', Sismo::class);
+        $this->assertClassHasAttribute('fechaUtc', Sismo::class);
         $this->assertClassHasAttribute('ciudad', Sismo::class);
         $this->assertClassHasAttribute('referencia', Sismo::class);
         $this->assertClassHasAttribute('magnitud', Sismo::class);
@@ -30,39 +31,39 @@ final class SismoTest extends TestCase
     public function testGettersAndSetters()
     {
 
-        $sismo = new Sismo();
-
-        $sismo->setCiudad("La Serena");
-        $sismo->setSensible(1);
-        $sismo->setEscala("Mw");
-        $sismo->setMagnitud(5.4);
-        $sismo->setProfundidad(112.1);
-        $sismo->setEstado(1);
-        $sismo->setFechaLocal("2019-12-12 22:22:22");
-        $sismo->setFechaUTC("2020-01-12 15:22:11");
-        $sismo->setImagen("urlImagen");
-        $sismo->setRefGeograf("XX km de XX");
-        $sismo->setAgencia("GUC");
-        $sismo->setLongitud("1233123.1231");
-        $sismo->setLatitud("12351634.1313");
+        $sismo = new Sismo(
+            "2019-12-12 22:22:22",
+            "2020-01-12 15:22:11",
+            "La Serena",
+            "XX km de XX",
+            "5.4",
+            "Mw",
+            "1",
+            "12351634.1313",
+            "1233123.1231",
+            "112.1",
+            "GUC",
+            "urlImagen",
+            "1"
+        );
 
         $this->assertEquals("La Serena", $sismo->getCiudad());
         $this->assertIsString($sismo->getCiudad());
 
-        $this->assertEquals(1, $sismo->getSensible());
-        $this->assertIsNumeric($sismo->getSensible());
+        $this->assertEquals("1", $sismo->getSensible());
+        $this->assertIsString($sismo->getSensible());
 
         $this->assertEquals("Mw", $sismo->getEscala());
         $this->assertIsString($sismo->getEscala());
 
-        $this->assertEquals(5.4, $sismo->getMagnitud());
-        $this->assertIsNumeric($sismo->getMagnitud());
+        $this->assertEquals("5.4", $sismo->getMagnitud());
+        $this->assertIsString($sismo->getMagnitud());
 
-        $this->assertEquals(112.1, $sismo->getProfundidad());
-        $this->assertIsNumeric($sismo->getProfundidad());
+        $this->assertEquals("112.1", $sismo->getProfundidad());
+        $this->assertIsString($sismo->getProfundidad());
 
-        $this->assertEquals(1, $sismo->getEstado());
-        $this->assertIsNumeric($sismo->getEstado());
+        $this->assertEquals("1", $sismo->getEstado());
+        $this->assertIsString($sismo->getEstado());
 
         $this->assertEquals("2019-12-12 22:22:22", $sismo->getFechaLocal());
         $this->assertIsString($sismo->getFechaLocal());
