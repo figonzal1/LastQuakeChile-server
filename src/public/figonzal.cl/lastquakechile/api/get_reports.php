@@ -1,10 +1,18 @@
 <?php
+
+declare(strict_types=1);
+
+use LastQuakeChile\Database\MysqlAdapter;
+
 header('Cache-Control: no-cache');
 header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json; charset=UTF-8');
-require('../../../configs/bd_files/MysqlAdapter.php');
 
+require_once __DIR__ . '../../../../../app/configs/MysqlAdapter.php';
 
+/**
+ * @deprecated
+ */
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
     $mysql_adapter = new MysqlAdapter("prod");
@@ -42,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
             $citys = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            //Preparar respuesta
             $item = array(
                 'fecha_script' => $reports[$i]['fecha_script'],
                 'mes_reporte' => $reports[$i]['mes_reporte'],

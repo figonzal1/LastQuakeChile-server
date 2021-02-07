@@ -1,24 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
+namespace LastQuakeChile\Database;
+
+use \PDO;
+use \PDOException;
+use Dotenv\Dotenv;
+use QuakeInterface;
+
 date_default_timezone_set('America/Santiago');
+require_once __DIR__ . '../../../../vendor/autoload.php';
+require_once __DIR__ . '../../interfaces/QuakeInterface.php';
 
-require(__DIR__ . "../../../../vendor/autoload.php");
-
-class MysqlAdapter
+class MysqlAdapter implements QuakeInterface
 {
-    private $conn;
-    private $db;
-    private $hostname;
-    private $username;
-    private $password;
+    private ?object $conn;
+    private string $db;
+    private string $hostname;
+    private string $username;
+    private string $password;
 
-    public function __construct($tipo)
+    public function __construct(string $tipo)
     {
 
         if ($tipo == "test") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
+            $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME_TEST');
@@ -30,7 +39,7 @@ class MysqlAdapter
         else if ($tipo == "prod") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
+            $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME');
@@ -41,7 +50,7 @@ class MysqlAdapter
         // @codeCoverageIgnoreEnd
     }
 
-    public function connect()
+    public function connect(): ?object
     {
         try {
             $this->conn = new PDO(
@@ -55,7 +64,7 @@ class MysqlAdapter
         // @codeCoverageIgnoreStart
         catch (PDOException $e) {
             error_log("Connection Failed: " . $e->getMessage(), 0);
-            return false;
+            return null;
         }
         // @codeCoverageIgnoreEnd
     }
@@ -63,7 +72,7 @@ class MysqlAdapter
     /**
      * Agregar sismo
      */
-    public function addQuake($quake)
+    public function addQuake(object $quake): bool
     {
         try {
             $insert = $this->conn->prepare(
@@ -84,17 +93,18 @@ class MysqlAdapter
                 $quake->getImagen(),
                 $quake->getEstado()
             ));
-            return 1;
-        } catch (PDOException $e) {
+            return true;
+        } catch (\PDOException $e) {
             error_log("Falla en insert quakes: " . $e->getMessage(), 0);
-            return 0;
+            return false;
         }
     }
 
     /**
      * Actualizar sismo
      */
-    public function updateQuake($quake)
+
+    public function updateQuake(object $quake): bool
     {
         try {
             $update = $this->conn->prepare(
@@ -117,15 +127,23 @@ class MysqlAdapter
                 $quake->getEstado(),
                 $quake->getImagen()
             ));
+
+            //Check update
+            if ($update->rowCount() == 0) {
+                return false;
+            } else if ($update->rowCount() == 1) {
+                return true;
+            }
         } catch (PDOException $e) {
             error_log("Falla en update updates: " . $e->getMessage(), 0);
+            return false;
         }
     }
 
     /**
      * Buscar si sismo existe en base a imagen
      */
-    public function findQuake($quake)
+    public function findQuake(object $quake): array
     {
         $stmt = $this->conn->prepare("SELECT * FROM quakes WHERE imagen=?");
         $stmt->execute([$quake->getImagen()]);
@@ -146,7 +164,7 @@ class MysqlAdapter
     /**
      * Buscar sismos del mes
      */
-    public function findQuakesOfMonth($prev_month)
+    public function findQuakesOfMonth(string $prev_month): array
     {
 
         $select = $this->conn->prepare(
