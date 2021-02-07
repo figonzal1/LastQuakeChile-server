@@ -1,6 +1,6 @@
 <?php
 
-require_once '../configs/MysqlAdapter.php';
+require_once __DIR__.'../../configs/MysqlAdapter.php';
 
 use LastQuakeChile\Database\MysqlAdapter;
 

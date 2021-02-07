@@ -1,8 +1,8 @@
 <?php
 
-require_once '../configs/MysqlAdapter.php';
-require_once '../helper/Helpers.php';
-require_once '../domain/Sismo.php';
+require_once __DIR__.'../../configs/MysqlAdapter.php';
+require_once __DIR__.'../../helper/Helpers.php';
+require_once __DIR__.'../../domain/Sismo.php';
 
 use LastQuakeChile\Helpers;
 use LastQuakeChile\Database\MysqlAdapter;
