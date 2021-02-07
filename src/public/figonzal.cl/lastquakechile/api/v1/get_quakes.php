@@ -1,107 +1,119 @@
 <?php
+
+declare(strict_types=1);
+
+use LastQuakeChile\Database\MysqlAdapter;
+
 header('Cache-Control: public,no-cache,max-age=660,s-maxage=600,must-revalidate');
 header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json; charset=UTF-8');
-require('../../../configs/bd_files/MysqlAdapter.php');
+
+require_once __DIR__ . '../../../../../../app/configs/MysqlAdapter.php';
+
+function startEndpoins()
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+        $mysql_adapter = new MysqlAdapter("prod");
+        $conn = $mysql_adapter->connect();
+
+        if ($conn !== false) {
+            $quakes = [];
+            $params = [];
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            if (isset($_GET['anno']) and isset($_GET['mes'])) {
 
-    $mysql_adapter = new MysqlAdapter("prod");
-    $conn = $mysql_adapter->connect();
+                $result = queryDates($conn);
+                if ($result[0]) {
+                    $quakes = $result[1];
+                    $params = $result[2];
+                } else {
+                    http_response_code(400);
+                    exit();
+                }
+            } else if (isset($_GET['ciudad'])) {
 
-    if ($conn !== false) {
-        $quakes = [];
-        $params = [];
-
-
-        if (isset($_GET['anno']) and isset($_GET['mes'])) {
-
-            $result = queryDates($conn);
-            if ($result[0]) {
-                $quakes = $result[1];
-                $params = $result[2];
-            } else {
+                $result = queryCity($conn);
+                if ($result[0]) {
+                    $quakes = $result[1];
+                    $params = $result[2];
+                    unset($_GET['limite']);
+                } else {
+                    http_response_code(400);
+                    exit();
+                }
+            } else if (isset($_GET['magnitud'])) {
+                $result = queryMagnitud($conn);
+                if ($result[0]) {
+                    $quakes = $result[1];
+                    $params = $result[2];
+                } else {
+                    http_response_code(400);
+                    exit();
+                }
+            } else if (isset($_GET['ranking'])) {
+                $result = queryTopRanking($conn);
+                if ($result[0]) {
+                    $quakes = $result[1];
+                    $params = $result[2];
+                } else {
+                    http_response_code(400);
+                    exit();
+                }
+            } else if (isset($_GET['limite'])) {
+                $result = queryToLimit($conn);
+                if ($result[0]) {
+                    $quakes = $result[1];
+                    $params = $result[2];
+                } else {
+                    http_response_code(400);
+                    exit();
+                }
+            }
+            //URL mal escrita error 400
+            //Error para rutas mal escritas
+            else {
                 http_response_code(400);
                 exit();
             }
-        } else if (isset($_GET['ciudad'])) {
 
-            $result = queryCity($conn);
-            if ($result[0]) {
-                $quakes = $result[1];
-                $params = $result[2];
-                unset($_GET['limite']);
-            } else {
-                http_response_code(400);
-                exit();
-            }
-        } else if (isset($_GET['magnitud'])) {
-            $result = queryMagnitud($conn);
-            if ($result[0]) {
-                $quakes = $result[1];
-                $params = $result[2];
-            } else {
-                http_response_code(400);
-                exit();
-            }
-        } else if (isset($_GET['ranking'])) {
-            $result = queryTopRanking($conn);
-            if ($result[0]) {
-                $quakes = $result[1];
-                $params = $result[2];
-            } else {
-                http_response_code(400);
-                exit();
-            }
-        } else if (isset($_GET['limite'])) {
-            $result = queryToLimit($conn);
-            if ($result[0]) {
-                $quakes = $result[1];
-                $params = $result[2];
-            } else {
-                http_response_code(400);
-                exit();
-            }
+            echo json_encode(
+                array(
+                    'parametros' => $params,
+                    'sismos' => $quakes
+                ),
+                JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
+            );
         }
-        //URL mal escrita error 400
-        //Error para rutas mal escritas
+        //Si conexion falla
         else {
-            http_response_code(400);
+            http_response_code(500);
             exit();
         }
-
-        echo json_encode(
-            array(
-                'parametros' => $params,
-                'sismos' => $quakes
-            ),
-            JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES
-        );
     }
-    //Si conexion falla
+
+    //Si no es get , error 501
     else {
-        http_response_code(500);
+        http_response_code(501);
         exit();
     }
 }
-
-//Si no es get , error 501
-else {
-    http_response_code(501);
-    exit();
-}
+startEndpoins();
 
 /**
  * +---------------------+
  * +     Funciones       +
  * +    de utilidad      +
  * +---------------------+
+ * 
+ * 
+ * TODO: Mejorar esta seccion y mover a app/helpers
  */
 /**
  * Funcion encargada de procesar los registros y pasarlos a un arreglo con columnas específicas.
  */
-function processRows($stmt)
+function processRows(object $stmt): array
 {
     $stmt->execute();
     $rows = $stmt->fetchAll();
@@ -134,7 +146,7 @@ function processRows($stmt)
  * Funcion que maneja las consultas referentes a fechas
  */
 
-function queryDates($conn)
+function queryDates(object $conn): array
 {
     $status_query = false;
 
@@ -269,7 +281,7 @@ function queryDates($conn)
 /**
  * Funcion encargada de procesar las peticiones de ciudades.
  */
-function queryCity($conn)
+function queryCity(object $conn): array
 {
     $status_query = false;
 
@@ -326,7 +338,7 @@ function queryCity($conn)
  * Funcion encargada de procesar las peticiones de magnitud
  */
 
-function queryMagnitud($conn)
+function queryMagnitud(object $conn): array
 {
     $status_query = false;
 
@@ -385,7 +397,7 @@ function queryMagnitud($conn)
  * Funcion encargada de procesar las peticiones de rankings
  */
 
-function queryTopRanking($conn)
+function queryTopRanking(object $conn): array
 {
     $status_query = false;
     //Procesa ranking con limite incluido
@@ -466,7 +478,7 @@ function queryTopRanking($conn)
  * Funcion encargada de limitar la cantidad de registros entregados
  */
 
-function queryToLimit($conn)
+function queryToLimit(object $conn): array
 {
     $status_query = false;
 
