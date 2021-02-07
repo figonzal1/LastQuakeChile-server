@@ -1,9 +1,13 @@
 <?php
 
-require("src/configs/bd_files/MysqlAdapter.php");
-require("src/configs/Sismo.php");
+declare(strict_types=1);
+
+require_once __DIR__ . '../../src/app/configs/MysqlAdapter.php';
+require_once __DIR__ . '../../src/app/domain/Sismo.php';
 
 use PHPUnit\Framework\TestCase;
+use LastQuakeChile\Database\MysqlAdapter;
+use LastQuakeChile\Domain\Sismo;
 
 /**
  * @covers \MysqlAdapter
@@ -14,7 +18,7 @@ final class MysqlAdapterTest extends TestCase
     /**
      * Funcion para testear la conexion a BD
      */
-    public function testConnectionOk()
+    public function testConnectionOk(): object
     {
         $adapter = new MysqlAdapter("test");
         $conn = $adapter->connect();
@@ -27,7 +31,7 @@ final class MysqlAdapterTest extends TestCase
     /**
      * Funcion para testear fallo de conexion
      */
-    public function testConnectionFail()
+    public function testConnectionFail(): void
     {
         $hostname = "120.0.0.1";
         $db = "testdb";
@@ -43,7 +47,7 @@ final class MysqlAdapterTest extends TestCase
                 array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'", PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
         } catch (PDOException $e) {
-            error_log("Connection Failed: ".$e->getMessage(),0);
+            error_log("Connection Failed: " . $e->getMessage(), 0);
             $result = false;
         }
 
@@ -54,22 +58,23 @@ final class MysqlAdapterTest extends TestCase
      * Agregar un sismo a BD
      * @depends testConnectionOk
      */
-    public function testAddQuake($adapter)
+    public function testAddQuake(object $adapter): void
     {
-        $quake = new Sismo();
-        $quake->setFechaLocal('2018-11-26 05:34:28');
-        $quake->setFechaUTC('2018-11-26 08:34:28');
-        $quake->setCiudad('Pica');
-        $quake->setRefGeograf('28 km al E de Pica');
-        $quake->setMagnitud('3.3');
-        $quake->setEscala('Ml');
-        $quake->setSensible('0');
-        $quake->setLatitud('-20.553');
-        $quake->setLongitud('-69.065');
-        $quake->setProfundidad('95.2');
-        $quake->setAgencia('GUC');
-        $quake->setImagen('http://www.sismologia.cl/mapas/sensibles/2018/11/26-0834-20L.S201811.jpeg');
-        $quake->setEstado('verificado');
+        $quake = new Sismo(
+            '2018-11-26 05:34:28',
+            '2018-11-26 08:34:28',
+            'Pica',
+            '28 km al E de Pica',
+            '3.3',
+            'Ml',
+            '0',
+            '-20.553',
+            '-69.065',
+            '95.2',
+            'GUC',
+            'http://www.sismologia.cl/mapas/sensibles/2018/11/26-0834-20L.S201811.jpeg',
+            'verificado'
+        );
 
 
         $result = $adapter->addQuake($quake);
@@ -82,10 +87,23 @@ final class MysqlAdapterTest extends TestCase
      * Encontrar un sismo en BD
      * @depends testConnectionOk
      */
-    public function testFindQuake($adapter)
+    public function testFindQuake(object $adapter): void
     {
-        $quake = new Sismo();
-        $quake->setImagen("http://www.sismologia.cl/mapas/sensibles/2018/11/26-0834-20L.S201811.jpeg");
+        $quake = new Sismo(
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "http://www.sismologia.cl/mapas/sensibles/2018/11/26-0834-20L.S201811.jpeg",
+            ""
+        );
 
         $result = $adapter->findQuake($quake);
 
@@ -103,13 +121,25 @@ final class MysqlAdapterTest extends TestCase
      * Buscar sismo no guardado en BD
      * @depends testConnectionOk
      */
-    public function testNotFindQuake($adapter)
+    public function testNotFindQuake(object $adapter): void
     {
-        $quake = new Sismo();
-        $quake->setImagen("http://www.sismologia.cl/mapas/sensibles/2010/11/26-0834-20L.S201810.jpeg");
+        $quake = new Sismo(
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "http://www.sismologia.cl/mapas/sensibles/2010/11/26-0834-20L.S201810.jpeg",
+            ""
+        );
 
         $result = $adapter->findQuake($quake);
-
 
         $this->assertNotNull($result);
         $this->assertIsArray($result);
@@ -125,20 +155,42 @@ final class MysqlAdapterTest extends TestCase
      * Buscar sismos del mes en BD
      * @depends testConnectionOk
      */
-    public function testFindQuakeOfMonth($adapter)
+    public function testFindQuakeOfMonth(object $adapter): void
     {
         /**
          * Agregar sismos
          */
-        $quake1 = new Sismo();
-        $quake1->setFechaLocal("2017-12-12 12:44:22");
-        $quake1->setLatitud("223124.123");
-        $quake1->setImagen("imagen1");
+        $quake1 = new Sismo(
+            "2017-12-12 12:44:22",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "223124.123",
+            "",
+            "",
+            "",
+            "imagen1",
+            ""
+        );
 
-        $quake2 = new Sismo();
-        $quake2->setFechaLocal("2017-12-28 12:44:22");
-        $quake2->setLatitud("89456.123");
-        $quake2->setImagen("imagen2");
+        $quake2 = new Sismo(
+            "2017-12-28 12:44:22",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "89456.123",
+            "",
+            "",
+            "",
+            "imagen2",
+            ""
+        );
 
         $adapter->addQuake($quake1);
         $adapter->addQuake($quake2);
