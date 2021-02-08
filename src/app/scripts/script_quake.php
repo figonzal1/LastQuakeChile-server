@@ -1,12 +1,16 @@
 <?php
 
-require_once __DIR__.'../../configs/MysqlAdapter.php';
-require_once __DIR__.'../../helper/Helpers.php';
-require_once __DIR__.'../../domain/Sismo.php';
+declare(strict_types=1);
+
+require_once __DIR__ . '../../configs/MysqlAdapter.php';
+require_once __DIR__ . '../../helper/Helpers.php';
+require_once __DIR__ . '../../domain/Sismo.php';
+require_once 'send_notification.php';
 
 use LastQuakeChile\Helpers;
 use LastQuakeChile\Database\MysqlAdapter;
 use LastQuakeChile\Domain;
+use LastQuakeChile\Scripts;
 
 date_default_timezone_set('America/Santiago');
 
@@ -126,7 +130,7 @@ $conn = $mysql_adapter->connect();
 $list = parseHtml();
 
 //Contador para debug
-//$contador = 1; 
+//$contador = 1;
 if ($conn != null) {
 
 	echo "========== Actualizacion MYSQL" . date("Y-m-d H:i:s") . "==========\n";
@@ -139,7 +143,10 @@ if ($conn != null) {
 		//Buscar si existe el sismo
 		$result = $mysql_adapter->findQuake($item);
 		$finded = $result['finded'];
-		$sismoBD = $result['sismo'];		
+
+		if ($result['sismo'] != null) {
+			$sismoBD = $result['sismo'];
+		}
 
 		//Obtener diferencia en minutos
 		//tiempo actual con tiempo sismo
@@ -161,7 +168,7 @@ if ($conn != null) {
 				//ENVIO DE NOTIFICACION A CELULARES DEPENDIENDO DEL ESTADO
 				if ($sismoAdded['magnitud'] >= 5.0 and $diff_horas == 0 and $diff_minutes <= 15) {
 
-					sendNotification(
+					Scripts\sendNotification(
 						'Quakes',
 						'',
 						$sismoAdded['fecha_utc'],
@@ -199,7 +206,7 @@ if ($conn != null) {
 				//ENVIO DE NOTIFICACION DE SISMO VERIFICADO
 				if ($item->getMagnitud() >= 5.0 and $diff_horas == 0 and $diff_minutes <= 30) {
 
-					sendNotification(
+					Scripts\sendNotification(
 						'Quakes',
 						'[Corrección] ',
 						$sismoBD['fecha_utc'],
@@ -237,7 +244,22 @@ if ($conn != null) {
 
 			//USAR SOLO PARA DEBUGUEAR
 			/*if ($contador == 1) {
-				sendNotification("Test", "[DEBUG] ", $fecha_utc, $ciudad, $latitud, $longitud, $profundidad, $magnitud, $escala, $sensible, $referencia, $imagen, $estado);
+
+				Scripts\sendNotification(
+					"Test",
+					"[DEBUG] ",
+					$sismoBD['fecha_utc'],
+					$sismoBD['ciudad'],
+					$sismoBD['latitud'],
+					$sismoBD['longitud'],
+					$sismoBD['profundidad'],
+					$sismoBD['magnitud'],
+					$sismoBD['escala'],
+					$sismoBD['sensible'],
+					$sismoBD['referencia'],
+					$sismoBD['imagen'],
+					$sismoBD['estado']
+				);
 				$contador += 1;
 			}*/
 
