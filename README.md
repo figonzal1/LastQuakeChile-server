@@ -1,8 +1,27 @@
-# Lastquakechile-server
-[![CodeFactor](https://www.codefactor.io/repository/github/figonzal1/lastquakechile-server/badge)](https://www.codefactor.io/repository/github/figonzal1/lastquakechile-server) 
-[![codecov](https://codecov.io/gh/figonzal1/LastQuakeChile-server/branch/development/graph/badge.svg)](https://codecov.io/gh/figonzal1/LastQuakeChile-server) 
-[![Known Vulnerabilities](https://snyk.io//test/github/figonzal1/LastQuakeChile-server/badge.svg?targetFile=composer.lock)](https://snyk.io//test/github/figonzal1/LastQuakeChile-server?targetFile=composer.lock) 
-[![Heroku](http://heroku-badge.herokuapp.com/?app=lastquakechile-server-prod)](https://dashboard.heroku.com/apps/lastquakechile-server-prod)
+<h1 align="center"><a href="https://figonzal.cl/lastquakechile">LastQuakeChile</a></h1>
+
+<p align="center">
+  
+  <a href="https://www.codefactor.io/repository/github/figonzal1/lastquakechile-server">
+    <img src="https://www.codefactor.io/repository/github/figonzal1/lastquakechile-server/badge" alt="CodeFactor" />
+  </a>
+  
+  <a href="https://img.shields.io/github/repo-size/figonzal1/lastquakechile-server">
+    <img alt="GitHub size" src="https://img.shields.io/github/repo-size/figonzal1/lastquakechile-server">
+  </a>
+  
+  <a href="https://img.shields.io/github/last-commit/figonzal1/lastquakechile-server?color=yellow">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/figonzal1/lastquakechile-server?color=yellow">
+  </a>
+  
+  <a href="https://img.shields.io/uptimerobot/status/m785915204-fb6a8da6a3d79113696f212a?label=website%20status">
+    <img alt="Uptime Robot status" src="https://img.shields.io/uptimerobot/status/m785915204-fb6a8da6a3d79113696f212a?label=website%20status">
+  
+  <a href="https://securityheaders.com/?q=figonzal.cl&hide=on&followRedirects=on">
+  <img alt="Security Headers" src="https://img.shields.io/security-headers?url=https%3A%2F%2Ffigonzal.cl">
+  </a>
+  
+</p>
 
 | MasterBranch | DevBranch |
 |--------|------------|
@@ -14,12 +33,12 @@ Servidor de sismos, encargado de consultar la página de [www.sismologia.cl](htt
 ### Script Sismos
 Encargado de recopilar sismos desde [www.sismologia.cl](https://www.sismología.cl)
 ```ssh
-    $ php src/configs/script_quake.php
+    $ php src/app/scripts/script_quake.php prod
 ```
 ### Script Reportes
 Encargado de generar reporte de sismos mensuales.
 ```ssh
-    $ php src/configs/script_report.php
+    $ php src/app/scripts/script_report.php prod
 ```
 
 ## PhpUnit test
