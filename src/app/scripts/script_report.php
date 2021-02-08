@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__.'../../configs/MysqlAdapter.php';
+declare(strict_types=1);
+
+require_once __DIR__ . '../../configs/MysqlAdapter.php';
 
 use LastQuakeChile\Database\MysqlAdapter;
 
@@ -18,7 +20,7 @@ $script_date = date('Y-m-d');
 //Dia y hora del mes que corre el script
 $day_of_month = date('j');
 
-if ($day_of_month == 6) {
+if ($day_of_month == 1) {
 
     echo "GENERANDO REPORTE\n";
     echo "MES REPORTE: " . $month_report . "\n";
@@ -29,7 +31,7 @@ if ($day_of_month == 6) {
 
     if ($conn !== false) {
         try {
-            
+
 
             //Numero de sismos sensibles
             $stmt = $conn->prepare("SELECT COUNT(*) as n_sensibles FROM quakes WHERE Month(fecha_local) = ? and Year(fecha_local) = ? and sensible=1");
