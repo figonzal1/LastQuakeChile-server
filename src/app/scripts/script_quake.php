@@ -144,7 +144,7 @@ if ($conn != null) {
 		$result = $mysql_adapter->findQuake($item);
 		$finded = $result['finded'];
 
-		if ($result['sismo'] != null) {
+		if (isset($result['sismo']) and $result['sismo'] != null) {
 			$sismoBD = $result['sismo'];
 		}
 
