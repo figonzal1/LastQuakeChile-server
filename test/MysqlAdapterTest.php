@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '../../src/app/configs/MysqlAdapter.php';
-require_once __DIR__ . '../../src/app/domain/Sismo.php';
+require_once __DIR__ . '../../src/configs/MysqlAdapter.php';
+require_once __DIR__ . '../../src/domain/Sismo.php';
 
 use PHPUnit\Framework\TestCase;
 use LastQuakeChile\Database\MysqlAdapter;
