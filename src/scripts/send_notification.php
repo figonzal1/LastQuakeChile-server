@@ -44,7 +44,7 @@ function sendNotification(
 ): void {
 
 	$factory = (new Factory())->withServiceAccount(getenv("FIREBASE_CREDENTIALS"));
-	//$factory = (new Factory())->withServiceAccount("C:\\xampp\\htdocs\\LastQuakeChile-server\\lqch-server-credentials.json");
+	#$factory = (new Factory())->withServiceAccount("C:\\xampp\\htdocs\\LastQuakeChile-server\\lqch-server-credentials.json");
 
 	try {
 
@@ -87,14 +87,14 @@ function sendNotification(
 function configNotification(string $tipo_mensaje, object $config, array $data): object
 {
 	//Revisar token de dispositivo en android (SOLO DEBUG)
-	//$deviceToken = "fjajDE4wRiC5G4ZLFoFCis:APA91bGtsu9PwaafhskmWPb6Mv5k9NcalaGUg_8BdfwyhWAqiypSkY-Hm2v3vmlQu6T9h8oQ5D5Cdo2tnF8Qb36qhtjXsy1hzMrZMewiJsJ5Nk_3vIjKPk3GCOY2S8vqi_tLPiCwPRYg";
+	$deviceToken = "daZsqoQlQxScFbOz_H7h56:APA91bHg9LxI1wkqruFqkvg8VL7HXoa-6NhaY6AE-fnYW_kF8xNT9E2LdAdwRAa3r7lJW0zrTIsj93Gs6Kad2z8_LAJ55DL9g5V9PK8YsiAZl0JEXkpWt4rCJw8OiYw4D-OeDGvX3v0u";
 
 	//Envia solo a un dispositivo
-	/*if ($tipo_mensaje == 'Test') {
+	if ($tipo_mensaje == 'Test') {
 		$message = CloudMessage::withTarget('token', $deviceToken)
 			->withAndroidConfig($config)
 			->withData($data);
-	}*/
+	}
 
 	//Envia a todos los dispositivos en Quakes
 	if ($tipo_mensaje == 'Quakes') {
