@@ -130,7 +130,7 @@ $conn = $mysql_adapter->connect();
 $list = parseHtml();
 
 //Contador para debug
-$contador = 1;
+//$contador = 1;
 if ($conn != null) {
 
 	echo "========== Actualizacion MYSQL" . date("Y-m-d H:i:s") . "==========\n";
@@ -243,7 +243,7 @@ if ($conn != null) {
 		) {
 
 			//USAR SOLO PARA DEBUGUEAR
-			if ($contador == 1) {
+			/*if ($contador == 1) {
 
 				Scripts\sendNotification(
 					"Test",
@@ -261,7 +261,7 @@ if ($conn != null) {
 					$sismoBD['estado']
 				);
 				$contador += 1;
-			}
+			}*/
 
 			echo "No hay sismos nuevos\n";
 		}

@@ -87,14 +87,14 @@ function sendNotification(
 function configNotification(string $tipo_mensaje, object $config, array $data): object
 {
 	//Revisar token de dispositivo en android (SOLO DEBUG)
-	$deviceToken = "daZsqoQlQxScFbOz_H7h56:APA91bHg9LxI1wkqruFqkvg8VL7HXoa-6NhaY6AE-fnYW_kF8xNT9E2LdAdwRAa3r7lJW0zrTIsj93Gs6Kad2z8_LAJ55DL9g5V9PK8YsiAZl0JEXkpWt4rCJw8OiYw4D-OeDGvX3v0u";
+	//$deviceToken = "daZsqoQlQxScFbOz_H7h56:APA91bHg9LxI1wkqruFqkvg8VL7HXoa-6NhaY6AE-fnYW_kF8xNT9E2LdAdwRAa3r7lJW0zrTIsj93Gs6Kad2z8_LAJ55DL9g5V9PK8YsiAZl0JEXkpWt4rCJw8OiYw4D-OeDGvX3v0u";
 
 	//Envia solo a un dispositivo
-	if ($tipo_mensaje == 'Test') {
+	/*if ($tipo_mensaje == 'Test') {
 		$message = CloudMessage::withTarget('token', $deviceToken)
 			->withAndroidConfig($config)
 			->withData($data);
-	}
+	}*/
 
 	//Envia a todos los dispositivos en Quakes
 	if ($tipo_mensaje == 'Quakes') {
