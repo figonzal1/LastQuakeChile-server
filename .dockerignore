@@ -1,0 +1,8 @@
+vendor/
+encrypt.tar.gz
+encrypt.tar.gz.enc
+Procfile
+Dockerfile
+*.xml
+composer.lock
+*.yml

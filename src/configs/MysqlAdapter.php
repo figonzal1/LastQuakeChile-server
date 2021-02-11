@@ -10,7 +10,7 @@ use Dotenv\Dotenv;
 use QuakeInterface;
 
 date_default_timezone_set('America/Santiago');
-require_once __DIR__ . '../../../../vendor/autoload.php';
+require_once __DIR__ . '../../../vendor/autoload.php';
 require_once __DIR__ . '../../interfaces/QuakeInterface.php';
 
 class MysqlAdapter implements QuakeInterface
@@ -27,7 +27,7 @@ class MysqlAdapter implements QuakeInterface
         if ($tipo == "test") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
+            $dotenv = Dotenv::createUnsafeImmutable(__DIR__."../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME_TEST');
@@ -39,7 +39,7 @@ class MysqlAdapter implements QuakeInterface
         else if ($tipo == "prod") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . "../../../../");
+            $dotenv = Dotenv::createUnsafeImmutable(__DIR__."../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME');

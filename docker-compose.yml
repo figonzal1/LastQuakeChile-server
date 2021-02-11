@@ -1,0 +1,55 @@
+# Docker compose 
+# para construir servicio de LastQuakeChile-server
+version: '3.5'
+
+services:    
+
+  #Definicion servicio PHP
+  lqch_server:
+    container_name: lqch_server
+    image: lastquakechile/server
+    restart: on-failure
+    ports:
+      - "443:443"
+    networks:
+      - lqch_net
+    depends_on:
+      - lqch_db
+
+
+  #Definicion servicio mysql
+  #Carga los datos desde la carpeta mysql-dump
+  lqch_db:
+    container_name: lqch_db
+    image: mysql:8.0
+    restart: on-failure
+    command: --default-authentication-plugin=mysql_native_password
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "18120:3306"
+    networks:
+      - lqch_net
+    volumes:
+      - ./mysql-dump:/docker-entrypoint-initdb.d #Carga de datos desde dump
+      - lqch_data:/var/lib/mysql  #Almacenamiento persistente de docker
+
+  #Servicio de espera para mysql
+  wait_for_lqch_db:
+    container_name: lqch_w4database
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - lqch_db
+    networks:
+      - lqch_net
+    command: lqch_db:3306
+
+networks:
+  lqch_net:
+    name: lqch_net
+volumes:
+  lqch_data:
