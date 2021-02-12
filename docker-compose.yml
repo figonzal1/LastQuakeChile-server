@@ -7,7 +7,7 @@ services:
   #Definicion servicio PHP
   lqch_server:
     container_name: lqch_server
-    image: lastquakechile/server
+    image: figonzal/lqch-server:1.0
     restart: on-failure
     ports:
       - "443:443"

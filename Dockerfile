@@ -12,8 +12,7 @@ RUN apt-get clean \
 
 # Copiar carpeta projecto
 COPY ./src/ /var/www/src
-COPY *.json /var/www/
-COPY .env /var/www/
+COPY *.json .env /var/www/
 COPY ./public/figonzal.cl /var/www/html/
 
 #Configuraciones apache
@@ -30,13 +29,11 @@ RUN a2ensite 000-figonzal.conf \
 COPY ./api-files/php-production.ini "$PHP_INI_DIR/php.ini"
 #COPY ./api-files/php-development.ini "$PHP_INI_DIR/php.ini"
 
-RUN usermod -u 1000 www-data
-RUN chown -R www-data:www-data /var/www/
-
-# Instalacion de composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php composer-setup.php --filename=composer --install-dir=/usr/local/bin
-RUN php -r "unlink('composer-setup.php');"
-RUN cd /var/www/ && composer install
+RUN usermod -u 1000 www-data \
+&& chown -R www-data:www-data /var/www/ \
+&& php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+&& php composer-setup.php --filename=composer --install-dir=/usr/local/bin \
+&& php -r "unlink('composer-setup.php');" \
+&& cd /var/www/ && composer install
 
 EXPOSE 443
