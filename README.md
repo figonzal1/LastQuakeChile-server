@@ -23,22 +23,33 @@
   
 </p>
 
-| MasterBranch | DevBranch |
-|--------|------------|
-|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile-server.svg?branch=master)](https://travis-ci.com/figonzal1/LastQuakeChile-server)|[![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile-server.svg?branch=development)](https://travis-ci.com/figonzal1/LastQuakeChile-server)|
+| MasterBranch                                                                                                                                      | DevBranch                                                                                                                                              |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile-server.svg?branch=master)](https://travis-ci.com/figonzal1/LastQuakeChile-server) | [![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile-server.svg?branch=development)](https://travis-ci.com/figonzal1/LastQuakeChile-server) |
 
 Servidor de sismos, encargado de consultar la página de [www.sismologia.cl](https://www.sismología.cl)
 
 ## Scripts funcionales
 ### Script Sismos
 Encargado de recopilar sismos desde [www.sismologia.cl](https://www.sismología.cl)
+#### PHP
 ```ssh
-    $ php src/app/scripts/script_quake.php prod
+    $ php src/scripts/script_quake.php prod
+```
+#### PHP + docker
+```ssh
+    $ docker exec lqch_server php /var/www/src/scripts/script_quake.php prod 
 ```
 ### Script Reportes
-Encargado de generar reporte de sismos mensuales.
+Encargado de generar reportes mensuales de sismos.
+
+#### PHP
 ```ssh
-    $ php src/app/scripts/script_report.php prod
+    $ php src/scripts/script_report.php prod
+```
+#### PHP + docker
+```ssh
+    $ docker exec lqch_server php /var/www/src/scripts/script_reports.php prod
 ```
 
 ## PhpUnit test
