@@ -8,8 +8,8 @@ header('Cache-Control: public,no-cache,max-age=660,s-maxage=600,must-revalidate'
 header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json; charset=UTF-8');
 
-require_once __DIR__ . '../../../../../../src/configs/MysqlAdapter.php'; //Heroku
-#require_once '/var/www/src/configs/MysqlAdapter.php'; //Docker
+#require_once __DIR__ . '../../../../../../src/configs/MysqlAdapter.php'; //Heroku
+require_once '/var/www/src/configs/MysqlAdapter.php'; //Docker
 
 function startEndpoins()
 {

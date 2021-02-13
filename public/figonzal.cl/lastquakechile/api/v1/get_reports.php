@@ -8,8 +8,8 @@ header('Cache-Control: no-cache');
 header('X-Content-Type-Options: nosniff');
 header('Content-type: application/json; charset=UTF-8');
 
-require_once __DIR__ . '../../../../../../src/configs/MysqlAdapter.php'; //Heroku
-#require_once '/var/www/src/configs/MysqlAdapter.php'; //Docker
+#require_once __DIR__ . '../../../../../../src/configs/MysqlAdapter.php'; //Heroku
+require_once '/var/www/src/configs/MysqlAdapter.php'; //Docker
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
