@@ -9,7 +9,7 @@ use \DateTime;
 /**
  * Funcion encargada de hacer la conexion a la url
  */
-function quakeRequest(string $url): string
+function quakeRequest(string $url)
 {
 	$ch = curl_init($url); // Inicia sesión cURL
 	curl_setopt($ch, CURLOPT_URL, $url);
