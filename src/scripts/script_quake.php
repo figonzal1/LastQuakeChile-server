@@ -18,7 +18,7 @@ date_default_timezone_set('America/Santiago');
 $run_in = $argv[1];
 
 
-function parseHtml(): array
+function parseHtml(): ?array
 {
 	$list = array();
 
@@ -28,101 +28,105 @@ function parseHtml(): array
 	$dom = new domDocument;
 
 	/*** load the html into the object ***/
-	$dom->loadHTML($sitioweb);
+	$status = $dom->loadHTML($sitioweb);
 
-	/*** discard white space ***/
-	$dom->preserveWhiteSpace = false;
+	if (!$status) {
+		/*** discard white space ***/
+		$dom->preserveWhiteSpace = false;
 
-	/*** the table by its tag name ***/
-	$tables = $dom->getElementsByTagName('table');
-	foreach ($tables as $table) {
-		$tbodys = $table->getElementsByTagName('tbody');
-		foreach ($tbodys as $tbody) {
-			$rows = $tbody->getElementsByTagName('tr');
-		}
-	}
-
-	//RECORRER EL LISTADO DE SISMOLOGIA.CL Y SCRAPEAR DATOS DE LOS SISMOS
-	//INSERCION EN LISTA
-	foreach ($rows as $key => $value) {
-
-		//EXIGIR KEY MAYOR QUE 0 PARA ELIMINAR ENCABEZADO DE TABLA
-		if ($key > 0) {
-
-			$cols = $value->getElementsByTagName('td');
-
-			//Captura el tag "a" con la referencia de la imagen
-			$links = $value->getElementsByTagName('a');
-			$href = trim($links->item(0)->getAttribute('href'));
-			$href = str_replace('events', 'mapas', $href);
-			$href = str_replace('html', 'jpeg', $href);
-			$imagen = 'http://www.sismologia.cl' . $href;
-
-			//FORMATEAR FECHAS ESTILO XXXX-XX-XX XX:XX:XX
-			$fecha_local = trim($cols->item(0)->nodeValue);
-			$fecha_local = date_create($fecha_local);
-			$fecha_local = $fecha_local->format('Y-m-d H:i:s');
-
-			$fecha_utc = trim($cols->item(1)->nodeValue);
-			$fecha_utc = date_create($fecha_utc);
-			$fecha_utc = $fecha_utc->format('Y-m-d H:i:s');
-
-			$latitud = trim($cols->item(2)->nodeValue);
-			$longitud = trim($cols->item(3)->nodeValue);
-			$profundidad = trim($cols->item(4)->nodeValue);
-
-			$magnitud_escala = explode(' ', trim($cols->item(5)->nodeValue));
-			$magnitud = $magnitud_escala[0];
-			$escala = $magnitud_escala[1];
-
-			$agencia = trim($cols->item(6)->nodeValue);
-
-			$referencia = trim($cols->item(7)->nodeValue);
-			$referencia = str_replace('.', '', $referencia);
-			$ciudad = trim(substr($referencia, strpos($referencia, 'de') + 2));
-
-			//SI EL SISMO TIENE EL PREFIJO erb_ EN EL LINK DE LA IMAGEN -> EL SIMOS ES PRELIMINAR
-			if (strpos($imagen, 'erb_') === FALSE) {
-				$estado = 'verificado';
-			} else {
-				$estado = 'preliminar';
-				$imagen = str_replace('erb_', '', $imagen);
+		/*** the table by its tag name ***/
+		$tables = $dom->getElementsByTagName('table');
+		foreach ($tables as $table) {
+			$tbodys = $table->getElementsByTagName('tbody');
+			foreach ($tbodys as $tbody) {
+				$rows = $tbody->getElementsByTagName('tr');
 			}
-
-			//BUSCAR EL ATRIBUTO EN LA TABLA DE SISMOLOGIA.CL QUE INDICA SENSIBILIDAD DE SISMOS
-			$clase = explode(' ', $value->getAttribute('class') . ' ');
-
-			//CHECKEAR SENSIBILIDAD DE SISMOS BUSCANDO EL ATRIBUTO
-			if ($clase[1] == 's_sensible') {
-				$sensible = '1';
-			} else {
-				$sensible = '2';
-			}
-
-			//CREACION INSTANCIA SISMO
-			$sismo = new Domain\Sismo(
-				$fecha_local,
-				$fecha_utc,
-				$ciudad,
-				$referencia,
-				$magnitud,
-				$escala,
-				$sensible,
-				$latitud,
-				$longitud,
-				$profundidad,
-				$agencia,
-				$imagen,
-				$estado
-			);
-
-
-			//PUSHEAR INSTANCIA DE SISMO A LISTA DE SISMOS
-			array_push($list, $sismo);
 		}
-	}
 
-	return $list;
+		//RECORRER EL LISTADO DE SISMOLOGIA.CL Y SCRAPEAR DATOS DE LOS SISMOS
+		//INSERCION EN LISTA
+		foreach ($rows as $key => $value) {
+
+			//EXIGIR KEY MAYOR QUE 0 PARA ELIMINAR ENCABEZADO DE TABLA
+			if ($key > 0) {
+
+				$cols = $value->getElementsByTagName('td');
+
+				//Captura el tag "a" con la referencia de la imagen
+				$links = $value->getElementsByTagName('a');
+				$href = trim($links->item(0)->getAttribute('href'));
+				$href = str_replace('events', 'mapas', $href);
+				$href = str_replace('html', 'jpeg', $href);
+				$imagen = 'http://www.sismologia.cl' . $href;
+
+				//FORMATEAR FECHAS ESTILO XXXX-XX-XX XX:XX:XX
+				$fecha_local = trim($cols->item(0)->nodeValue);
+				$fecha_local = date_create($fecha_local);
+				$fecha_local = $fecha_local->format('Y-m-d H:i:s');
+
+				$fecha_utc = trim($cols->item(1)->nodeValue);
+				$fecha_utc = date_create($fecha_utc);
+				$fecha_utc = $fecha_utc->format('Y-m-d H:i:s');
+
+				$latitud = trim($cols->item(2)->nodeValue);
+				$longitud = trim($cols->item(3)->nodeValue);
+				$profundidad = trim($cols->item(4)->nodeValue);
+
+				$magnitud_escala = explode(' ', trim($cols->item(5)->nodeValue));
+				$magnitud = $magnitud_escala[0];
+				$escala = $magnitud_escala[1];
+
+				$agencia = trim($cols->item(6)->nodeValue);
+
+				$referencia = trim($cols->item(7)->nodeValue);
+				$referencia = str_replace('.', '', $referencia);
+				$ciudad = trim(substr($referencia, strpos($referencia, 'de') + 2));
+
+				//SI EL SISMO TIENE EL PREFIJO erb_ EN EL LINK DE LA IMAGEN -> EL SIMOS ES PRELIMINAR
+				if (strpos($imagen, 'erb_') === FALSE) {
+					$estado = 'verificado';
+				} else {
+					$estado = 'preliminar';
+					$imagen = str_replace('erb_', '', $imagen);
+				}
+
+				//BUSCAR EL ATRIBUTO EN LA TABLA DE SISMOLOGIA.CL QUE INDICA SENSIBILIDAD DE SISMOS
+				$clase = explode(' ', $value->getAttribute('class') . ' ');
+
+				//CHECKEAR SENSIBILIDAD DE SISMOS BUSCANDO EL ATRIBUTO
+				if ($clase[1] == 's_sensible') {
+					$sensible = '1';
+				} else {
+					$sensible = '2';
+				}
+
+				//CREACION INSTANCIA SISMO
+				$sismo = new Domain\Sismo(
+					$fecha_local,
+					$fecha_utc,
+					$ciudad,
+					$referencia,
+					$magnitud,
+					$escala,
+					$sensible,
+					$latitud,
+					$longitud,
+					$profundidad,
+					$agencia,
+					$imagen,
+					$estado
+				);
+
+
+				//PUSHEAR INSTANCIA DE SISMO A LISTA DE SISMOS
+				array_push($list, $sismo);
+			}
+		}
+
+		return $list;
+	} else {
+		return null;
+	}
 }
 
 $mysql_adapter = new MysqlAdapter($run_in);
@@ -131,7 +135,7 @@ $list = parseHtml();
 
 //Contador para debug
 //$contador = 1;
-if ($conn != null) {
+if ($conn != null && $list != null) {
 
 	echo "========== Actualizacion MYSQL" . date("Y-m-d H:i:s") . "==========\n";
 
@@ -269,5 +273,4 @@ if ($conn != null) {
 	$mysql_adapter->close();
 } else {
 	error_log("Script quakes fail", 0);
-	http_response_code(500);
 }
