@@ -30,7 +30,7 @@ function parseHtml(): ?array
 	/*** load the html into the object ***/
 	$status = $dom->loadHTML($sitioweb);
 
-	if (!$status) {
+	if ($status) {
 		/*** discard white space ***/
 		$dom->preserveWhiteSpace = false;
 
