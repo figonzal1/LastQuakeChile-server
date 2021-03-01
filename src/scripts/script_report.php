@@ -12,9 +12,9 @@ date_default_timezone_set('America/Santiago');
 $run_in = $argv[1];
 
 //Mes y año del mes anterior
-$prev_month = date('n', strtotime('-3 Month'));
-$prev_year = date('Y', strtotime('-3 Month'));
-$month_report = date('Y-m', strtotime('-3 Month'));
+$prev_month = date('n', strtotime('-1 Month'));
+$prev_year = date('Y', strtotime('-1 Month'));
+$month_report = date('Y-m', strtotime('-1 Month'));
 $script_date = date('Y-m-d');
 
 //Dia y hora del mes que corre el script
@@ -30,8 +30,8 @@ if ($day_of_month == 1) {
     $conn = $mysql_adapter->connect();
 
     if ($conn !== false) {
-        try {
 
+        try {
 
             //Numero de sismos sensibles
             $stmt = $conn->prepare("SELECT COUNT(*) as n_sensibles FROM quakes WHERE Month(fecha_local) = ? and Year(fecha_local) = ? and sensible=1");
@@ -39,6 +39,7 @@ if ($day_of_month == 1) {
             $n_sensibles = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $conn->beginTransaction();
+
             //Promedios, Conteo, Maximos y Minimos mensuales
             $stmt = $conn->prepare("SELECT COUNT(*) as n_sismos,AVG(magnitud) as prom_magnitud , AVG(profundidad) as prom_profundidad, MAX(magnitud) as max_magnitud, MIN(profundidad) as min_profundidad FROM quakes WHERE Month(fecha_local) = ? and Year(fecha_local) = ?");
             $stmt->execute([$prev_month, $prev_year]);
