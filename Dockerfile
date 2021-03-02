@@ -1,5 +1,6 @@
 FROM php:7.4-apache
 ENV TZ="America/Santiago"
+LABEL org.opencontainers.image.source = "https://github.com/figonzal/LastQuakeChile-server"
 RUN apt-get clean \ 
 && apt-get update \ 
 && apt-get install git vim unzip libicu-dev g++ libzip-dev libmcrypt-dev libapache2-mod-security2 -y \ 
