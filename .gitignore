@@ -5,3 +5,4 @@ lqch-server-credentials.json
 encrypt.tar.gz
 coverage.xml
 *.pem
+github_token.txt
