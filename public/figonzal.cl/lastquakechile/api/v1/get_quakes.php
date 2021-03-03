@@ -18,7 +18,7 @@ function startEndpoins()
         $mysql_adapter = new MysqlAdapter("prod");
         $conn = $mysql_adapter->connect();
 
-        if ($conn !== false) {
+        if ($conn != null) {
             $quakes = [];
             $params = [];
 
