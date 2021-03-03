@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $mysql_adapter = new MysqlAdapter("prod");
     $conn = $mysql_adapter->connect();
 
-    if ($conn !== false) {
+    if ($conn != null) {
 
         $sql = "SELECT * FROM reports ORDER BY mes_reporte DESC";
 
