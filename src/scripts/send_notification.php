@@ -139,7 +139,7 @@ function setNotificationData(
 	string $estado
 ): array {
 
-	return $data = [
+	return [
 		'titulo' => $prefijo . '¡Alerta sísmica!',
 		'descripcion' => 'Sismo de ' . $magnitud . ' registrado a ' . $referencia,
 		'ciudad' => $ciudad,
