@@ -23,8 +23,8 @@
   
 </p>
 
-| MasterBranch                                                                                                                                      | DevBranch                                                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| MasterBranch | DevBranch |
+| -------------------- | ----------------- |
 | [![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile-server.svg?branch=master)](https://travis-ci.com/figonzal1/LastQuakeChile-server) | [![Build Status](https://travis-ci.com/figonzal1/LastQuakeChile-server.svg?branch=development)](https://travis-ci.com/figonzal1/LastQuakeChile-server) |
 
 Servidor de sismos, encargado de consultar la página de [www.sismologia.cl](https://www.sismología.cl)

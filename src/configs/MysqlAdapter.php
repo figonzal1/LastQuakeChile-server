@@ -27,7 +27,7 @@ class MysqlAdapter implements QuakeInterface
         if ($tipo == "test") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv::createUnsafeImmutable(__DIR__."../../../");
+            $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . "../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME_TEST');
@@ -39,7 +39,7 @@ class MysqlAdapter implements QuakeInterface
         else if ($tipo == "prod") {
 
             //Activar dotenv solo para usar .env en local
-            $dotenv = Dotenv::createUnsafeImmutable(__DIR__."../../../");
+            $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . "../../../");
             $dotenv->load();
 
             $this->hostname = getenv('DB_HOSTNAME');

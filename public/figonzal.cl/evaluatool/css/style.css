@@ -1,49 +1,39 @@
-html,
-body,
-header,
-#portada {
-	height: 100%;
+html, body, header, #portada {
+  height: 100%;
 }
 
-
 #portada {
-	background: url('../img/background.jpg');
-	background-position: center center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	-webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+  background: url('../img/background.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
-
 
 .wow {
   visibility: hidden;
 }
 
-
 .page-footer {
-	background-color: #6a1b9a;
+  background-color: #6a1b9a;
 }
-
 
 .footer-copyright {
-	background-color: #3f51b5;
+  background-color: #3f51b5;
 }
-
 
 .top-nav-collapse {
   background-color: #6a1b9a;
 }
-
 
 @media (max-width: 768px) {
   .navbar:not(.top-nav-collapse) {
     background-color: #6a1b9a;
   }
 }
-
 
 @media (min-width: 800px) and (max-width: 850px) {
   .navbar:not(.top-nav-collapse) {
