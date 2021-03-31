@@ -914,16 +914,16 @@
         },
         {
             "name": "lcobucci/jwt",
-            "version": "4.0.2",
+            "version": "4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "cefaeb37709c719a2e788dff0bf1ad4064c71ba2"
+                "reference": "ae4165a76848e070fdac691e773243d10cd06ce1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/cefaeb37709c719a2e788dff0bf1ad4064c71ba2",
-                "reference": "cefaeb37709c719a2e788dff0bf1ad4064c71ba2",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/ae4165a76848e070fdac691e773243d10cd06ce1",
+                "reference": "ae4165a76848e070fdac691e773243d10cd06ce1",
                 "shasum": ""
             },
             "require": {
@@ -974,7 +974,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lcobucci/jwt/issues",
-                "source": "https://github.com/lcobucci/jwt/tree/4.0.2"
+                "source": "https://github.com/lcobucci/jwt/tree/4.0.3"
             },
             "funding": [
                 {
@@ -986,7 +986,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-03-19T20:51:49+00:00"
+            "time": "2021-03-23T23:47:22+00:00"
         },
         {
             "name": "monolog/monolog",

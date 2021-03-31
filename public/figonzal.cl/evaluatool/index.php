@@ -43,19 +43,19 @@
 
               <!-- Imagen boton google play -->
               <div class="my-4 wow fadeInDown delay-1s">
-              <p class="text-center">Inscríbete en la fase de pruebas usando este botón</p>
+                <p class="text-center">Inscríbete en la fase de pruebas usando este botón</p>
                 <a href="https://play.google.com/apps/testing/cl.figonzal.evaluatool" target="_blank">
                   <img src="img/google-play-badge.png" class="mx-auto img-fluid" style="width: 35%;" alt="Google play beta link">
                 </a>
-              
+
               </div>
 
               <div class="my-4 wow fadeInDown delay-1s" data-wow-delay="1.5s">
-              <p class="text-center">Grupo Whatsapp para problemas, dudas o consultas sobre la app. (Link en el icono)</p>
+                <p class="text-center">Grupo Whatsapp para problemas, dudas o consultas sobre la app. (Link en el icono)</p>
                 <a href="https://chat.whatsapp.com/HY53a5RlUvvFNwFwstXHHy" target="_blank">
                   <img src="img/logo_wsp.png" class="mx-auto img-fluid" style="width: 20%;" alt="Grupo WhatSapp">
                 </a>
-              
+
               </div>
 
             </div>

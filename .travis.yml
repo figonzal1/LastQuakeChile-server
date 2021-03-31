@@ -33,6 +33,7 @@ jobs:
         - phpunit --bootstrap vendor/autoload.php --testsuite unit
       after_success:
         - bash <(curl -s https://codecov.io/bash)
+
     #DEPLOY DEV STAGE
     - stage: deploy-dev
       name: "Deploy to heroku-dev"
@@ -55,6 +56,7 @@ jobs:
         app: lastquakechile-server-dev
         on:
           branch: development
+
     #DEPLOY PRODUCTION STAGE
     - stage: deploy-prod
       name: "Deploy to heroku-prod"

@@ -14,7 +14,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="google-site-verification" content="3s7di-xAGBPqXOlS9EbC3Ox_RZwzbG82pHa7IRlRx80" />
 
-  
+
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
@@ -34,48 +34,48 @@
 
 <body data-spy="scroll" data-target="navbar" data-offset="20" style="position: relative;">
 
-    <?php readfile("navbar.html"); ?>
+  <?php readfile("navbar.html"); ?>
 
-    <!-- Mascara Imagen-->
-    <div id="portada" class="view">
-      <div class="mask rgba-black-strong" id="inicio">
+  <!-- Mascara Imagen-->
+  <div id="portada" class="view">
+    <div class="mask rgba-black-strong" id="inicio">
 
-        <div class="container-fluid mt-5">
+      <div class="container-fluid mt-5">
 
-          <div class="row p-5">
+        <div class="row p-5">
 
-            <!-- Columna izquierda -->
-            <div class="col-md-6 white-text d-flex flex-column justify-content-center">
+          <!-- Columna izquierda -->
+          <div class="col-md-6 white-text d-flex flex-column justify-content-center">
 
-              <!-- Titulo -->
-              <div class="text-sm-center text-center wow fadeInDown">
-                <h1 class="h1 font-weight-bold">¡Descárgala!</h1>
-                <hr class="hr-light mx-5">
-                <h1 class="h4 font-weight-bold">Información actualizada, reportes y notificaciones de los últimos sismos ocurridos en Chile.</h1>
-              </div>
-
-              <!-- Imagen boton google play -->
-              <div class="my-4 wow fadeInDown delay-1s">
-                <a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile" target="_blank">
-                  <img src="img/google-play-badge.png" class="mx-auto img-fluid" style="width: 50%;" alt="Google play link">
-                </a>
-              </div>
-
+            <!-- Titulo -->
+            <div class="text-sm-center text-center wow fadeInDown">
+              <h1 class="h1 font-weight-bold">¡Descárgala!</h1>
+              <hr class="hr-light mx-5">
+              <h1 class="h4 font-weight-bold">Información actualizada, reportes y notificaciones de los últimos sismos ocurridos en Chile.</h1>
             </div>
 
-            <!-- Columna derecha -->
-            <div class="col-md-6 wow fadeInDown">
-              <div class="d-flex flex-row">
-                <img src="img/pantalla_lastquakechile.png" alt="Imagen Celular" class="ml-5 img-fluid" style="width: 40%;">
-                <img src="img/pantalla_lastquakechile_mapa.png" alt="Imagen Celular" class="ml-3 img-fluid" style="width: 40%;">
-              </div>
+            <!-- Imagen boton google play -->
+            <div class="my-4 wow fadeInDown delay-1s">
+              <a href="https://play.google.com/store/apps/details?id=cl.figonzal.lastquakechile" target="_blank">
+                <img src="img/google-play-badge.png" class="mx-auto img-fluid" style="width: 50%;" alt="Google play link">
+              </a>
             </div>
 
           </div>
 
+          <!-- Columna derecha -->
+          <div class="col-md-6 wow fadeInDown">
+            <div class="d-flex flex-row">
+              <img src="img/pantalla_lastquakechile.png" alt="Imagen Celular" class="ml-5 img-fluid" style="width: 40%;">
+              <img src="img/pantalla_lastquakechile_mapa.png" alt="Imagen Celular" class="ml-3 img-fluid" style="width: 40%;">
+            </div>
+          </div>
+
         </div>
+
       </div>
     </div>
+  </div>
 
   <!--Main layout-->
   <main>
