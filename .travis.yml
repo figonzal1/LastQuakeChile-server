@@ -47,7 +47,7 @@ jobs:
         provider: heroku
         skip_cleanup: true
         api_key:
-          secure: rHAfAlX+fh/q2kj64/CbfqOEL3M0kqXig76mCxriCUljdOp1U3NyvhiluLyTf/Ea2SMXa2Nt4SS8s19d4TZAZ1LCr9dVf9d8Nv321BB8ITLwQJB42Dw5Nux3FBNHzynberPAe+2fpuavKNnkxlF7DGazV79vFrRJ3Mk5mhvDZZX83Gaw/A2kdlIzD88/1x2e7Tyt7Z69k2OXHL77amuFQeTfBh7voXWHv4XtjnpIZg4ZEDONtBwmuxIJIqXK+9BGvqjkX4XCfcDhy/RZewjrXzqYiTesGLjtBG9E0DHqkm/PPCYXtjTEts32JQ9WiBlCkUAvbyUqg9ArLM4QafHLVXKI3UbZN25zKEP0AFiMbYMgrSGFwammQztW52ed+iwGggX1ghyCezI9ZtOrmCCVE0LP2r2TslNwepFX7WxDrf06Y5REs1w7ju4BfmJ93CBwU/eXb41xTlXEzzxIzLIqChx3C9aH8oD8lQRL8DXK1268i5f6zTgdkrBihKyzViWfRx2OT/uMfhaU1XUK4jsFqWpZ6ySck0k+oKrppSZW6dbLGyQnXegmLkNLZXRuSpycm4qR2BwX+Gf0lEPCfzZNK00/O8l+kV5cth+eUgCo3k3Hykr9lI3sIR/OfaSoDvp8kH3mdGhQCT+K6t59OzhhMKpI9bDNbMFbBctsWBSxNqs=
+          secure: PV3wPQuswT1wIO45wGCVakszBh8D+CaU9MxbOkjpDGBmg42eFdtuMEHVKcS1wjYUinQr21FsZG7/gurRBBezlum6LZAKfY5vIOufVHMA785N7/yfIgDhda6LfhgRDUrZywVxuQQIj+nREPxjQtzz5M5Ed0GkQbWCJBYIxfsvzo3N0cWiZ0KOkTvcN0FeRZY/O4wpr+sfZ7aGtRsVv3UJX503mJIBITbudRatbxu0jXqpKRqWSZ2H2zAriggnRgA8aRHR6r/J8fj2DBw3wWl9F2t9k/whr+G3NJ/V3tpc/UtTD49h2/JKXJ64OhQSqGMonBmNC7Nbo8OcI0Q/L3356LR63o8/0wg2CH7RgZqxvOSIFZFWMg3hv1EqszQs1nY8/6HlV4/aFMz4lLYmk8nNbTXbOKnUujgKMNV0txVHVho/mQOWDhFHmadq8ju0aXb8exQ145+4ptvR4wH1cMQ491kFMUaadzYKq51mFs2y4bvPmIk1YlqrwUfCZOvLMs6PnN88GjIkp7cr76mzmeibABb/F1qVfWkZO4LsQpHjVC2UD1l7F3ImvDIOah/TBRT2JCjwlc/jK53fcwdcgz6dbe++BvJPgUALtIx+rlr47xw8kISJLEyTEDJiFEW6TWHe5WFSfR+p5KhukrAOUpntzoQeUfK5tdM7LvU6SlFdmd4=
         app: lastquakechile-server-dev
         on:
           branch: development
@@ -69,7 +69,7 @@ jobs:
         provider: heroku
         skip_cleanup: true
         api_key:
-          secure: rHAfAlX+fh/q2kj64/CbfqOEL3M0kqXig76mCxriCUljdOp1U3NyvhiluLyTf/Ea2SMXa2Nt4SS8s19d4TZAZ1LCr9dVf9d8Nv321BB8ITLwQJB42Dw5Nux3FBNHzynberPAe+2fpuavKNnkxlF7DGazV79vFrRJ3Mk5mhvDZZX83Gaw/A2kdlIzD88/1x2e7Tyt7Z69k2OXHL77amuFQeTfBh7voXWHv4XtjnpIZg4ZEDONtBwmuxIJIqXK+9BGvqjkX4XCfcDhy/RZewjrXzqYiTesGLjtBG9E0DHqkm/PPCYXtjTEts32JQ9WiBlCkUAvbyUqg9ArLM4QafHLVXKI3UbZN25zKEP0AFiMbYMgrSGFwammQztW52ed+iwGggX1ghyCezI9ZtOrmCCVE0LP2r2TslNwepFX7WxDrf06Y5REs1w7ju4BfmJ93CBwU/eXb41xTlXEzzxIzLIqChx3C9aH8oD8lQRL8DXK1268i5f6zTgdkrBihKyzViWfRx2OT/uMfhaU1XUK4jsFqWpZ6ySck0k+oKrppSZW6dbLGyQnXegmLkNLZXRuSpycm4qR2BwX+Gf0lEPCfzZNK00/O8l+kV5cth+eUgCo3k3Hykr9lI3sIR/OfaSoDvp8kH3mdGhQCT+K6t59OzhhMKpI9bDNbMFbBctsWBSxNqs=
+          secure: PV3wPQuswT1wIO45wGCVakszBh8D+CaU9MxbOkjpDGBmg42eFdtuMEHVKcS1wjYUinQr21FsZG7/gurRBBezlum6LZAKfY5vIOufVHMA785N7/yfIgDhda6LfhgRDUrZywVxuQQIj+nREPxjQtzz5M5Ed0GkQbWCJBYIxfsvzo3N0cWiZ0KOkTvcN0FeRZY/O4wpr+sfZ7aGtRsVv3UJX503mJIBITbudRatbxu0jXqpKRqWSZ2H2zAriggnRgA8aRHR6r/J8fj2DBw3wWl9F2t9k/whr+G3NJ/V3tpc/UtTD49h2/JKXJ64OhQSqGMonBmNC7Nbo8OcI0Q/L3356LR63o8/0wg2CH7RgZqxvOSIFZFWMg3hv1EqszQs1nY8/6HlV4/aFMz4lLYmk8nNbTXbOKnUujgKMNV0txVHVho/mQOWDhFHmadq8ju0aXb8exQ145+4ptvR4wH1cMQ491kFMUaadzYKq51mFs2y4bvPmIk1YlqrwUfCZOvLMs6PnN88GjIkp7cr76mzmeibABb/F1qVfWkZO4LsQpHjVC2UD1l7F3ImvDIOah/TBRT2JCjwlc/jK53fcwdcgz6dbe++BvJPgUALtIx+rlr47xw8kISJLEyTEDJiFEW6TWHe5WFSfR+p5KhukrAOUpntzoQeUfK5tdM7LvU6SlFdmd4=
         app: lastquakechile-server-prod
         on:
           branch: main
