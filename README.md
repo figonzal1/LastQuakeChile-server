@@ -38,22 +38,22 @@ Servidor de sismos, encargado de consultar la página de [www.sismologia.cl](htt
 Encargado de recopilar sismos desde [www.sismologia.cl](https://www.sismología.cl)
 #### PHP
 ```ssh
-    $ php src/scripts/script_quake.php prod
+$ php src/scripts/script_quake.php prod
 ```
 #### PHP + docker
 ```ssh
-    $ docker exec lqch_server php /var/www/src/scripts/script_quake.php prod 
+$ docker exec lqch_server php /var/www/src/scripts/script_quake.php prod 
 ```
 ### Script Reportes
 Encargado de generar reportes mensuales de sismos.
 
 #### PHP
 ```ssh
-    $ php src/scripts/script_report.php prod
+$ php src/scripts/script_report.php prod
 ```
 #### PHP + docker
 ```ssh
-    $ docker exec lqch_server php /var/www/src/scripts/script_reports.php prod
+$ docker exec lqch_server php /var/www/src/scripts/script_reports.php prod
 ```
 
 ## PhpUnit test
@@ -62,4 +62,8 @@ Ejecución phpunit mediante composer
 $ .\vendor\bin\phpunit --bootstrap .\vendor\autoload.php --testsuite unit
 ```
 
+## Configuración de despliegue de Heroku + Travis
+```ssh
+    $ travis encrypt <heroku-api> --add deploy.api_key --pro
+```
 
