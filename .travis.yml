@@ -1,17 +1,14 @@
 language: php
 dist: trusty
 php: 7.4
-
 service:
   - mysql
-
 stages:
   - test
   - name: deploy-dev
     if: branch = development
   - name: deploy-prod
     if: branch = main
-
 cache:
   directories:
     - $HOME/.m2
@@ -33,8 +30,6 @@ jobs:
         - phpunit --bootstrap vendor/autoload.php --testsuite unit
       after_success:
         - bash <(curl -s https://codecov.io/bash)
-
-    #DEPLOY DEV STAGE
     - stage: deploy-dev
       name: "Deploy to heroku-dev"
       before_install:
@@ -52,12 +47,11 @@ jobs:
         provider: heroku
         skip_cleanup: true
         api_key:
-          secure: "1MIJMO4m95Owr0BjvHgtyVcjxcIM/UM0JujNye9woo7L1W0YvyOcBa25nre/SkaW4e4Z2jF78fcS5EBE1NEXkeGBhHVgusj+wbU6kbrUeyXp2S1fb8C3qwPQq0aH2e0iQZVEGCUSDxxawYesoO+Znc2mfGj/LNji9+sAk1GTpsRfFPftbmaf9ET4kB6MLheKDyPER4tNgBD0ENwaiBQgYjcdiS8KBWhBo8k25C1uq2Ze9SOja7fhnkhwWqBVPc4sj4mIJXSHwB7JyOu1/OMGEg+vWH1XEZ1816c4wp3rBMBO1axpEsF/nA0hV5KoHLtEfJGTKdfvp5wsCh+f0B8TwImFZyMmXGy+GAmISjXcDy8PR/8Jp3Pkuf77IHSVginz3hGkC8MVNL1EeyPxZVCDOO3s1dFJQAgiX0anysbU/nBdv0pyozwz8AD+8fWHUhThDSt0B82hHWW/s8RcjOurSsH/uX9yNOGbghxSNBNdBLlQw+h923fo8OxVIPGy+4cyF4yU5SK/tWzoZbO5moGtBVu3qUBL4mhhgkgEeJ3JQ8BOV1iDVVGpf8JwnfsvBhwUi9I6I6OqRl/tF+VI1zXumjr1v9r1j6sMXgGprdeJaUBhjpRNFQMjEzLtvhWjo6II7aXIpMKDHNaBtW4CYEy6akz/S44zsOcJmHjk1RKAIEI="
+          secure: rHAfAlX+fh/q2kj64/CbfqOEL3M0kqXig76mCxriCUljdOp1U3NyvhiluLyTf/Ea2SMXa2Nt4SS8s19d4TZAZ1LCr9dVf9d8Nv321BB8ITLwQJB42Dw5Nux3FBNHzynberPAe+2fpuavKNnkxlF7DGazV79vFrRJ3Mk5mhvDZZX83Gaw/A2kdlIzD88/1x2e7Tyt7Z69k2OXHL77amuFQeTfBh7voXWHv4XtjnpIZg4ZEDONtBwmuxIJIqXK+9BGvqjkX4XCfcDhy/RZewjrXzqYiTesGLjtBG9E0DHqkm/PPCYXtjTEts32JQ9WiBlCkUAvbyUqg9ArLM4QafHLVXKI3UbZN25zKEP0AFiMbYMgrSGFwammQztW52ed+iwGggX1ghyCezI9ZtOrmCCVE0LP2r2TslNwepFX7WxDrf06Y5REs1w7ju4BfmJ93CBwU/eXb41xTlXEzzxIzLIqChx3C9aH8oD8lQRL8DXK1268i5f6zTgdkrBihKyzViWfRx2OT/uMfhaU1XUK4jsFqWpZ6ySck0k+oKrppSZW6dbLGyQnXegmLkNLZXRuSpycm4qR2BwX+Gf0lEPCfzZNK00/O8l+kV5cth+eUgCo3k3Hykr9lI3sIR/OfaSoDvp8kH3mdGhQCT+K6t59OzhhMKpI9bDNbMFbBctsWBSxNqs=
         app: lastquakechile-server-dev
         on:
           branch: development
 
-    #DEPLOY PRODUCTION STAGE
     - stage: deploy-prod
       name: "Deploy to heroku-prod"
       before_install:
@@ -75,12 +69,10 @@ jobs:
         provider: heroku
         skip_cleanup: true
         api_key:
-          secure: "1MIJMO4m95Owr0BjvHgtyVcjxcIM/UM0JujNye9woo7L1W0YvyOcBa25nre/SkaW4e4Z2jF78fcS5EBE1NEXkeGBhHVgusj+wbU6kbrUeyXp2S1fb8C3qwPQq0aH2e0iQZVEGCUSDxxawYesoO+Znc2mfGj/LNji9+sAk1GTpsRfFPftbmaf9ET4kB6MLheKDyPER4tNgBD0ENwaiBQgYjcdiS8KBWhBo8k25C1uq2Ze9SOja7fhnkhwWqBVPc4sj4mIJXSHwB7JyOu1/OMGEg+vWH1XEZ1816c4wp3rBMBO1axpEsF/nA0hV5KoHLtEfJGTKdfvp5wsCh+f0B8TwImFZyMmXGy+GAmISjXcDy8PR/8Jp3Pkuf77IHSVginz3hGkC8MVNL1EeyPxZVCDOO3s1dFJQAgiX0anysbU/nBdv0pyozwz8AD+8fWHUhThDSt0B82hHWW/s8RcjOurSsH/uX9yNOGbghxSNBNdBLlQw+h923fo8OxVIPGy+4cyF4yU5SK/tWzoZbO5moGtBVu3qUBL4mhhgkgEeJ3JQ8BOV1iDVVGpf8JwnfsvBhwUi9I6I6OqRl/tF+VI1zXumjr1v9r1j6sMXgGprdeJaUBhjpRNFQMjEzLtvhWjo6II7aXIpMKDHNaBtW4CYEy6akz/S44zsOcJmHjk1RKAIEI="
+          secure: rHAfAlX+fh/q2kj64/CbfqOEL3M0kqXig76mCxriCUljdOp1U3NyvhiluLyTf/Ea2SMXa2Nt4SS8s19d4TZAZ1LCr9dVf9d8Nv321BB8ITLwQJB42Dw5Nux3FBNHzynberPAe+2fpuavKNnkxlF7DGazV79vFrRJ3Mk5mhvDZZX83Gaw/A2kdlIzD88/1x2e7Tyt7Z69k2OXHL77amuFQeTfBh7voXWHv4XtjnpIZg4ZEDONtBwmuxIJIqXK+9BGvqjkX4XCfcDhy/RZewjrXzqYiTesGLjtBG9E0DHqkm/PPCYXtjTEts32JQ9WiBlCkUAvbyUqg9ArLM4QafHLVXKI3UbZN25zKEP0AFiMbYMgrSGFwammQztW52ed+iwGggX1ghyCezI9ZtOrmCCVE0LP2r2TslNwepFX7WxDrf06Y5REs1w7ju4BfmJ93CBwU/eXb41xTlXEzzxIzLIqChx3C9aH8oD8lQRL8DXK1268i5f6zTgdkrBihKyzViWfRx2OT/uMfhaU1XUK4jsFqWpZ6ySck0k+oKrppSZW6dbLGyQnXegmLkNLZXRuSpycm4qR2BwX+Gf0lEPCfzZNK00/O8l+kV5cth+eUgCo3k3Hykr9lI3sIR/OfaSoDvp8kH3mdGhQCT+K6t59OzhhMKpI9bDNbMFbBctsWBSxNqs=
         app: lastquakechile-server-prod
         on:
           branch: main
-
-#WHITE LIST
 branches:
   only:
     - main
