@@ -38,11 +38,6 @@ jobs:
       install:
         - composer selfupdate
         - composer install --no-interaction
-      before_script:
-        - mysql -u root -e 'CREATE DATABASE testdb;'
-        - mysql -u root testdb < test/test.sql
-      script:
-        - phpunit --bootstrap vendor/autoload.php --testsuite unit
       deploy:
         provider: heroku
         skip_cleanup: true
@@ -60,11 +55,6 @@ jobs:
       install:
         - composer selfupdate
         - composer install --no-interaction
-      before_script:
-        - mysql -u root -e 'CREATE DATABASE testdb;'
-        - mysql -u root testdb < test/test.sql
-      script:
-        - phpunit --bootstrap vendor/autoload.php --testsuite unit
       deploy:
         provider: heroku
         skip_cleanup: true
