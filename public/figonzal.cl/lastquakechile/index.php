@@ -13,7 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="google-site-verification" content="3s7di-xAGBPqXOlS9EbC3Ox_RZwzbG82pHa7IRlRx80" />
-
+  <link rel="canonical" href="https://www.figonzal.cl/lastquakechile" />
 
 
   <!-- Font Awesome -->
@@ -29,7 +29,15 @@
   <link href="css/style.css" rel="stylesheet">
 
   <!--FAvicon -->
-  <link rel="shortcut icon" type="image/png" href="img/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.figonzal.cl/lastquakechile/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.figonzal.cl/lastquakechile/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://www.figonzal.cl/lastquakechile/img/favicon-16x16.png">
+  <link rel="manifest" href="https://www.figonzal.cl/lastquakechile/img/site.webmanifest">
+  <link rel="mask-icon" href="https://www.figonzal.cl/lastquakechile/img/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="https://www.figonzal.cl/lastquakechile/img/favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-config" content="https://www.figonzal.cl/lastquakechile/img/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
 </head>
 
 <body data-spy="scroll" data-target="navbar" data-offset="20" style="position: relative;">
@@ -66,8 +74,8 @@
           <!-- Columna derecha -->
           <div class="col-md-6 wow fadeInDown">
             <div class="d-flex flex-row">
-              <img src="img/pantalla_lastquakechile.png" alt="Imagen Celular" class="ml-5 img-fluid" style="width: 40%;">
-              <img src="img/pantalla_lastquakechile_mapa.png" alt="Imagen Celular" class="ml-3 img-fluid" style="width: 40%;">
+              <img src="https://www.figonzal.cl/lastquakechile/img/pantalla_lastquakechile.png" alt="Imagen Celular" class="ml-5 img-fluid" style="width: 40%;">
+              <img src="https://www.figonzal.cl/lastquakechile/img/pantalla_lastquakechile_mapa.png" alt="Imagen Celular" class="ml-3 img-fluid" style="width: 40%;">
             </div>
           </div>
 
@@ -91,7 +99,7 @@
             <div class="card wow fadeIn z-depth-1-half py-3">
 
               <!-- Icono caracteristica -->
-              <img class="card-img-top mx-auto" src="img/svg/baseline-access_time-24px.svg" style="width: 25%;" alt="Icono tiempo">
+              <img class="card-img-top mx-auto" src="https://www.figonzal.cl/lastquakechile/img/svg/baseline-access_time-24px.svg" style="width: 25%;" alt="Icono tiempo">
 
               <!-- Descripcion del icono -->
               <div class="card-body">
@@ -108,7 +116,7 @@
             <div class="card wow fadeIn z-depth-1-half py-3">
 
               <!-- Icono caracteristica -->
-              <img class="card-img-top mx-auto" src="img/svg/baseline-notification_important-24px.svg" style="width: 25%;" alt="Icono notificaciones">
+              <img class="card-img-top mx-auto" src="https://www.figonzal.cl/lastquakechile/img/svg/baseline-notification_important-24px.svg" style="width: 25%;" alt="Icono notificaciones">
 
               <!-- Descripcion del icono -->
               <div class="card-body">
@@ -125,7 +133,7 @@
             <div class="card wow fadeIn z-depth-1-half py-3">
 
               <!-- Icono caracteristica -->
-              <img class="card-img-top mx-auto" src="img/svg/room-24px.svg" style="width: 25%;" alt="Icono mapa">
+              <img class="card-img-top mx-auto" src="https://www.figonzal.cl/lastquakechile/img/svg/room-24px.svg" style="width: 25%;" alt="Icono mapa">
 
               <!-- Descripcion del icono -->
               <div class="card-body">
@@ -143,7 +151,7 @@
             <div class="card wow fadeIn z-depth-1-half py-3">
 
               <!-- Icono caracteristica -->
-              <img class="card-img-top mx-auto" src="img/svg/analytics-24px.svg" style="width: 25%;" alt="Icono mapa">
+              <img class="card-img-top mx-auto" src="https://www.figonzal.cl/lastquakechile/img/svg/analytics-24px.svg" style="width: 25%;" alt="Icono mapa">
 
               <!-- Descripcion del icono -->
               <div class="card-body">
@@ -161,7 +169,7 @@
             <div class="card wow fadeIn z-depth-1-half py-3">
 
               <!-- Icono caracteristica -->
-              <img class="card-img-top mx-auto" src="img/svg/share-24px.svg" style="width: 25%;" alt="Icono mapa">
+              <img class="card-img-top mx-auto" src="https://www.figonzal.cl/lastquakechile/img/svg/share-24px.svg" style="width: 25%;" alt="Icono mapa">
 
               <!-- Descripcion del icono -->
               <div class="card-body">
