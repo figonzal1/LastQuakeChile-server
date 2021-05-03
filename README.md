@@ -21,8 +21,8 @@
   <img alt="Security Headers" src="https://img.shields.io/security-headers?url=https%3A%2F%2Ffigonzal.cl">
   </a>
 
-  <a href="https://img.shields.io/badge/HH-248.32%20[hr]-blueviolet" alt="Hours Spent">
-        <img alt="Hours Spent" src="https://img.shields.io/badge/HH-148.62%20[hr]-blueviolet">
+  <a href="https://img.shields.io/badge/HH-150.97%20[hr]-blueviolet" alt="Hours Spent">
+     <img alt="Hours Spent" src="https://img.shields.io/badge/HH-150.97%20[hr]-blueviolet">
   </a>
   
 </p>
